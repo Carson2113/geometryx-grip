@@ -179,6 +179,93 @@ Two consequences bind future work:
    origin set is fixed by section 6 and changing it to accommodate a feature is
    the same offence as changing a sign after a failed run.
 
+### Amendment 1: the source-vintage taxonomy
+
+**Added 23 August 2026, after NRI failed E7 and before the NFIP series were
+measured.** The order matters and is checkable in the commit history: this
+amendment is published in a commit that precedes the commit containing any NFIP
+result.
+
+The minimum-history rule above collapses two different hazards into one test, and
+the collapse is too coarse. The hazards are:
+
+- **Value hindsight.** The number itself embeds information from after the origin
+  it would serve. A modelled expected annual loss published in 2025 encodes 2025
+  hazard science; a period aggregate computed once over 2018-2022 encodes the whole
+  period. There is no date at which such a number was true, so there is no origin
+  it can honestly serve.
+- **Availability.** The number was fixed and correct at a date on or before the
+  origin, and is never restated, but it was not publicly obtainable until later.
+
+Value hindsight is fatal and always will be. Availability is a defect in the
+realism of the backtest, which is a different and lesser thing. Sources are
+therefore classified:
+
+| Class | Definition | Status |
+|---|---|---|
+| **A** | An as-of-origin vintage exists and is retrievable | Graded, no deviation |
+| **B** | Each record carries its own event date, the value is a transaction fixed at that date, the publisher does not restate it, but first publication postdates the origin | Graded **only** with the availability deviation printed on the scorecard, and never as the sole basis of a certified claim |
+| **C** | The value at any date is a retrospective construct — a model output, a period aggregate, or an index rebuilt with later methodology | Diagnostic only. Never graded |
+
+Class B requires all four conditions, and the burden of proof is on the
+submission. A dataset that revises its own history is Class C however
+transactional it looks.
+
+**This amendment does not rescue either source already excluded.** FEMA's National
+Risk Index expected annual loss is a model output whose 2025 release embeds 2025
+science: Class C. The Treasury FIO workbook is a single aggregate computed over
+2018-2022: Class C. Both remain diagnostics and the E6 and E7 verdicts stand
+unchanged. The amendment was written because an NFIP paid flood claim is a
+different kind of object from both — a dollar amount settled on a dated loss,
+carried in a file that does not restate it — and the rule as originally written
+could not express that difference.
+
+The honest cost of Class B is stated plainly: a Class B feature makes the backtest
+a weaker simulation of real-time forecasting, because a forecaster standing at the
+origin could not have pulled the number. A cell certified with a Class B feature
+carries that deviation on its face, permanently.
+
+### Registered pre-registration: the NFIP series
+
+Recorded **before** the regressions were run, for the same reason the shock signs
+were recorded before `y_hpi` was ever graded.
+
+The candidate features are (i) `nfip_rate_per_1k`, the NFIP premium per $1,000 of
+building coverage, and (ii) `nfip_loss_pc_log`, log paid flood losses per resident
+per year over a twenty-year trailing window.
+
+| Prediction | Expected | Falsified if |
+|---|---|---|
+| Price sign on `y_hpi` | negative | positive at \|t\| >= 2 |
+| Price sign on `y_pop` | negative | positive at \|t\| >= 2 |
+| Fidelity to the FIO market premium | R-squared >= 0.25 to be called tracking | below 0.25 |
+| **Flood is weaker than multi-peril on prices** | magnitude below the E7 NRI coefficient | flood exceeds multi-peril |
+
+The fourth row is the interesting one, because it is a genuine out-of-sample
+prediction derived from E7 rather than a restatement of prior belief. E7 found that
+within the NRI hazard decomposition the wind share carried the entire price signal
+(-0.00366, t = -2.66) while the wildfire and flood shares were insignificant. If
+that decomposition is real, then a flood-only price and a flood-only loss history
+must both be weak on house prices — weaker than NRI's all-hazard rate, which was
+itself only 56% of the FIO premium coefficient. If instead the NFIP flood measures
+come in *stronger* than the multi-peril measures, the E7 hazard decomposition is
+wrong and this protocol will say so in the same release.
+
+### Correction: the NFIP policy file has no pre-2009 history
+
+The v1.4.0-grip1 release notes stated that the NFIP policy file offers "genuine
+pre-2009 history" and named it the next adapter partly on that basis. **That was
+wrong.** OpenFEMA reports the `NfipPolicies` v3 temporal coverage as beginning
+2009-01-01, which was verifiable at the time the claim was made and was not
+checked. The policy file therefore reaches no further back than the FHFA and PEP
+series already in the panel, and offers no additional origins.
+
+What does reach back is the **claims** file, whose earliest observed loss year is
+1978. But a paid claim is a realised loss, not a price, so it cannot substitute for
+a premium — it can only proxy the hazard that a premium is supposed to price. The
+distinction is the whole content of E8.
+
+
 The rule cuts the other way as a design constraint: the search for a feature is a
 search among series with pre-2009 history, which is a much smaller and much more
 boring set than the one the marketing literature discusses. That is the point.
