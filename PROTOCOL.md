@@ -147,6 +147,42 @@ backdating the protocol exists to prevent. See `grip/sources/fio.py`,
 An ineligible source may still be used for an out-of-panel diagnostic under
 section 8.
 
+### The minimum-history rule
+
+There is a second, less obvious way to be ineligible, and it is a property of the
+protocol rather than of any dataset.
+
+A feature may enter the graded panel at origin Y only if a vintage of it existed,
+in a form fixed at the time, on or before 31 December Y. It follows that a feature
+first published in year P can serve no origin earlier than P + 1. The graded
+origins run 2010-2020 at h=5 and 2010-2022 at h=3. Therefore:
+
+> **A feature first published after 2009 cannot be graded across the full panel.
+> A feature first published in year P contributes at most (2022 - P) of the
+> thirteen h=5 origins and (2020 - P) of the eleven h=3 origins, and none of
+> either once P reaches 2022 or 2020 respectively.**
+
+This is the price of refusing to backdate, and the protocol pays it deliberately.
+But it has a consequence worth stating in advance rather than rediscovering once
+per adapter: **almost every climate-risk product in existence is younger than this
+backtest**, and is therefore structurally out-of-panel. FEMA's National Risk Index,
+first released October 2020, could serve two h=3 origins and no h=5 origin even if
+every historical vintage were perfectly archived. See `grip/sources/nri.py`,
+`VINTAGE_VERDICT`, and the E7 diagnostic.
+
+Two consequences bind future work:
+
+1. A candidate feature must be checked for **first publication date before**
+   anything is measured with it. A feature that cannot reach 2010 is a diagnostic,
+   whatever its correlation.
+2. A young source may not be admitted by shortening the panel to fit it. The
+   origin set is fixed by section 6 and changing it to accommodate a feature is
+   the same offence as changing a sign after a failed run.
+
+The rule cuts the other way as a design constraint: the search for a feature is a
+search among series with pre-2009 history, which is a much smaller and much more
+boring set than the one the marketing literature discusses. That is the point.
+
 ## 5. Prescribed forcing: within-region, within-origin demeaning
 
 AMIP-style experiments prescribe sea-surface temperature — the boundary
@@ -307,6 +343,33 @@ The consequences for the protocol are:
   conditional, per region.
 - `premium_shock_40pct` is not revised. It remains registered as it was published
   in v1.0.0-grip1, and it remains failing.
+
+The second is **E7, the NRI proxy calibration** (`run_nri_calibration.py`,
+`out/E7_NRI_PROXY.md`), which tests the fix E6 named. FEMA's National Risk Index
+expected annual loss per dollar of building exposure is the closest free
+multi-peril analogue to a homeowners rate. Measured against actual FIO premiums it
+explains 13.2% of the cross-metro variation in what people pay, with an elasticity
+of 0.26 rather than 1.0. Substituted into the E6 specification it reproduces both
+E6 signs — −0.0029 (t = −2.8) on house prices, +0.0007 (t = +2.0) on population —
+at 56% of the E6 price magnitude. In a horse race against the premium its price
+coefficient collapses to −0.0008 (t = −0.8) while the premium retains −0.0049
+(t = −6.2).
+
+The consequences are:
+
+- **E6 is corroborated.** An independent federal source, built from hazard
+  climatology rather than from insurer filings, reproduces both signs. E6 measured
+  a mechanism, not an artefact of the FIO file.
+- **NRI is not the replacement.** It is a noisy partial measurement of the same
+  quantity and contributes nothing once the premium is present. It is admitted as a
+  substitute of last resort only, and it is ineligible regardless under the
+  minimum-history rule in section 4.
+- **The peril that carries the price signal is wind**, not wildfire; the wildfire
+  share is insignificant on both targets.
+- The search for a graded premium proxy is constrained to series with pre-2009
+  history. The next candidate on the register is the OpenFEMA NFIP redacted policy
+  file, which is an actual price with long history but is flood-only and federally
+  rated.
 
 ## 9. Ensembles, not point estimates
 

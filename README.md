@@ -33,8 +33,9 @@ python run_backtest.py --target y_hpi_wr --horizon 5 --first-origin 2010 --last-
 python run_backtest.py --target y_hpi_wr --horizon 3 --first-origin 2010 --last-origin 2022
 python -m grip.scorecard          # renders out/SCORECARD.md
 
-# out-of-panel diagnostic E6 (descriptive, never scored)
+# out-of-panel diagnostics E6 and E7 (descriptive, never scored)
 python run_premium_diagnostic.py && python render_e6.py
+python run_nri_calibration.py && python render_e7.py
 ```
 
 First run retrieves roughly 30 federal files and caches them under `cache/`
@@ -54,8 +55,10 @@ with a sha256 manifest. Subsequent runs are offline. Expect ~4 minutes cold.
 | `grip/evaluate.py` | Expanding-origin evaluation, bootstrap intervals, coefficient stability |
 | `grip/shocks.py` | E5 pre-registered shock suite |
 | `grip/sources/fio.py` | Treasury FIO premiums, metro-aggregated. **Ineligible as a predictor** |
+| `grip/sources/nri.py` | FEMA National Risk Index expected annual loss. **Ineligible as a predictor** |
 | `grip/scorecard.py` | Renders the publishable markdown scorecard |
 | `run_premium_diagnostic.py` | E6 out-of-panel premium sign diagnostic |
+| `run_nri_calibration.py` | E7 out-of-panel NRI premium-proxy calibration |
 
 Features offered to the model, all demeaned within `(origin_year, division)`:
 
@@ -84,6 +87,19 @@ t = −6.8) and inverts on population (+0.0007, t = +2.1). The graded price
 inversion is therefore a proxy failure, and E6 is the calibration target any
 vintage-legal premium proxy has to reproduce. The registered shock is not
 revised; it stays on the record failing.
+
+[`out/E7_NRI_PROXY.md`](out/E7_NRI_PROXY.md) tests the fix E6 named. FEMA's
+National Risk Index expected annual loss per dollar of building exposure explains
+13.2% of the cross-metro variation in actual premiums, reproduces both E6 signs at
+56% of the E6 price magnitude, and loses its price coefficient entirely in a horse
+race against the premium. It corroborates E6 and is not the replacement.
+
+E7 also produced the **minimum-history rule**, now PROTOCOL section 4: a feature
+first published in year P can serve no origin before P + 1, so a feature published
+after 2009 cannot be graded across the full panel. NRI was first released October
+2020 and would reach two of thirteen h=3 origins and none at h=5 even if every
+historical vintage were archived. Almost every climate-risk product is younger than
+this backtest and is therefore structurally out-of-panel.
 
 ## Reference-run result
 

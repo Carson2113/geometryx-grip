@@ -1,0 +1,361 @@
+{
+  "diagnostic": "E7",
+  "title": "FEMA NRI expected annual loss as a premium proxy",
+  "status": "DESCRIPTIVE -- NOT A GRADED FORECAST",
+  "why_not_a_forecast": "The NRI release read here was published 2025-12-18 and FEMA serves one mutable layer, so it is not vintage-legal for any scorable origin. Independently, the first NRI release was 2020-10, so no archived vintage could reach origins before 2021 -- two of the thirteen graded h=3 origins and none at h=5. This is a measurement exercise about a feature, not a prediction.",
+  "generated_utc": "2026-08-23T16:50:05+00:00",
+  "delineation_vintage": 2020,
+  "nri": {
+    "release_label": "December 2025 Release",
+    "published": "2025-12-18",
+    "arcgis_item": "39485e8035d446a5bff03259508ae355",
+    "counties": 3232
+  },
+  "outcome_windows": {
+    "base_year": 2022,
+    "y_pop_horizon_years": 2,
+    "y_hpi_horizon_years": 3
+  },
+  "pre_registered_sign": -1,
+  "e6_reference": {
+    "y_hpi": {
+      "beta_per_sd": -0.005234,
+      "t": -6.822
+    },
+    "y_pop": {
+      "beta_per_sd": 0.00072,
+      "t": 2.122
+    }
+  },
+  "e7a_proxy_fidelity": {
+    "n_metros": 380,
+    "pooled": {
+      "pearson": 0.3626,
+      "spearman": 0.3309,
+      "r2": 0.1315,
+      "elasticity": 0.2619,
+      "se": 0.0403,
+      "t": 6.505
+    },
+    "within_division": {
+      "pearson": 0.3885,
+      "r2": 0.1509,
+      "elasticity": 0.277,
+      "se": 0.0442,
+      "t": 6.274
+    },
+    "interpretation_note": "An elasticity of 1.0 would mean premium scales one-for-one with modelled loss rate. r2 is the share of cross-metro variation in what people pay that the free proxy explains."
+  },
+  "e7b_e7c_outcomes": {
+    "y_hpi": {
+      "target": "y_hpi",
+      "momentum_control": "hpi_g5",
+      "n_metros": 353,
+      "e6_reference": {
+        "beta_per_sd": -0.005234,
+        "t": -6.822
+      },
+      "substituted": [
+        {
+          "predictor": "eal_rate_log",
+          "beta_per_sd": -0.002928,
+          "se": 0.001045,
+          "t": -2.801,
+          "n": 353,
+          "k": 3,
+          "expected_sign": -1,
+          "matches_expected": true,
+          "spec": "proxy + momentum"
+        },
+        {
+          "predictor": "hpi_g5",
+          "beta_per_sd": -0.002996,
+          "se": 0.000997,
+          "t": -3.004,
+          "n": 353,
+          "k": 3,
+          "expected_sign": null,
+          "matches_expected": null,
+          "spec": "proxy + momentum"
+        }
+      ],
+      "horse_race": [
+        {
+          "predictor": "eal_rate_log",
+          "beta_per_sd": -0.000793,
+          "se": 0.000954,
+          "t": -0.832,
+          "n": 353,
+          "k": 4,
+          "expected_sign": -1,
+          "matches_expected": true,
+          "spec": "proxy + premium + momentum"
+        },
+        {
+          "predictor": "premium_log_2022",
+          "beta_per_sd": -0.004922,
+          "se": 0.000789,
+          "t": -6.235,
+          "n": 353,
+          "k": 4,
+          "expected_sign": -1,
+          "matches_expected": true,
+          "spec": "proxy + premium + momentum"
+        },
+        {
+          "predictor": "hpi_g5",
+          "beta_per_sd": -0.0025,
+          "se": 0.000957,
+          "t": -2.611,
+          "n": 353,
+          "k": 4,
+          "expected_sign": null,
+          "matches_expected": null,
+          "spec": "proxy + premium + momentum"
+        }
+      ],
+      "horse_race_n": 353,
+      "composition": [
+        {
+          "predictor": "wfir_share",
+          "beta_per_sd": -0.000594,
+          "se": 0.000734,
+          "t": -0.81,
+          "n": 353,
+          "k": 5,
+          "expected_sign": null,
+          "matches_expected": null,
+          "spec": "hazard shares + momentum"
+        },
+        {
+          "predictor": "flood_share",
+          "beta_per_sd": -0.000178,
+          "se": 0.001228,
+          "t": -0.145,
+          "n": 353,
+          "k": 5,
+          "expected_sign": null,
+          "matches_expected": null,
+          "spec": "hazard shares + momentum"
+        },
+        {
+          "predictor": "wind_share",
+          "beta_per_sd": -0.00366,
+          "se": 0.001375,
+          "t": -2.661,
+          "n": 353,
+          "k": 5,
+          "expected_sign": null,
+          "matches_expected": null,
+          "spec": "hazard shares + momentum"
+        },
+        {
+          "predictor": "hpi_g5",
+          "beta_per_sd": -0.002114,
+          "se": 0.000996,
+          "t": -2.121,
+          "n": 353,
+          "k": 5,
+          "expected_sign": null,
+          "matches_expected": null,
+          "spec": "hazard shares + momentum"
+        }
+      ],
+      "ex_south": [
+        {
+          "predictor": "eal_rate_log",
+          "beta_per_sd": -0.000218,
+          "se": 0.001054,
+          "t": -0.207,
+          "n": 207,
+          "k": 3,
+          "expected_sign": -1,
+          "matches_expected": true,
+          "spec": "ex-South, proxy + momentum"
+        },
+        {
+          "predictor": "hpi_g5",
+          "beta_per_sd": -0.001042,
+          "se": 0.001183,
+          "t": -0.881,
+          "n": 207,
+          "k": 3,
+          "expected_sign": null,
+          "matches_expected": null,
+          "spec": "ex-South, proxy + momentum"
+        }
+      ],
+      "ex_south_n": 207,
+      "quartile_contrast": {
+        "top_quartile_growth_pct": 3.753,
+        "bottom_quartile_growth_pct": 6.291,
+        "gap_pp": -2.538,
+        "n_top": 89,
+        "n_bottom": 89,
+        "matches_expected": true
+      }
+    },
+    "y_pop": {
+      "target": "y_pop",
+      "momentum_control": "pop_g3",
+      "n_metros": 380,
+      "e6_reference": {
+        "beta_per_sd": 0.00072,
+        "t": 2.122
+      },
+      "substituted": [
+        {
+          "predictor": "eal_rate_log",
+          "beta_per_sd": 0.000652,
+          "se": 0.000319,
+          "t": 2.047,
+          "n": 380,
+          "k": 3,
+          "expected_sign": -1,
+          "matches_expected": false,
+          "spec": "proxy + momentum"
+        },
+        {
+          "predictor": "pop_g3",
+          "beta_per_sd": 0.004598,
+          "se": 0.000462,
+          "t": 9.955,
+          "n": 380,
+          "k": 3,
+          "expected_sign": null,
+          "matches_expected": null,
+          "spec": "proxy + momentum"
+        }
+      ],
+      "horse_race": [
+        {
+          "predictor": "eal_rate_log",
+          "beta_per_sd": 0.000386,
+          "se": 0.000366,
+          "t": 1.055,
+          "n": 380,
+          "k": 4,
+          "expected_sign": -1,
+          "matches_expected": false,
+          "spec": "proxy + premium + momentum"
+        },
+        {
+          "predictor": "premium_log_2022",
+          "beta_per_sd": 0.000676,
+          "se": 0.0004,
+          "t": 1.692,
+          "n": 380,
+          "k": 4,
+          "expected_sign": -1,
+          "matches_expected": false,
+          "spec": "proxy + premium + momentum"
+        },
+        {
+          "predictor": "pop_g3",
+          "beta_per_sd": 0.004523,
+          "se": 0.000456,
+          "t": 9.911,
+          "n": 380,
+          "k": 4,
+          "expected_sign": null,
+          "matches_expected": null,
+          "spec": "proxy + premium + momentum"
+        }
+      ],
+      "horse_race_n": 380,
+      "composition": [
+        {
+          "predictor": "wfir_share",
+          "beta_per_sd": -0.000202,
+          "se": 0.000283,
+          "t": -0.712,
+          "n": 380,
+          "k": 5,
+          "expected_sign": null,
+          "matches_expected": null,
+          "spec": "hazard shares + momentum"
+        },
+        {
+          "predictor": "flood_share",
+          "beta_per_sd": -0.001303,
+          "se": 0.000525,
+          "t": -2.483,
+          "n": 380,
+          "k": 5,
+          "expected_sign": null,
+          "matches_expected": null,
+          "spec": "hazard shares + momentum"
+        },
+        {
+          "predictor": "wind_share",
+          "beta_per_sd": 0.000422,
+          "se": 0.000539,
+          "t": 0.782,
+          "n": 380,
+          "k": 5,
+          "expected_sign": null,
+          "matches_expected": null,
+          "spec": "hazard shares + momentum"
+        },
+        {
+          "predictor": "pop_g3",
+          "beta_per_sd": 0.004402,
+          "se": 0.000433,
+          "t": 10.162,
+          "n": 380,
+          "k": 5,
+          "expected_sign": null,
+          "matches_expected": null,
+          "spec": "hazard shares + momentum"
+        }
+      ],
+      "ex_south": [
+        {
+          "predictor": "eal_rate_log",
+          "beta_per_sd": -0.000177,
+          "se": 0.000362,
+          "t": -0.489,
+          "n": 224,
+          "k": 3,
+          "expected_sign": -1,
+          "matches_expected": true,
+          "spec": "ex-South, proxy + momentum"
+        },
+        {
+          "predictor": "pop_g3",
+          "beta_per_sd": 0.002379,
+          "se": 0.000531,
+          "t": 4.478,
+          "n": 224,
+          "k": 3,
+          "expected_sign": null,
+          "matches_expected": null,
+          "spec": "ex-South, proxy + momentum"
+        }
+      ],
+      "ex_south_n": 224,
+      "quartile_contrast": {
+        "top_quartile_growth_pct": 0.893,
+        "bottom_quartile_growth_pct": 0.622,
+        "gap_pp": 0.271,
+        "n_top": 95,
+        "n_bottom": 95,
+        "matches_expected": false
+      }
+    }
+  },
+  "verdict": {
+    "tracks_actual_premium": false,
+    "reproduces_e6_price_sign": true,
+    "magnitude_vs_e6_ratio": 0.559,
+    "eligible_as_graded_predictor": false,
+    "recommended_as_premium_replacement": false
+  },
+  "deviations": [
+    "Mutable source. FEMA overwrites one ArcGIS layer per release, so no content hash can be pinned and no earlier vintage can be requested. Row count, release label and retrieval timestamp are recorded instead.",
+    "EAL is a modelled climatology, not a realisation. It is built from decades of historical hazard frequency and severity, so it is close to time-invariant and cannot express a change in risk pricing between two adjacent origins.",
+    "Building exposure denominator. EAL_VALB is measured against BUILDVALUE, FEMA's estimate of replacement cost, which is not the insured value and not the FIO policy base. The ratio is therefore a rate on a different denominator than a premium per policy.",
+    "County to metro aggregation is exposure-weighted, so a metro's rate is dominated by its highest-value county. This is the correct weighting for a loss cost but it discards within-metro dispersion.",
+    "EAL omits the two perils that drive most homeowners rate filings in the hardest markets: it has no fire-following-wind term, and its flood components are riverine and coastal inundation, not the non-modelled water damage that dominates claim frequency."
+  ]
+}
