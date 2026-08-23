@@ -909,6 +909,40 @@ mechanism rather than repaired again. Attempt 3 will not be permitted to re-test
    excluded from graded use because they are licensed with attribution rather than public-domain
    federal data.
 
+### 14.9 Pre-run clarification (committed before the estimation was run)
+
+Section 14.2 describes `hpi_income_gap` as *replacing* `hpi_gap`, while section
+14.3 defines the WINDOW cell as the same features *plus* `hpi_income_gap`. That
+is a genuine ambiguity in this registration, noticed before the estimation script
+was executed and resolved here rather than after seeing any output.
+
+Resolution: **section 14.3 is the operative cell definition, so the primary WINDOW
+specification retains `hpi_gap` and adds `hpi_income_gap` alongside it.** The
+replacement variant (`hpi_income_gap` in place of `hpi_gap`) is run and reported
+as a registered secondary. Choosing the literal reading of the cell definition is
+deliberate: picking the other reading after the fact would be selection on a
+result, and the primary is the more conservative test, since it asks the
+income-denominated gap to carry a negative sign while a momentum term is still in
+the model.
+
+P2 is judged on the primary specification. If the primary and the secondary
+disagree in sign, the cell verdict is downgraded to PARTIAL regardless of which
+direction the primary points, and the disagreement is reported.
+
+### 14.10 Implementation notes fixed before the run
+
+- The last usable FHFA year is the latest calendar year with four quarters
+  present, per `fhfa.annual_hpi()`. Origins satisfy base + h <= that year.
+- Census division is derived from the first state abbreviation in the FHFA metro
+  title and is applied identically in LONG and WINDOW so the demeaning groups
+  match. Puerto Rico metros form their own group.
+- BEA CAINC1 carries counties only, with no metro rows, so metro per-capita
+  income is total personal income divided by total population over the counties
+  the delineation assigns. BEA merges some Virginia independent cities into
+  combination codes that no county FIPS matches, so a metro is used only when at
+  least **80%** of its counties match a BEA record, and the realised match rate
+  is reported. Metros failing the threshold are dropped from WINDOW only.
+
 *This product uses FHFA Data but is neither endorsed nor certified by FHFA.*
 
 ---
