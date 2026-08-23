@@ -1,0 +1,164 @@
+{
+  "cell": "E10_DECOMPOSITION",
+  "registered": false,
+  "status": "POST-HOC. Cannot change the E10 verdict (SUPPORTED) or any grade.",
+  "purpose": "attribute the hpi_gap sign change to sample period vs bust control",
+  "generated_utc": "2026-08-23T22:09:52+00:00",
+  "target": "y_hpi",
+  "horizon": 5,
+  "specifications": [
+    {
+      "label": "LONG 1995-2021, no drawdown control",
+      "status": "OK",
+      "n": 10717,
+      "n_origins": 27,
+      "origins": "1995-2021",
+      "has_drawdown": false,
+      "hpi_gap": {
+        "coef": 0.001797,
+        "t": 2.073,
+        "share_positive": 1.0
+      },
+      "hpi_vol": {
+        "coef": 0.001594,
+        "t": 4.172,
+        "share_positive": 1.0
+      },
+      "hpi_g5": {
+        "coef": -0.012487,
+        "t": -16.603,
+        "share_positive": 0.0
+      }
+    },
+    {
+      "label": "LONG 1995-2021, with drawdown (registered E10)",
+      "status": "OK",
+      "n": 10717,
+      "n_origins": 27,
+      "origins": "1995-2021",
+      "has_drawdown": true,
+      "hpi_gap": {
+        "coef": -0.000621,
+        "t": -0.653,
+        "share_positive": 0.0
+      },
+      "hpi_vol": {
+        "coef": -0.001418,
+        "t": -2.682,
+        "share_positive": 0.0
+      },
+      "hpi_g5": {
+        "coef": -0.009816,
+        "t": -13.031,
+        "share_positive": 0.0
+      },
+      "hpi_drawdown": {
+        "coef": -0.004711,
+        "t": -9.077,
+        "share_positive": 0.0
+      }
+    },
+    {
+      "label": "graded window 2010-2021, no drawdown control",
+      "status": "OK",
+      "n": 4919,
+      "n_origins": 12,
+      "origins": "2010-2021",
+      "has_drawdown": false,
+      "hpi_gap": {
+        "coef": 0.003439,
+        "t": 3.471,
+        "share_positive": 1.0
+      },
+      "hpi_vol": {
+        "coef": 0.006013,
+        "t": 11.657,
+        "share_positive": 1.0
+      },
+      "hpi_g5": {
+        "coef": -0.008619,
+        "t": -10.738,
+        "share_positive": 0.0
+      }
+    },
+    {
+      "label": "graded window 2010-2021, with drawdown",
+      "status": "OK",
+      "n": 4919,
+      "n_origins": 12,
+      "origins": "2010-2021",
+      "has_drawdown": true,
+      "hpi_gap": {
+        "coef": 0.000517,
+        "t": 0.507,
+        "share_positive": 0.75
+      },
+      "hpi_vol": {
+        "coef": 0.002868,
+        "t": 4.722,
+        "share_positive": 1.0
+      },
+      "hpi_g5": {
+        "coef": -0.006004,
+        "t": -6.882,
+        "share_positive": 0.0
+      },
+      "hpi_drawdown": {
+        "coef": -0.004235,
+        "t": -6.705,
+        "share_positive": 0.0
+      }
+    },
+    {
+      "label": "added origins only 1995-2009, no drawdown control",
+      "status": "OK",
+      "n": 5798,
+      "n_origins": 15,
+      "origins": "1995-2009",
+      "has_drawdown": false,
+      "hpi_gap": {
+        "coef": -0.000534,
+        "t": -0.401,
+        "share_positive": 0.2
+      },
+      "hpi_vol": {
+        "coef": -0.000323,
+        "t": -0.443,
+        "share_positive": 0.267
+      },
+      "hpi_g5": {
+        "coef": -0.014307,
+        "t": -14.404,
+        "share_positive": 0.0
+      }
+    },
+    {
+      "label": "added origins only 1995-2009, with drawdown",
+      "status": "OK",
+      "n": 5798,
+      "n_origins": 15,
+      "origins": "1995-2009",
+      "has_drawdown": true,
+      "hpi_gap": {
+        "coef": -0.00223,
+        "t": -1.731,
+        "share_positive": 0.0
+      },
+      "hpi_vol": {
+        "coef": -0.0016,
+        "t": -2.139,
+        "share_positive": 0.067
+      },
+      "hpi_g5": {
+        "coef": -0.013011,
+        "t": -12.683,
+        "share_positive": 0.0
+      },
+      "hpi_drawdown": {
+        "coef": -0.002952,
+        "t": -4.826,
+        "share_positive": 0.0
+      }
+    }
+  ]
+}

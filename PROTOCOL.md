@@ -943,6 +943,66 @@ direction the primary points, and the disagreement is reported.
   least **80%** of its counties match a BEA record, and the realised match rate
   is reported. Metros failing the threshold are dropped from WINDOW only.
 
+### 14.11 Outcome (E10, `out/E10_LONG_PANEL.md`)
+
+**Verdict: SUPPORTED. Status: CANDIDATE**, capped by section 13. This does not re-grade
+`v1.0.0-grip1`, does not revise `rate_shock_200bp` or `premium_shock_40pct`, and
+certifies nothing. The four NOT CERTIFIED verdicts stand.
+
+| | Prediction | Result | Holds |
+|---|---|---|---|
+| P1 | `hpi_gap` negative in LONG h=5, LOO share positive < 0.5 | −0.000621, share 0.000, t = −0.653 | yes, weakly |
+| P2 | `hpi_income_gap` negative in WINDOW h=5 primary, share < 0.5 | −0.003795, t = −2.840, share 0.000 | yes |
+| P3 | \|t\| on `hpi_vol` < 2.0 in WINDOW h=5 given `hpi_drawdown` | t = +3.202 | no |
+| P4 | LONG ≥ 20 origins and ≥ 150 median metros; WINDOW ≥ 8 origins | 27, 409, 12 | yes |
+
+LONG h=5 carried 27 origins (1995–2021), 410 metros, 10,717 rows, and no new data
+was required. Both focal features took their registered negative sign there and
+neither flipped in any of 27 leave-one-origin-out refits. `hpi_income_gap` was
+negative and significant in all four WINDOW variants (h=5 and h=3, primary and
+secondary), share positive 0.000 throughout, with no sign split under 14.9.
+
+**Three failures of this registration are recorded rather than smoothed over.**
+
+1. **The P1 accept criterion was too lenient.** It required a negative sign and LOO
+   sign stability, not significance — chosen in advance so the prediction could not
+   be passed by fishing for stars, which had the side effect of letting t = −0.653
+   count as a pass. The supportable claim is that the wrong sign on `hpi_gap` is
+   *destroyed*, not reversed: `hpi_gap` is not significantly negative in any
+   specification tested, and in LONG h=3 it remains positive (+0.001447, t = +1.892).
+   A prediction whose entire content is a sign flip should have required significance.
+2. **P3 was registered in the wrong cell.** The diagnosis in 14.1 identifies the
+   2010-onward window as the contaminated sample, and P3 then tested `hpi_vol`
+   inside it. It failed there. `hpi_vol` does carry its registered negative sign in
+   LONG, significantly, at both horizons (h=5 −0.001418, t = −2.682, 0 of 27 refits
+   positive; h=3 −0.001846, t = −3.888, 0 of 29). That is an unregistered
+   observation and is recorded as one. P3 is reported failed.
+3. **Section 14.2 overclaimed the sample extension.** An unregistered post-hoc
+   decomposition (`run_long_panel_decomp.py`) attributes the `hpi_gap` sign change:
+   extending the sample alone moves it from +0.003439 (t = +3.471) to −0.000534, and
+   adding `hpi_drawdown` alone inside the existing window moves it to +0.000517.
+   Both routes destroy the wrong sign and neither produces a significant negative.
+   The claim that origins 1995–2009 are "the only sample in which the registered
+   mean-reversion sign can ever be identified" is **not supported**; an explicit bust
+   control does comparable work. `hpi_vol` genuinely requires both.
+
+**Substantive finding, not registered as a prediction.** Medium-horizon mean
+reversion is strongly present in US metro house prices — it simply does not load on
+`hpi_gap`. In LONG h=5, one-year growth predicts more subsequent growth
+(`hpi_g1` t = +20.858) while five-year growth predicts less (`hpi_g5` t = −13.031).
+The mechanism was roughly right and the variable was wrong.
+
+**Consequences for GRIP-2.** `hpi_gap` is retired as a feature rather than repaired:
+it correlates +0.909 with `hpi_g5` and carries no forecasting content once crash
+depth is present. `hpi_income_gap` replaces it. `hpi_drawdown` becomes a standing
+control in every price cell, being among the strongest predictors in every
+specification run here (|t| = 7.2 to 9.7); its absence is what made the graded
+shocks look wrong. The 14.7 reject clause is **not** triggered.
+
+The 14.1 disclosure stands and is strengthened: the shock gate as written could not
+be passed by a correct model on a single-episode sample, and the missing ingredient
+was an explicit bust control as much as a longer sample.
+
 *This product uses FHFA Data but is neither endorsed nor certified by FHFA.*
 
 ---
