@@ -1,0 +1,379 @@
+{
+  "run_utc": "2026-08-23T21:46:53Z",
+  "scope": "predictors and price history only; no target read, no target coefficient estimated",
+  "fhfa_coverage": {
+    "first_year": 1975,
+    "last_year": 2025,
+    "metros": 410
+  },
+  "graded_origins_now": [
+    2010,
+    2012,
+    2013,
+    2014,
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2020
+  ],
+  "origin_feasibility": [
+    {
+      "origin": 1990,
+      "window": "1975-1989",
+      "metros_with_features": 181,
+      "metros_with_h5_truth": 181,
+      "metros_with_h3_truth": 181
+    },
+    {
+      "origin": 1991,
+      "window": "1976-1990",
+      "metros_with_features": 191,
+      "metros_with_h5_truth": 191,
+      "metros_with_h3_truth": 191
+    },
+    {
+      "origin": 1992,
+      "window": "1977-1991",
+      "metros_with_features": 219,
+      "metros_with_h5_truth": 219,
+      "metros_with_h3_truth": 219
+    },
+    {
+      "origin": 1993,
+      "window": "1978-1992",
+      "metros_with_features": 235,
+      "metros_with_h5_truth": 235,
+      "metros_with_h3_truth": 234
+    },
+    {
+      "origin": 1994,
+      "window": "1979-1993",
+      "metros_with_features": 263,
+      "metros_with_h5_truth": 263,
+      "metros_with_h3_truth": 263
+    },
+    {
+      "origin": 1995,
+      "window": "1980-1994",
+      "metros_with_features": 328,
+      "metros_with_h5_truth": 328,
+      "metros_with_h3_truth": 328
+    },
+    {
+      "origin": 1996,
+      "window": "1981-1995",
+      "metros_with_features": 341,
+      "metros_with_h5_truth": 341,
+      "metros_with_h3_truth": 341
+    },
+    {
+      "origin": 1997,
+      "window": "1982-1996",
+      "metros_with_features": 352,
+      "metros_with_h5_truth": 352,
+      "metros_with_h3_truth": 352
+    },
+    {
+      "origin": 1998,
+      "window": "1983-1997",
+      "metros_with_features": 362,
+      "metros_with_h5_truth": 362,
+      "metros_with_h3_truth": 362
+    },
+    {
+      "origin": 1999,
+      "window": "1984-1998",
+      "metros_with_features": 372,
+      "metros_with_h5_truth": 372,
+      "metros_with_h3_truth": 372
+    },
+    {
+      "origin": 2000,
+      "window": "1985-1999",
+      "metros_with_features": 385,
+      "metros_with_h5_truth": 385,
+      "metros_with_h3_truth": 385
+    },
+    {
+      "origin": 2001,
+      "window": "1986-2000",
+      "metros_with_features": 397,
+      "metros_with_h5_truth": 397,
+      "metros_with_h3_truth": 397
+    },
+    {
+      "origin": 2002,
+      "window": "1987-2001",
+      "metros_with_features": 406,
+      "metros_with_h5_truth": 406,
+      "metros_with_h3_truth": 406
+    },
+    {
+      "origin": 2003,
+      "window": "1988-2002",
+      "metros_with_features": 407,
+      "metros_with_h5_truth": 407,
+      "metros_with_h3_truth": 407
+    },
+    {
+      "origin": 2004,
+      "window": "1989-2003",
+      "metros_with_features": 407,
+      "metros_with_h5_truth": 407,
+      "metros_with_h3_truth": 407
+    },
+    {
+      "origin": 2005,
+      "window": "1990-2004",
+      "metros_with_features": 408,
+      "metros_with_h5_truth": 408,
+      "metros_with_h3_truth": 408
+    },
+    {
+      "origin": 2006,
+      "window": "1991-2005",
+      "metros_with_features": 408,
+      "metros_with_h5_truth": 408,
+      "metros_with_h3_truth": 408
+    },
+    {
+      "origin": 2007,
+      "window": "1992-2006",
+      "metros_with_features": 408,
+      "metros_with_h5_truth": 408,
+      "metros_with_h3_truth": 408
+    },
+    {
+      "origin": 2008,
+      "window": "1993-2007",
+      "metros_with_features": 409,
+      "metros_with_h5_truth": 409,
+      "metros_with_h3_truth": 409
+    },
+    {
+      "origin": 2009,
+      "window": "1994-2008",
+      "metros_with_features": 410,
+      "metros_with_h5_truth": 410,
+      "metros_with_h3_truth": 410
+    },
+    {
+      "origin": 2010,
+      "window": "1995-2009",
+      "metros_with_features": 410,
+      "metros_with_h5_truth": 410,
+      "metros_with_h3_truth": 410
+    },
+    {
+      "origin": 2011,
+      "window": "1996-2010",
+      "metros_with_features": 410,
+      "metros_with_h5_truth": 410,
+      "metros_with_h3_truth": 410
+    },
+    {
+      "origin": 2012,
+      "window": "1997-2011",
+      "metros_with_features": 410,
+      "metros_with_h5_truth": 410,
+      "metros_with_h3_truth": 410
+    },
+    {
+      "origin": 2013,
+      "window": "1998-2012",
+      "metros_with_features": 410,
+      "metros_with_h5_truth": 410,
+      "metros_with_h3_truth": 410
+    },
+    {
+      "origin": 2014,
+      "window": "1999-2013",
+      "metros_with_features": 410,
+      "metros_with_h5_truth": 410,
+      "metros_with_h3_truth": 410
+    },
+    {
+      "origin": 2015,
+      "window": "2000-2014",
+      "metros_with_features": 410,
+      "metros_with_h5_truth": 410,
+      "metros_with_h3_truth": 410
+    },
+    {
+      "origin": 2016,
+      "window": "2001-2015",
+      "metros_with_features": 410,
+      "metros_with_h5_truth": 410,
+      "metros_with_h3_truth": 410
+    },
+    {
+      "origin": 2017,
+      "window": "2002-2016",
+      "metros_with_features": 410,
+      "metros_with_h5_truth": 410,
+      "metros_with_h3_truth": 410
+    },
+    {
+      "origin": 2018,
+      "window": "2003-2017",
+      "metros_with_features": 410,
+      "metros_with_h5_truth": 409,
+      "metros_with_h3_truth": 410
+    },
+    {
+      "origin": 2019,
+      "window": "2004-2018",
+      "metros_with_features": 410,
+      "metros_with_h5_truth": 410,
+      "metros_with_h3_truth": 410
+    },
+    {
+      "origin": 2020,
+      "window": "2005-2019",
+      "metros_with_features": 410,
+      "metros_with_h5_truth": 410,
+      "metros_with_h3_truth": 409
+    },
+    {
+      "origin": 2021,
+      "window": "2006-2020",
+      "metros_with_features": 410,
+      "metros_with_h5_truth": 410,
+      "metros_with_h3_truth": 410
+    }
+  ],
+  "gap_is_momentum": {
+    "pooled_corr_gap_g5": 0.9086,
+    "pooled_corr_gap_g1": 0.6805,
+    "per_origin": [
+      {
+        "origin": 2010,
+        "n": 231,
+        "corr_gap_g5": 0.8631,
+        "corr_gap_g1": 0.8982
+      },
+      {
+        "origin": 2012,
+        "n": 231,
+        "corr_gap_g5": 0.966,
+        "corr_gap_g1": 0.7755
+      },
+      {
+        "origin": 2013,
+        "n": 231,
+        "corr_gap_g5": 0.9417,
+        "corr_gap_g1": 0.2893
+      },
+      {
+        "origin": 2014,
+        "n": 231,
+        "corr_gap_g5": 0.8212,
+        "corr_gap_g1": -0.172
+      },
+      {
+        "origin": 2015,
+        "n": 231,
+        "corr_gap_g5": 0.7625,
+        "corr_gap_g1": 0.5548
+      },
+      {
+        "origin": 2016,
+        "n": 231,
+        "corr_gap_g5": 0.8382,
+        "corr_gap_g1": 0.7344
+      },
+      {
+        "origin": 2017,
+        "n": 231,
+        "corr_gap_g5": 0.8852,
+        "corr_gap_g1": 0.8073
+      },
+      {
+        "origin": 2018,
+        "n": 230,
+        "corr_gap_g5": 0.9152,
+        "corr_gap_g1": 0.7994
+      },
+      {
+        "origin": 2019,
+        "n": 231,
+        "corr_gap_g5": 0.9111,
+        "corr_gap_g1": 0.7528
+      },
+      {
+        "origin": 2020,
+        "n": 231,
+        "corr_gap_g5": 0.8401,
+        "corr_gap_g1": 0.4666
+      }
+    ]
+  },
+  "vol_is_crash_depth": {
+    "pooled_corr_vol_crashdepth": -0.7083,
+    "pooled_corr_vol_boom0006": 0.6228,
+    "per_origin": [
+      {
+        "origin": 2010,
+        "n": 231,
+        "corr_vol_crashdepth": -0.9471,
+        "corr_vol_boom0006": 0.9371
+      },
+      {
+        "origin": 2012,
+        "n": 231,
+        "corr_vol_crashdepth": -0.8353,
+        "corr_vol_boom0006": 0.8211
+      },
+      {
+        "origin": 2013,
+        "n": 231,
+        "corr_vol_crashdepth": -0.8478,
+        "corr_vol_boom0006": 0.7377
+      },
+      {
+        "origin": 2014,
+        "n": 231,
+        "corr_vol_crashdepth": -0.9344,
+        "corr_vol_boom0006": 0.7789
+      },
+      {
+        "origin": 2015,
+        "n": 231,
+        "corr_vol_crashdepth": -0.9405,
+        "corr_vol_boom0006": 0.771
+      },
+      {
+        "origin": 2016,
+        "n": 231,
+        "corr_vol_crashdepth": -0.9109,
+        "corr_vol_boom0006": 0.7221
+      },
+      {
+        "origin": 2017,
+        "n": 231,
+        "corr_vol_crashdepth": -0.8928,
+        "corr_vol_boom0006": 0.7076
+      },
+      {
+        "origin": 2018,
+        "n": 230,
+        "corr_vol_crashdepth": -0.7904,
+        "corr_vol_boom0006": 0.6212
+      },
+      {
+        "origin": 2019,
+        "n": 231,
+        "corr_vol_crashdepth": -0.4987,
+        "corr_vol_boom0006": 0.3981
+      },
+      {
+        "origin": 2020,
+        "n": 231,
+        "corr_vol_crashdepth": -0.5206,
+        "corr_vol_boom0006": 0.4519
+      }
+    ]
+  }
+}
