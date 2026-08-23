@@ -518,6 +518,10 @@ Two consequences bind future work:
    is to begin archiving monthly snapshots now and wait. That is a real cost,
    stated rather than evaded, and it is not a reason to bend the vintage lock.
 
+**E9 (registered, results pending at time of writing).** Section 13 registers a
+post-hoc specification attempt against the E5 shock-sign failure: metro fixed
+effects, with the accept/reject rule and the power precondition fixed in advance.
+
 ## 9. Ensembles, not point estimates
 
 AIMIP requires a minimum 5-member ensemble, described as "enough to estimate
@@ -578,6 +582,134 @@ immutable; `out/latest.json` points at the newest.
 You cannot backdate a public, timestamped forecast. Every quarter GRIP runs and
 publishes, the record lengthens, and that record is not purchasable at any price.
 A competitor with a $135,000 parcel licence still has no 2026 scorecard in 2029.
+
+## 13. Specification budget and post-hoc specification attempts
+
+Everything above governs what data may enter a forecast. This section governs
+something the vintage lock does not touch and that quietly destroys more
+published research than leakage does: **how many specifications an author is
+allowed to try after seeing a result, and what those attempts may then claim.**
+
+GRIP-1 published four NOT CERTIFIED cells in `v1.0.0-grip1`, with the binding
+constraint on all four being the shock gate. The obvious next move — try a
+different estimator and see whether the signs come right — is exactly the move
+that, repeated silently, converts any dataset into a confirmation of whatever the
+author expected. The protocol therefore makes the attempts countable.
+
+**The rule.** Every specification change proposed *after* a graded result is
+known is a numbered attempt against that result. Each attempt must, before it is
+run, declare: the specification, the prediction, the accept/reject rule, and the
+power precondition under which the test would be uninformative. Each attempt is
+released results-free and then released again with results, whatever they are. An
+attempt that is run and not published does not exist, and the numbering makes an
+unpublished attempt visible as a gap.
+
+**What an attempt may claim.** Nothing, in the cell it was chosen against. A
+specification selected in the knowledge of a failure cannot certify that failure
+away, because the selection itself used the outcome. The most a successful
+attempt earns is the status of CANDIDATE: it must then be re-registered blind and
+re-graded on a fresh run before any certification claim attaches. This is the same
+reasoning that bars `premium_shock_40pct` from being revised on the strength of E6
+through E8, applied to estimators instead of features.
+
+### Attempt 1 — E9, metro fixed effects and the E5 re-run
+
+**Why this specification.** Two of three pre-registered shocks fail in all four
+cells, and both failures route through exactly two coefficients: `hpi_vol_wr`
+(perturbed by `premium_shock_40pct`) and `hpi_gap_wr` (perturbed by
+`rate_shock_200bp`). Those two are also the only SIGN-UNSTABLE entries in E4. E8
+then found that the positive population coefficient on the Treasury FIO premium
+loses significance once NFIP flood price sits in the same regression, which is
+consistent with the premium having stood in for persistent warm-state
+characteristics rather than for a risk price. If that confound also drives
+`hpi_vol` and `hpi_gap`, removing persistent between-metro differences should
+reveal a negative within-metro relationship. Metro fixed effects test that and
+nothing else.
+
+**Three structural facts fix the design, and each removes an option.**
+
+1. For a `scope="exposed_only"` shock, `run_shock` computes
+   `delta[exposed].mean() − delta[~exposed].mean()` from a linear model in which
+   the perturbation lands only on exposed rows. That difference *is* the fitted
+   coefficient on the perturbed standardised feature. "Re-running E5" is
+   therefore identically "re-estimating those two coefficients", and the suite is
+   executed unmodified so this is a code path rather than an assertion.
+2. **A metro effect cannot be estimated within one origin.** Each metro
+   contributes one row per origin, so the within-metro transformation is
+   identically zero in any single cross-section. E4's per-origin stability
+   statistic has no fixed-effects analogue. Leave-one-origin-out replaces it, and
+   is applied to *every* specification including the baseline, so the published
+   E4 numbers (`share_positive` 0.429 and 0.857 at h = 5) are **not** comparable
+   to E9's and are not compared to them.
+3. **A metro effect on the target is not computable at forecast time.** Demeaning
+   an outcome by its own metro mean requires that metro's mean outcome, which
+   contains the outcome being forecast. Any specification that demeans the target
+   within metro is permanently a diagnostic and can never be graded, however good
+   its coefficients look. This is a fact about forecasting, not a choice, and it
+   is the reason the attempt is split into S1 and S2 below.
+
+**Specifications.** Metro nests inside division, so a metro effect absorbs the
+division effect and S1/S2 do not demean by division again. The `origin_year` term
+is kept everywhere, because dropping it leaves the national cycle in the residual
+and that residual is itself a clock — the failure that made the first run of this
+harness flag every price feature as CLOCK_LEAK.
+
+| Spec | Features | Target | Status |
+| --- | --- | --- | --- |
+| S0 | `(origin_year, division)` demeaned | same | the registered baseline, as graded in v1.0.0-grip1 |
+| S1 | two-way `(origin_year, cbsa_code)` within | two-way within | **diagnostic only, never gradeable** (fact 3) |
+| S2 | origin demeaned, then expanding within-metro over origins ≤ Y | S0's target | forecast-legal; gradeable only after re-registration |
+| S0_on_S2_sample | S0 transform | S0's target | control, on exactly S2's rows |
+
+The control is not decoration. S2 discards each metro's first three origins, so
+any coefficient movement between S0 and S2 could be the specification or could be
+the smaller sample. Without running S0 on S2's rows the comparison would be
+uninterpretable, and reporting S2 against full-sample S0 alone would be a
+mistake dressed as a finding.
+
+S2 exists because it is the only version that could ever ship. Its features ask
+"is this metro's volatility high relative to its own history", which a forecaster
+standing at the origin can answer, while its target keeps the cross-sectional
+meaning the product is actually sold on. S1 answers whether the confound is real;
+S2 answers whether anything can be done about it in a live forecast.
+
+**Sample rule.** A metro must appear in at least 4 origins to contribute
+within-metro variation. A metro observed once is absorbed exactly by its own
+fixed effect and contributes a row of zeros.
+
+**Predictions, registered before execution.**
+
+- **P1** — In S1 the pooled coefficients on `hpi_vol_wr` and `hpi_gap_wr` both
+  turn **negative**, matching the pre-registered shock signs.
+- **P2** — In S1 the leave-one-origin-out `share_positive` for both focal
+  features falls below 0.5, i.e. reliably negative rather than merely stable.
+  Stability alone is not success: a coefficient stably positive on a shock whose
+  registered sign is negative is stably wrong.
+- **P3** — In S2 the E5 verdicts for `rate_shock_200bp` and
+  `premium_shock_40pct` both flip to PLAUSIBLE.
+- **P4**, a precondition rather than an outcome — any feature whose
+  within-metro share of variance is below **0.10** is declared UNINFORMATIVE and
+  its fixed-effects sign is not read as evidence in either direction. A metro
+  effect can absorb nearly all of a slow-moving feature's variance, and reading
+  the sign of what remains is reading noise.
+
+**Accept rule.** The confound hypothesis is SUPPORTED only if P1 and P2 both hold
+for **both** focal features and the P4 precondition passes for both. Anything
+partial is reported as NOT SUPPORTED. Inference on the focal coefficients uses OLS
+with standard errors clustered on metro, because a five-year forward outcome
+measured at consecutive origins overlaps by four years and unclustered
+t-statistics would be inflated several-fold.
+
+**If it rejects.** Then the inversion is within-metro as well, the estimator is
+not the problem, and the features are. That routes the fix to measured
+transactions such as the NFIP realised losses from E8, not to a further
+regression — and attempt 2 should not be another estimator.
+
+**What this attempt cannot do.** It cannot certify. The four NOT CERTIFIED
+verdicts in `v1.0.0-grip1` stand whatever E9 returns. If P3 holds, S2 becomes a
+CANDIDATE requiring a fresh full backtest under a fresh blind pre-registration
+before any shock claim attaches to it.
+
 
 ---
 
