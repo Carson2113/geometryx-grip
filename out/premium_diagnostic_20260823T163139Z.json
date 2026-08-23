@@ -1,0 +1,228 @@
+{
+  "diagnostic": "E6_premium_sign",
+  "generated_utc": "20260823T163139Z",
+  "status": "DESCRIPTIVE -- NOT A GRADED FORECAST",
+  "why_not_graded": "FIO PCMI is INELIGIBLE as a GRIP-1 graded predictor.\n\nThe vintage lock (PROTOCOL section 4) admits a file into origin year Y only if\nit was published on or before 31 December Y. FIO PCMI was published 2025-01-16,\nso the earliest origin it could serve is 2025. Grading an origin requires the\nrealised outcome at origin + horizon, which for the shorter graded horizon\n(h=3) is 2028. There is therefore no origin at which FIO can currently be both\nlegal and scorable, and adding it to the panel would be backdating a forecast.\n\nThat the content covers 2018-2022 is irrelevant. The lock is on publication,\nnot on the period described, precisely because a file published later embeds\nrevisions, hindsight and -- in this case -- a data call designed after the\noutcomes it describes had already occurred.\n\nFIO is used here for one thing only: an out-of-panel sign diagnostic that\nchecks the pre-registered premium_shock direction against real premiums rather\nthan against the hpi_vol proxy. That diagnostic is descriptive and is reported\nas such. It is not a forecast, it is not scored, and it does not enter any\ncertification gate.",
+  "fio_coverage": {
+    "published": "2025-01-16",
+    "data_years": [
+      2018,
+      2022
+    ],
+    "zip_rows": 127965,
+    "unique_zips": 25593,
+    "zips_matched_to_metro_pct": 62.3,
+    "metros_with_features": 384,
+    "median_zips_per_metro": 22,
+    "median_covered_share_pct": 85.0,
+    "eligible_as_graded_predictor": false,
+    "deviations": [
+      "FIO reports ZIP Codes; the only public-domain national crosswalk is Census ZCTA-to-county. ZCTAs approximate but do not equal USPS ZIP Codes. Each ZIP is matched to the identically-numbered ZCTA and assigned to the single county with the largest land-area overlap, then to that county's CBSA. Split ZIPs are therefore assigned whole rather than apportioned.",
+      "FIO publishes a Policy Decile Grouping (1-10) but not policy counts, so no exact policy weighting is possible. Metro aggregates use the unweighted median across covered ZIPs, which is robust to the acknowledged per-ZIP anomalies; a decile-weighted mean is reported alongside as a robustness check.",
+      "Only ZIP Codes with at least 10 reporting insurers and 50 policies are published, so coverage is systematically thinner in rural and small-metro areas. Metro aggregates are suppressed below MIN_ZIPS covered ZIPs and the covered share is reported per metro.",
+      "The FIO report PDF was removed from the Treasury website in autumn 2025 (Consumer Federation of America). The data workbook still resolves at the URL above; its sha256 is pinned in this module so a substituted file fails loudly rather than silently changing results."
+    ]
+  },
+  "delineation_vintage": 2020,
+  "base_year": 2022,
+  "outcome_windows": {
+    "y_pop": "2022->2024",
+    "y_hpi": "2022->2025"
+  },
+  "expected_sign": -1,
+  "results": [
+    {
+      "target": "y_pop",
+      "control": "pop_g3",
+      "n_metros": 380,
+      "univariate": {
+        "premium_log_2022": {
+          "beta_per_sd": 0.001247,
+          "se": 0.000427,
+          "t": 2.919,
+          "significant_5pct": true,
+          "expected_sign": -1,
+          "observed_sign": 1,
+          "matches_expected": false
+        },
+        "premium_g4": {
+          "beta_per_sd": -0.001781,
+          "se": 0.000469,
+          "t": -3.794,
+          "significant_5pct": true,
+          "expected_sign": -1,
+          "observed_sign": -1,
+          "matches_expected": true
+        },
+        "nonrenewal_2022": {
+          "beta_per_sd": -0.000154,
+          "se": 0.000553,
+          "t": -0.278,
+          "significant_5pct": false,
+          "expected_sign": -1,
+          "observed_sign": -1,
+          "matches_expected": true
+        }
+      },
+      "with_momentum": {
+        "premium_log_2022": {
+          "beta_per_sd": 0.00072,
+          "se": 0.000339,
+          "t": 2.122,
+          "significant_5pct": true,
+          "expected_sign": -1,
+          "observed_sign": 1,
+          "matches_expected": false
+        },
+        "premium_g4": {
+          "beta_per_sd": -0.001199,
+          "se": 0.000346,
+          "t": -3.46,
+          "significant_5pct": true,
+          "expected_sign": -1,
+          "observed_sign": -1,
+          "matches_expected": true
+        },
+        "nonrenewal_2022": {
+          "beta_per_sd": 0.00078,
+          "se": 0.000324,
+          "t": 2.406,
+          "significant_5pct": true,
+          "expected_sign": -1,
+          "observed_sign": 1,
+          "matches_expected": false
+        },
+        "pop_g3": {
+          "beta_per_sd": 0.004449,
+          "se": 0.000454,
+          "t": 9.806,
+          "significant_5pct": true,
+          "expected_sign": null,
+          "observed_sign": 1,
+          "matches_expected": null
+        }
+      },
+      "quartile_contrast": {
+        "high_premium_mean_growth": 0.011075,
+        "low_premium_mean_growth": 0.005745,
+        "difference": 0.00533,
+        "n_high": 95,
+        "n_low": 95,
+        "expected_difference_sign": -1,
+        "observed_difference_sign": 1,
+        "matches_expected": false
+      },
+      "ex_south": {
+        "n_metros": 224,
+        "premium_log_2022": {
+          "beta_per_sd": -0.000608,
+          "se": 0.000454,
+          "t": -1.339,
+          "significant_5pct": false,
+          "expected_sign": -1,
+          "observed_sign": -1,
+          "matches_expected": true
+        }
+      }
+    },
+    {
+      "target": "y_hpi",
+      "control": "hpi_g5",
+      "n_metros": 357,
+      "univariate": {
+        "premium_log_2022": {
+          "beta_per_sd": -0.00526,
+          "se": 0.000836,
+          "t": -6.292,
+          "significant_5pct": true,
+          "expected_sign": -1,
+          "observed_sign": -1,
+          "matches_expected": true
+        },
+        "premium_g4": {
+          "beta_per_sd": 0.001007,
+          "se": 0.001201,
+          "t": 0.838,
+          "significant_5pct": false,
+          "expected_sign": -1,
+          "observed_sign": 1,
+          "matches_expected": false
+        },
+        "nonrenewal_2022": {
+          "beta_per_sd": 0.002053,
+          "se": 0.00094,
+          "t": 2.184,
+          "significant_5pct": true,
+          "expected_sign": -1,
+          "observed_sign": 1,
+          "matches_expected": false
+        }
+      },
+      "with_momentum": {
+        "premium_log_2022": {
+          "beta_per_sd": -0.005234,
+          "se": 0.000767,
+          "t": -6.822,
+          "significant_5pct": true,
+          "expected_sign": -1,
+          "observed_sign": -1,
+          "matches_expected": true
+        },
+        "premium_g4": {
+          "beta_per_sd": -0.000622,
+          "se": 0.000967,
+          "t": -0.644,
+          "significant_5pct": false,
+          "expected_sign": -1,
+          "observed_sign": -1,
+          "matches_expected": true
+        },
+        "nonrenewal_2022": {
+          "beta_per_sd": 0.002114,
+          "se": 0.000883,
+          "t": 2.394,
+          "significant_5pct": true,
+          "expected_sign": -1,
+          "observed_sign": 1,
+          "matches_expected": false
+        },
+        "hpi_g5": {
+          "beta_per_sd": -0.002578,
+          "se": 0.00095,
+          "t": -2.713,
+          "significant_5pct": true,
+          "expected_sign": null,
+          "observed_sign": -1,
+          "matches_expected": null
+        }
+      },
+      "quartile_contrast": {
+        "high_premium_mean_growth": 0.038351,
+        "low_premium_mean_growth": 0.05672,
+        "difference": -0.018369,
+        "n_high": 90,
+        "n_low": 90,
+        "expected_difference_sign": -1,
+        "observed_difference_sign": -1,
+        "matches_expected": true
+      },
+      "ex_south": {
+        "n_metros": 211,
+        "premium_log_2022": {
+          "beta_per_sd": -0.001572,
+          "se": 0.001023,
+          "t": -1.536,
+          "significant_5pct": false,
+          "expected_sign": -1,
+          "observed_sign": -1,
+          "matches_expected": true
+        }
+      }
+    }
+  ],
+  "verdict": {
+    "tests": 12,
+    "matching_pre_registered_sign": 6,
+    "premium_sign_confirmed": false
+  }
+}

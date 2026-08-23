@@ -123,6 +123,30 @@ same. Current deviations:
 2. **Census BPS has no revision-vintage archive.** Mitigated by lagging permit
    counts a full year behind the base year (`permit_base = B − 1`).
 
+### Ineligible sources
+
+A source is **ineligible**, not merely deviating, when no origin exists at which
+it is both legal under the vintage lock and scorable. Ineligibility is a property
+of the source and the protocol together, and it must be recorded in code rather
+than in a footnote, because the temptation to make an exception is strongest for
+exactly the datasets that are most valuable.
+
+The first such source is the Treasury Federal Insurance Office Property and
+Casualty Market Intelligence collection, the only public-domain nationwide record
+of what homeowners actually pay for insurance. It was published 2025-01-16, so the
+earliest origin it can serve is 2025; the shorter graded horizon needs a realised
+2028 outcome. It is therefore out of the panel until 2028 at the earliest.
+
+That its content describes 2018-2022 changes nothing. **The lock is on publication
+date, not on the period described.** A file published after the outcomes it
+describes embeds revision, selection and hindsight no matter which years appear in
+its rows, and admitting it because the content looks old enough is precisely the
+backdating the protocol exists to prevent. See `grip/sources/fio.py`,
+`VINTAGE_VERDICT`.
+
+An ineligible source may still be used for an out-of-panel diagnostic under
+section 8.
+
 ## 5. Prescribed forcing: within-region, within-origin demeaning
 
 AMIP-style experiments prescribe sea-surface temperature — the boundary
@@ -247,6 +271,42 @@ the most hazard-exposed metros fastest ranks metros well for the wrong reason.
 Expected signs may **never** be revised after a target is run. The signs in the
 table above were registered in release `v1.0.0-grip1`, published before `y_hpi`
 was ever graded, and are unchanged.
+
+### Out-of-panel diagnostics
+
+Some questions cannot be asked inside the panel and are still worth answering. A
+**diagnostic** is a numbered, published analysis that uses data or a design the
+graded panel may not use. Rules:
+
+1. A diagnostic is never scored, never certified, and never enters a gate.
+2. Its output must carry the status string `DESCRIPTIVE -- NOT A GRADED FORECAST`.
+3. It must state, in its own output, why it is not a forecast.
+4. It may not be cited as evidence of skill. It may only be cited as evidence
+   about a **mechanism** or about the adequacy of a **feature**.
+5. A diagnostic may not be used to revise a pre-registered expected sign. If a
+   diagnostic contradicts a registered sign, the registered shock keeps failing
+   on the record and a new, separately named shock is registered alongside it.
+
+The first is **E6, the premium sign diagnostic** (`run_premium_diagnostic.py`,
+`out/E6_PREMIUM_SIGN.md`). The graded `premium_shock_40pct` perturbs `hpi_vol`, a
+house-price volatility term standing in for insurance cost, and returns the wrong
+sign in all four cells. E6 substitutes real FIO premiums and finds that the
+pre-registered negative sign holds strongly on house prices (−0.0052 per standard
+deviation, t = −6.8, within division, with momentum controlled) and inverts on
+population (+0.0007, t = +2.1). Premium *growth* is negatively signed on
+population where premium *level* is positively signed, and dropping the three
+Southern divisions turns the population coefficient negative.
+
+The consequences for the protocol are:
+
+- The graded price inversion is a **proxy failure**, not a mechanism failure. The
+  named fix is to replace `hpi_vol` with a premium series, and E6 is the
+  calibration target any vintage-legal premium proxy must reproduce.
+- A single global expected sign per shock was an inadequate specification. Future
+  shocks state expected signs **per target**, and where a mechanism is regionally
+  conditional, per region.
+- `premium_shock_40pct` is not revised. It remains registered as it was published
+  in v1.0.0-grip1, and it remains failing.
 
 ## 9. Ensembles, not point estimates
 

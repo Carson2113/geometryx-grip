@@ -32,6 +32,9 @@ python run_backtest.py --target y_pop_wr --horizon 3 --first-origin 2010 --last-
 python run_backtest.py --target y_hpi_wr --horizon 5 --first-origin 2010 --last-origin 2020
 python run_backtest.py --target y_hpi_wr --horizon 3 --first-origin 2010 --last-origin 2022
 python -m grip.scorecard          # renders out/SCORECARD.md
+
+# out-of-panel diagnostic E6 (descriptive, never scored)
+python run_premium_diagnostic.py && python render_e6.py
 ```
 
 First run retrieves roughly 30 federal files and caches them under `cache/`
@@ -50,7 +53,9 @@ with a sha256 manifest. Subsequent runs are offline. Expect ~4 minutes cold.
 | `grip/leakage.py` | CLOCK_LEAK audit and frozen-percentile assertions |
 | `grip/evaluate.py` | Expanding-origin evaluation, bootstrap intervals, coefficient stability |
 | `grip/shocks.py` | E5 pre-registered shock suite |
+| `grip/sources/fio.py` | Treasury FIO premiums, metro-aggregated. **Ineligible as a predictor** |
 | `grip/scorecard.py` | Renders the publishable markdown scorecard |
+| `run_premium_diagnostic.py` | E6 out-of-panel premium sign diagnostic |
 
 Features offered to the model, all demeaned within `(origin_year, division)`:
 
@@ -64,6 +69,21 @@ change in the same quantity being forecast:
 |---|---|---|---|---|
 | `y_pop_wr` | annualised population growth | Census PEP | `pop_g1_wr` | 245 |
 | `y_hpi_wr` | annualised house-price growth | FHFA HPI | `hpi_g1_wr` | 231 |
+
+## Out-of-panel diagnostics
+
+A diagnostic uses data the graded panel may not use, is never scored, and may
+only be cited as evidence about a mechanism or a feature — never as evidence of
+skill. PROTOCOL section 8.
+
+[`out/E6_PREMIUM_SIGN.md`](out/E6_PREMIUM_SIGN.md) tests the pre-registered
+`premium_shock_40pct` direction against real Treasury FIO premiums instead of the
+`hpi_vol` proxy the graded shock perturbs. Premium level carries the
+pre-registered negative sign on house prices (−0.0052 per standard deviation,
+t = −6.8) and inverts on population (+0.0007, t = +2.1). The graded price
+inversion is therefore a proxy failure, and E6 is the calibration target any
+vintage-legal premium proxy has to reproduce. The registered shock is not
+revised; it stays on the record failing.
 
 ## Reference-run result
 
