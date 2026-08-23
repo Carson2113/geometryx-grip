@@ -4,7 +4,7 @@ Geometryx Relocation Intercomparison Protocol, reference run. Every number below
 
 ## Horizon 3 years
 
-- Run started: `2026-08-23T14:06:41Z`
+- Run started: `2026-08-23T15:35:42Z`
 - Target: `y_pop_wr` (within-division, within-origin demeaned population growth)
 - Origins in panel: [2010, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2022]
 - Panel rows: 2687; median metros per origin: 245
@@ -14,9 +14,9 @@ Geometryx Relocation Intercomparison Protocol, reference run. Every number below
 
 | Metric | Model | Baseline |
 |---|---|---|
-| Median Spearman rho | 0.753 | 0.746 |
-| Median out-of-sample R2 | 0.511 | 0.515 |
-| Median top-quartile hit rate | 91.0% | 93.5% |
+| Median Spearman rho | 0.754 | 0.746 |
+| Median out-of-sample R2 | 0.517 | 0.516 |
+| Median top-quartile hit rate | 90.1% | 93.5% |
 
 Paired, per-origin differences (model minus baseline). Unpaired medians
 can flatter a model that loses on almost every origin, so these govern.
@@ -24,8 +24,8 @@ can flatter a model that loses on almost every origin, so these govern.
 | Paired gain | Value |
 |---|---|
 | Median Spearman gain | -0.0162 |
-| Median out-of-sample R2 gain | 0.0011 |
-| Median hit-rate gain | -0.0052 |
+| Median out-of-sample R2 gain | 0.0007 |
+| Median hit-rate gain | -0.0138 |
 
 **Origins where the model beat the baseline: 1/8.**
 
@@ -37,14 +37,40 @@ Each row is a strictly causal test: fit on origins before the test origin, predi
 
 | Test origin | Metros | Model rho | 90% interval | Baseline rho | Model hit | Baseline hit | Beat baseline |
 |---|---|---|---|---|---|---|---|
-| 2014 | 228 | 0.720 | [0.639, 0.788] | 0.768 | 87.7% | 95.2% | no |
-| 2015 | 228 | 0.786 | [0.722, 0.847] | 0.793 | 91.2% | 91.9% | no |
-| 2016 | 230 | 0.865 | [0.833, 0.894] | 0.873 | 94.8% | 95.2% | no |
-| 2017 | 221 | 0.837 | [0.783, 0.878] | 0.850 | 98.2% | 98.4% | no |
-| 2018 | 221 | 0.652 | [0.569, 0.720] | 0.680 | 92.9% | 95.2% | no |
-| 2019 | 221 | 0.666 | [0.592, 0.730] | 0.688 | 83.9% | 87.1% | no |
-| 2020 | 217 | 0.645 | [0.562, 0.714] | 0.664 | 83.6% | 82.0% | no |
-| 2022 | 215 | 0.789 | [0.721, 0.838] | 0.723 | 90.7% | 88.5% | yes |
+| 2014 | 228 | 0.723 | [0.644, 0.792] | 0.768 | 87.7% | 95.2% | no |
+| 2015 | 228 | 0.788 | [0.723, 0.842] | 0.793 | 91.2% | 91.9% | no |
+| 2016 | 230 | 0.869 | [0.833, 0.897] | 0.873 | 93.1% | 95.2% | no |
+| 2017 | 221 | 0.835 | [0.790, 0.878] | 0.850 | 98.2% | 98.4% | no |
+| 2018 | 221 | 0.651 | [0.567, 0.718] | 0.680 | 92.9% | 95.2% | no |
+| 2019 | 221 | 0.665 | [0.585, 0.727] | 0.688 | 83.9% | 87.1% | no |
+| 2020 | 217 | 0.648 | [0.568, 0.719] | 0.664 | 83.6% | 82.0% | no |
+| 2022 | 215 | 0.785 | [0.721, 0.838] | 0.723 | 88.9% | 88.5% | yes |
+
+### Ensemble and intervals
+
+Every origin is scored from a block-bootstrap ensemble over origin years (minimum 19 members against a protocol floor of 5). The graded prediction is the ensemble mean.
+
+| Ensemble metric | Value |
+|---|---|
+| Conforms to the member floor | yes |
+| Share of individual members beating the baseline | 18.2% |
+| Median single-fit Spearman rho, for comparison | 0.753 |
+| Median member spread as a share of forecast error | 0.096 |
+| Median 90% predictive interval width | 0.01485 |
+| Median realised coverage of that interval | 90.7% |
+
+> The 90% predictive interval is **conforming**: realised coverage 90.7% against a nominal 90%. This interval may be attached to published figures. Note that it is *wider* than the member spread by roughly an order of magnitude — member spread alone captures which model might have been fitted, not how wrong that model is about a given metro, and publishing it as a forecast interval would be narrow and wrong.
+
+| Test origin | Members | Members beating baseline | Member rho range | 90% PI coverage |
+|---|---|---|---|---|
+| 2014 | 19 | 0/19 | [0.701, 0.734] | n/a (first scored origin) |
+| 2015 | 20 | 9/20 | [0.723, 0.817] | 90.8% |
+| 2016 | 20 | 0/20 | [0.842, 0.871] | 92.2% |
+| 2017 | 20 | 0/20 | [0.824, 0.845] | 96.4% |
+| 2018 | 20 | 0/20 | [0.634, 0.656] | 79.6% |
+| 2019 | 20 | 0/20 | [0.636, 0.674] | 80.1% |
+| 2020 | 20 | 0/20 | [0.630, 0.661] | 82.0% |
+| 2022 | 20 | 20/20 | [0.743, 0.789] | 90.7% |
 
 ### CLOCK_LEAK audit
 
@@ -70,14 +96,14 @@ A feature whose sign flips across origins is not a mechanism, it is a fit artifa
 
 | Feature | Mean coef | Min | Max | Share positive | Verdict |
 |---|---|---|---|---|---|
-| `pop_g1_wr` | 0.00240 | 0.00240 | 0.00250 | 100.0% | STABLE |
-| `pop_g3_wr` | 0.00160 | 0.00100 | 0.00200 | 100.0% | STABLE |
-| `pop_accel_wr` | 0.00110 | 0.00090 | 0.00120 | 100.0% | STABLE |
+| `pop_g1_wr` | 0.00250 | 0.00240 | 0.00260 | 100.0% | STABLE |
+| `pop_g3_wr` | 0.00170 | 0.00110 | 0.00210 | 100.0% | STABLE |
+| `pop_accel_wr` | 0.00100 | 0.00080 | 0.00120 | 100.0% | STABLE |
 | `hpi_g1_wr` | 0.00070 | 0.00040 | 0.00130 | 100.0% | STABLE |
 | `hpi_g5_wr` | -0.00130 | -0.00210 | 0.00000 | 0.0% | STABLE |
-| `hpi_gap_wr` | 0.00030 | -0.00140 | 0.00090 | 75.0% | SIGN-UNSTABLE |
-| `hpi_vol_wr` | 0.00030 | -0.00010 | 0.00050 | 87.5% | SIGN-UNSTABLE |
-| `permits_pc_wr` | 0.00180 | 0.00160 | 0.00200 | 100.0% | STABLE |
+| `hpi_gap_wr` | 0.00030 | -0.00130 | 0.00090 | 75.0% | SIGN-UNSTABLE |
+| `hpi_vol_wr` | 0.00030 | -0.00020 | 0.00060 | 62.5% | SIGN-UNSTABLE |
+| `permits_pc_wr` | 0.00170 | 0.00150 | 0.00180 | 100.0% | STABLE |
 | `permits_g3_wr` | -0.00020 | -0.00060 | -0.00010 | 0.0% | STABLE |
 
 ### E5 Shock plausibility
@@ -105,7 +131,7 @@ There is no ground truth for a rate or premium shock, so these are graded on pre
 
 ## Horizon 5 years
 
-- Run started: `2026-08-23T14:05:14Z`
+- Run started: `2026-08-23T15:34:05Z`
 - Target: `y_pop_wr` (within-division, within-origin demeaned population growth)
 - Origins in panel: [2010, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020]
 - Panel rows: 2438; median metros per origin: 245
@@ -115,7 +141,7 @@ There is no ground truth for a rate or premium shock, so these are graded on pre
 
 | Metric | Model | Baseline |
 |---|---|---|
-| Median Spearman rho | 0.742 | 0.759 |
+| Median Spearman rho | 0.744 | 0.759 |
 | Median out-of-sample R2 | 0.569 | 0.577 |
 | Median top-quartile hit rate | 91.4% | 90.3% |
 
@@ -124,9 +150,9 @@ can flatter a model that loses on almost every origin, so these govern.
 
 | Paired gain | Value |
 |---|---|
-| Median Spearman gain | -0.0117 |
-| Median out-of-sample R2 gain | 0.0151 |
-| Median hit-rate gain | 0.0034 |
+| Median Spearman gain | -0.0100 |
+| Median out-of-sample R2 gain | 0.0172 |
+| Median hit-rate gain | 0.0106 |
 
 **Origins where the model beat the baseline: 3/7.**
 
@@ -138,13 +164,38 @@ Each row is a strictly causal test: fit on origins before the test origin, predi
 
 | Test origin | Metros | Model rho | 90% interval | Baseline rho | Model hit | Baseline hit | Beat baseline |
 |---|---|---|---|---|---|---|---|
-| 2014 | 228 | 0.717 | [0.641, 0.784] | 0.715 | 84.2% | 83.9% | yes |
-| 2015 | 228 | 0.796 | [0.733, 0.853] | 0.790 | 94.7% | 95.2% | yes |
-| 2016 | 230 | 0.770 | [0.726, 0.819] | 0.759 | 91.4% | 90.3% | yes |
-| 2017 | 221 | 0.716 | [0.653, 0.779] | 0.737 | 91.1% | 88.7% | no |
-| 2018 | 217 | 0.728 | [0.653, 0.787] | 0.780 | 89.1% | 93.4% | no |
-| 2019 | 217 | 0.742 | [0.677, 0.800] | 0.774 | 92.7% | 93.4% | no |
-| 2020 | 217 | 0.742 | [0.677, 0.799] | 0.754 | 92.7% | 88.5% | no |
+| 2014 | 228 | 0.734 | [0.647, 0.800] | 0.715 | 86.0% | 83.9% | yes |
+| 2015 | 228 | 0.799 | [0.742, 0.850] | 0.790 | 94.7% | 95.2% | yes |
+| 2016 | 230 | 0.770 | [0.723, 0.816] | 0.759 | 91.4% | 90.3% | yes |
+| 2017 | 221 | 0.714 | [0.651, 0.773] | 0.737 | 91.1% | 88.7% | no |
+| 2018 | 217 | 0.728 | [0.656, 0.792] | 0.780 | 89.1% | 93.4% | no |
+| 2019 | 217 | 0.747 | [0.677, 0.807] | 0.774 | 92.7% | 93.4% | no |
+| 2020 | 217 | 0.744 | [0.685, 0.799] | 0.754 | 92.7% | 88.5% | no |
+
+### Ensemble and intervals
+
+Every origin is scored from a block-bootstrap ensemble over origin years (minimum 19 members against a protocol floor of 5). The graded prediction is the ensemble mean.
+
+| Ensemble metric | Value |
+|---|---|
+| Conforms to the member floor | yes |
+| Share of individual members beating the baseline | 35.2% |
+| Median single-fit Spearman rho, for comparison | 0.742 |
+| Median member spread as a share of forecast error | 0.102 |
+| Median 90% predictive interval width | 0.01547 |
+| Median realised coverage of that interval | 89.2% |
+
+> The 90% predictive interval is **conforming**: realised coverage 89.2% against a nominal 90%. This interval may be attached to published figures. Note that it is *wider* than the member spread by roughly an order of magnitude — member spread alone captures which model might have been fitted, not how wrong that model is about a given metro, and publishing it as a forecast interval would be narrow and wrong.
+
+| Test origin | Members | Members beating baseline | Member rho range | 90% PI coverage |
+|---|---|---|---|---|
+| 2014 | 19 | 17/19 | [0.712, 0.762] | n/a (first scored origin) |
+| 2015 | 20 | 13/20 | [0.754, 0.810] | 90.8% |
+| 2016 | 20 | 19/20 | [0.753, 0.774] | 83.0% |
+| 2017 | 20 | 0/20 | [0.700, 0.724] | 88.7% |
+| 2018 | 20 | 0/20 | [0.703, 0.735] | 88.9% |
+| 2019 | 20 | 0/20 | [0.723, 0.763] | 90.8% |
+| 2020 | 20 | 0/20 | [0.716, 0.753] | 89.4% |
 
 ### CLOCK_LEAK audit
 
@@ -171,14 +222,14 @@ A feature whose sign flips across origins is not a mechanism, it is a fit artifa
 | Feature | Mean coef | Min | Max | Share positive | Verdict |
 |---|---|---|---|---|---|
 | `pop_g1_wr` | 0.00230 | 0.00220 | 0.00240 | 100.0% | STABLE |
-| `pop_g3_wr` | 0.00140 | 0.00080 | 0.00180 | 100.0% | STABLE |
+| `pop_g3_wr` | 0.00150 | 0.00090 | 0.00190 | 100.0% | STABLE |
 | `pop_accel_wr` | 0.00110 | 0.00100 | 0.00120 | 100.0% | STABLE |
-| `hpi_g1_wr` | 0.00030 | 0.00000 | 0.00070 | 71.4% | SIGN-UNSTABLE |
-| `hpi_g5_wr` | -0.00210 | -0.00290 | -0.00080 | 0.0% | STABLE |
-| `hpi_gap_wr` | 0.00110 | -0.00040 | 0.00170 | 85.7% | SIGN-UNSTABLE |
-| `hpi_vol_wr` | 0.00050 | 0.00010 | 0.00070 | 100.0% | STABLE |
-| `permits_pc_wr` | 0.00200 | 0.00180 | 0.00210 | 100.0% | STABLE |
-| `permits_g3_wr` | -0.00050 | -0.00080 | -0.00030 | 0.0% | STABLE |
+| `hpi_g1_wr` | 0.00020 | 0.00000 | 0.00060 | 71.4% | SIGN-UNSTABLE |
+| `hpi_g5_wr` | -0.00210 | -0.00280 | -0.00140 | 0.0% | STABLE |
+| `hpi_gap_wr` | 0.00110 | 0.00010 | 0.00170 | 100.0% | STABLE |
+| `hpi_vol_wr` | 0.00050 | 0.00020 | 0.00080 | 100.0% | STABLE |
+| `permits_pc_wr` | 0.00190 | 0.00170 | 0.00200 | 100.0% | STABLE |
+| `permits_g3_wr` | -0.00050 | -0.00090 | -0.00030 | 0.0% | STABLE |
 
 ### E5 Shock plausibility
 

@@ -216,6 +216,33 @@ same floor. A submission reporting a single number per metro is rejected. Every
 published Geometryx figure derived from a GRIP-graded model must carry an
 interval.
 
+The reference implementation builds members by **block bootstrap over origin
+years**. The resampling unit is the whole origin, not the metro: metros within an
+origin share a national cycle and a single delineation vintage, so resampling
+metros would treat correlated rows as independent and understate the spread.
+Each member is a model that could legitimately have been fitted from the same
+history, which is the analogue of AIMIP's initial-condition members.
+
+**Two intervals that must not be conflated.** Member spread answers *which model
+might I have fitted*. It does not answer *how wrong is this model about this
+metro*. In the reference run the spread across members is roughly a tenth of the
+realised forecast error (`parameter_spread_to_error_ratio` median 0.10 at h=5).
+Publishing member spread as if it were a forecast interval would be worse than
+publishing no interval at all, because it would be narrow and wrong rather than
+simply absent.
+
+A GRIP predictive interval is therefore the ensemble mean widened by the
+empirical residual distribution from **strictly earlier scored origins only**,
+and it is not reportable until its realised coverage is published beside it. A
+nominal 90% interval whose measured coverage is not in [0.85, 0.95] is
+non-conforming and may not be attached to a public figure.
+
+**Verdict robustness.** Because a verdict computed only from the ensemble mean
+can rest on the averaging rather than on the method,
+`members_beating_baseline` is reported per origin and
+`member_share_beating_baseline` across all origins. A model whose mean beats the
+baseline while most of its members do not has not demonstrated skill.
+
 ## 10. Submission format
 
 A submission is a directory containing:

@@ -74,6 +74,8 @@ def main() -> None:
     ap.add_argument("--horizon", type=int, default=5)
     ap.add_argument("--first-origin", type=int, default=2006)
     ap.add_argument("--last-origin", type=int, default=2025)
+    ap.add_argument("--members", type=int, default=20,
+                    help=f"ensemble members per origin (protocol floor {evaluate.MIN_MEMBERS})")
     args = ap.parse_args()
 
     started = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
@@ -99,17 +101,39 @@ def main() -> None:
     desc = evaluate.descriptive_skill(p, feats, target)
 
     # --- E2/E3 rolling origin --------------------------------------------
-    res = evaluate.expanding_origin_eval(p, feats, target, BASELINE)
-    print("\n=== E2/E3 rolling-origin skill (strictly causal) ===")
+    res, preds = evaluate.expanding_origin_eval(
+        p, feats, target, BASELINE, n_members=args.members
+    )
+    print("\n=== E2/E3 rolling-origin skill (strictly causal, ensemble mean) ===")
     if res.empty:
         print("insufficient origins for an expanding-window test")
     else:
         cols = [
-            "test_origin", "n_test_metros", "model_spearman",
-            "model_spearman_p05", "model_spearman_p95",
-            "baseline_spearman", "model_hit_rate", "baseline_hit_rate", "beats_baseline",
+            "test_origin", "n_test_metros", "n_members", "model_spearman",
+            "member_spearman_min", "member_spearman_max", "members_beating_baseline",
+            "single_fit_spearman", "baseline_spearman", "beats_baseline",
         ]
         print(res[cols].to_string(index=False))
+        print("\n=== ensemble dispersion ===")
+        print(
+            res[[
+                "test_origin", "mean_member_spread", "ensemble_rmse",
+                "parameter_spread_to_error_ratio",
+                "predictive_interval_width_90", "predictive_interval_coverage_90",
+            ]].to_string(index=False)
+        )
+
+    # Protocol section 10 submission format, emitted so the reference run is
+    # itself a conformant submission rather than a special case.
+    if not preds.empty:
+        pred_path = OUT / f"predictions_h{args.horizon}.csv"
+        preds.to_csv(pred_path, index=False)
+        per_cell = preds.groupby(["origin_year", "cbsa_code"]).size()
+        print(
+            f"\n[submission] wrote {pred_path.name}: {len(preds):,} rows, "
+            f"min members per (origin, metro) = {int(per_cell.min())}"
+        )
+        assert int(per_cell.min()) >= evaluate.MIN_MEMBERS, "submission violates the member floor"
 
     # --- E4 coefficient stability ----------------------------------------
     stab = evaluate.coefficient_stability(res, feats)
@@ -129,8 +153,38 @@ def main() -> None:
     # --- scorecard --------------------------------------------------------
     summary = {}
     if not res.empty:
+        beat_counts = [
+            int(s.split("/")[0]) for s in res["members_beating_baseline"]
+        ]
+        member_totals = [int(s.split("/")[1]) for s in res["members_beating_baseline"]]
         summary = {
             "n_origins_scored": int(len(res)),
+            # Protocol section 9 compliance, stated as a number rather than a claim.
+            "ensemble_members_min": int(res["n_members"].min()),
+            "ensemble_protocol_floor": evaluate.MIN_MEMBERS,
+            "ensemble_conforms": bool(res["n_members"].min() >= evaluate.MIN_MEMBERS),
+            # The verdict-robustness statistic: across all origins, what share of
+            # individual members would have beaten the baseline had that member
+            # been the one shipped. A verdict that only holds for the ensemble
+            # mean is not a verdict about the method.
+            "member_share_beating_baseline": round(
+                sum(beat_counts) / sum(member_totals), 4
+            ),
+            "median_single_fit_spearman": round(float(res["single_fit_spearman"].median()), 4),
+            "median_mean_member_spread": round(float(res["mean_member_spread"].median()), 6),
+            "median_parameter_spread_to_error_ratio": round(
+                float(res["parameter_spread_to_error_ratio"].median()), 4
+            ),
+            # A 90% interval should cover 90% of outcomes. This is the number that
+            # decides whether any published Geometryx interval is meaningful.
+            "median_predictive_interval_coverage_90": (
+                round(float(res["predictive_interval_coverage_90"].median()), 4)
+                if res["predictive_interval_coverage_90"].notna().any() else None
+            ),
+            "median_predictive_interval_width_90": (
+                round(float(res["predictive_interval_width_90"].median()), 6)
+                if res["predictive_interval_width_90"].notna().any() else None
+            ),
             "median_model_spearman": round(float(res["model_spearman"].median()), 4),
             "median_baseline_spearman": round(float(res["baseline_spearman"].median()), 4),
             "origins_beating_baseline": f"{int(res['beats_baseline'].sum())}/{len(res)}",

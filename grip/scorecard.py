@@ -97,6 +97,50 @@ def render(cards: list[dict]) -> str:
             )
         L.append("")
 
+        L.append("### Ensemble and intervals")
+        L.append("")
+        L.append(
+            f"Every origin is scored from a block-bootstrap ensemble over origin years "
+            f"(minimum {s.get('ensemble_members_min')} members against a protocol floor of "
+            f"{s.get('ensemble_protocol_floor')}). The graded prediction is the ensemble mean."
+        )
+        L.append("")
+        L.append("| Ensemble metric | Value |")
+        L.append("|---|---|")
+        L.append(f"| Conforms to the member floor | {'yes' if s.get('ensemble_conforms') else 'NO'} |")
+        L.append(f"| Share of individual members beating the baseline | {_pct(s.get('member_share_beating_baseline'))} |")
+        L.append(f"| Median single-fit Spearman rho, for comparison | {_num(s.get('median_single_fit_spearman'))} |")
+        L.append(f"| Median member spread as a share of forecast error | {_num(s.get('median_parameter_spread_to_error_ratio'))} |")
+        L.append(f"| Median 90% predictive interval width | {_num(s.get('median_predictive_interval_width_90'), 5)} |")
+        L.append(f"| Median realised coverage of that interval | {_pct(s.get('median_predictive_interval_coverage_90'))} |")
+        L.append("")
+        cov = s.get("median_predictive_interval_coverage_90")
+        if cov is not None and 0.85 <= cov <= 0.95:
+            L.append(
+                f"> The 90% predictive interval is **conforming**: realised coverage "
+                f"{_pct(cov)} against a nominal 90%. This interval may be attached to "
+                "published figures. Note that it is *wider* than the member spread by "
+                "roughly an order of magnitude \u2014 member spread alone captures which model "
+                "might have been fitted, not how wrong that model is about a given metro, "
+                "and publishing it as a forecast interval would be narrow and wrong."
+            )
+        elif cov is not None:
+            L.append(
+                f"> The 90% predictive interval is **non-conforming**: realised coverage "
+                f"{_pct(cov)} falls outside [85%, 95%]. It may not be attached to published figures."
+            )
+        L.append("")
+        L.append("| Test origin | Members | Members beating baseline | Member rho range | 90% PI coverage |")
+        L.append("|---|---|---|---|---|")
+        for r in c.get("E2_E3_rolling_origin", []):
+            cvg = r.get("predictive_interval_coverage_90")
+            L.append(
+                f"| {r['test_origin']} | {r.get('n_members')} | {r.get('members_beating_baseline')} | "
+                f"[{_num(r.get('member_spearman_min'))}, {_num(r.get('member_spearman_max'))}] | "
+                f"{_pct(cvg) if cvg is not None else 'n/a (first scored origin)'} |"
+            )
+        L.append("")
+
         L.append("### CLOCK_LEAK audit")
         L.append("")
         L.append(

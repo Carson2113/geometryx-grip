@@ -63,7 +63,12 @@ stated plainly because the protocol requires it:
 **The multi-feature model is NOT CERTIFIED for forward-looking claims.** Across
 7 rolling origins at a 5-year horizon it beat prior one-year within-region
 population growth on 3 of 7 origins, with a median paired Spearman gain of
-**−0.0117**. At a 3-year horizon it won 1 of 8 origins, paired gain **−0.0162**.
+**−0.0100**. At a 3-year horizon it won 1 of 8 origins, paired gain **−0.0162**.
+
+The verdict does not rest on the ensemble mean. Of the individual members, only
+**35.2%** at h=5 and **18.2%** at h=3 beat the baseline, and in each of the four
+most recent 5-year origins the count is **0 of 20** — where this model loses, it
+loses unanimously, not marginally.
 
 Two of the three pre-registered shocks returned the **wrong sign**: metros
 already priced furthest above their own long-run trend, and metros with the
@@ -71,7 +76,7 @@ highest price volatility, are currently predicted to do *better* under an
 affordability or insurance-cost shock. That is the same inversion already on
 record in Geometryx's own data, now measured rather than stumbled upon.
 
-Three findings are genuinely positive:
+Four findings are genuinely positive:
 
 1. `permits_pc` is the second-strongest stable coefficient after the population
    baseline, sign-stable across every origin, and it is free.
@@ -79,6 +84,12 @@ Three findings are genuinely positive:
    real mean-reversion signal, not a fit artifact.
 3. The clock audit, coefficient-stability test and shock suite all fired on real
    data and caught real problems, including two bugs in this harness itself.
+4. **The 90% predictive interval is calibrated.** Realised coverage is 89.2% at
+   h=5 and 90.7% at h=3 against a nominal 90%, measured out-of-sample on origins
+   the interval was never fitted to. Ranking skill and interval calibration are
+   separate properties, and this model has the second without the first: it
+   cannot yet tell you which metro will outgrow which, but it can state how
+   uncertain any single figure is and be believed.
 
 The correct reading is not that the model is bad. It is that the honest test now
 exists, and it says: ship the descriptive Index, keep the forecast in the lab,
@@ -93,8 +104,9 @@ and let the scoreboard accumulate.
   Resilience Analysis and Planning Tool; the ICPSR/DataLumos mirror is the
   working archival source.
 - Census ACS requires an API key for every request as of ~May 2026.
-- No ensemble generator. The protocol mandates ≥5 members; the reference model
-  is currently a single ridge fit.
+- Member spread is parameter uncertainty only, roughly a tenth of the realised
+  forecast error. The reportable interval is the residual-widened predictive
+  interval, not the member spread. See PROTOCOL.md section 9.
 
 ## Attribution
 
