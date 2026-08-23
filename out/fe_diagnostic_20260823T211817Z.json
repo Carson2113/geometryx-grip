@@ -1,0 +1,4480 @@
+{
+  "experiment": "E9",
+  "title": "Metro fixed effects and the E5 re-run",
+  "run_started_utc": "2026-08-23T21:18:13Z",
+  "pre_registration": {
+    "registered_in": "PROTOCOL.md section 13",
+    "specification_attempt": 1,
+    "post_hoc": true,
+    "post_hoc_reason": "The E5 shock-sign failure was already published in v1.0.0-grip1 when this specification was selected. E9 is therefore a diagnostic and is barred from certifying any cell, whatever it returns.",
+    "min_within_metro_share": 0.1,
+    "min_origins_per_metro": 4,
+    "predictions": {
+      "P1": "In S1 the pooled coefficients on hpi_vol_wr and hpi_gap_wr both turn NEGATIVE, matching the pre-registered shock signs.",
+      "P2": "In S1 the leave-one-origin-out share_positive for both focal features falls below 0.5, i.e. reliably negative rather than merely stable.",
+      "P3": "In S2 the E5 verdicts for rate_shock_200bp and premium_shock_40pct both flip to PLAUSIBLE.",
+      "P4": "Power precondition, not an outcome: any feature whose within_metro_share is below 0.10 is declared UNINFORMATIVE and its fixed-effects sign is not read as evidence in either direction."
+    },
+    "accept_rule": "The confound hypothesis -- that the wrong-signed shock response is driven by persistent differences between metros rather than by a within-metro relationship -- is SUPPORTED only if P1 and P2 both hold for BOTH focal features and the P4 precondition passes for both. Anything partial is reported as NOT SUPPORTED.",
+    "reject_consequence": "If the coefficients stay positive under a metro effect, the inversion is within-metro too, the estimator is not the problem, and the features are. That routes the fix to real measured quantities such as the NFIP realised losses graded in E8, not to a different regression.",
+    "cannot_do": "E9 cannot certify. The four NOT CERTIFIED verdicts in v1.0.0-grip1 stand regardless of outcome. If P3 holds, S2 becomes a CANDIDATE that requires a fresh full backtest under a fresh pre-registration before any shock claim is made."
+  },
+  "specifications": {
+    "S0": "registered baseline: (origin_year, division) demeaning",
+    "S1": "two-way (origin_year, cbsa_code) within transformation; diagnostic only",
+    "S2": "origin demeaning + expanding within-metro features, S0 target; forecast-legal",
+    "S0_on_S2_sample": "S0 transform on S2's rows -- separates specification from sample"
+  },
+  "cells": {
+    "pop_h5": {
+      "target_raw": "y_pop",
+      "horizon": 5,
+      "features_used": [
+        "pop_g1_wr",
+        "pop_g3_wr",
+        "pop_accel_wr",
+        "hpi_g1_wr",
+        "hpi_g5_wr",
+        "hpi_gap_wr",
+        "hpi_vol_wr",
+        "permits_pc_wr",
+        "permits_g3_wr"
+      ],
+      "features_banned_by_clock_leak": [],
+      "graded_scorecard_certified": false,
+      "variance_decomposition": [
+        {
+          "feature": "pop_g1",
+          "n": 2438,
+          "n_metros": 245,
+          "var_total": 7.99421e-05,
+          "within_metro_share": 0.2716,
+          "informative_under_fe": true
+        },
+        {
+          "feature": "pop_g3",
+          "n": 2438,
+          "n_metros": 245,
+          "var_total": 7.6691e-05,
+          "within_metro_share": 0.2784,
+          "informative_under_fe": true
+        },
+        {
+          "feature": "pop_accel",
+          "n": 2438,
+          "n_metros": 245,
+          "var_total": 2.04204e-05,
+          "within_metro_share": 0.879,
+          "informative_under_fe": true
+        },
+        {
+          "feature": "hpi_g1",
+          "n": 2298,
+          "n_metros": 231,
+          "var_total": 0.0014444564,
+          "within_metro_share": 0.8485,
+          "informative_under_fe": true
+        },
+        {
+          "feature": "hpi_g5",
+          "n": 2298,
+          "n_metros": 231,
+          "var_total": 0.0009820568,
+          "within_metro_share": 0.87,
+          "informative_under_fe": true
+        },
+        {
+          "feature": "hpi_gap",
+          "n": 2298,
+          "n_metros": 231,
+          "var_total": 0.0089119129,
+          "within_metro_share": 0.8649,
+          "informative_under_fe": true
+        },
+        {
+          "feature": "hpi_vol",
+          "n": 2298,
+          "n_metros": 231,
+          "var_total": 0.0012287197,
+          "within_metro_share": 0.3353,
+          "informative_under_fe": true
+        },
+        {
+          "feature": "permits_pc",
+          "n": 2395,
+          "n_metros": 245,
+          "var_total": 5.5228653659,
+          "within_metro_share": 0.2077,
+          "informative_under_fe": true
+        },
+        {
+          "feature": "permits_g3",
+          "n": 2137,
+          "n_metros": 245,
+          "var_total": 0.3656964483,
+          "within_metro_share": 0.7163,
+          "informative_under_fe": true
+        }
+      ],
+      "S0": {
+        "status": "RUN",
+        "n": 2011,
+        "n_metros": 231,
+        "n_origins": 9,
+        "origins": [
+          2012,
+          2013,
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020
+        ],
+        "in_sample_r2": 0.584,
+        "pooled_ridge_coefficients": {
+          "pop_g1_wr": 0.002314,
+          "pop_g3_wr": 0.001866,
+          "pop_accel_wr": 0.000911,
+          "hpi_g1_wr": 0.000152,
+          "hpi_g5_wr": -0.00177,
+          "hpi_gap_wr": 0.001116,
+          "hpi_vol_wr": 0.000557,
+          "permits_pc_wr": 0.00182,
+          "permits_g3_wr": -0.00026
+        },
+        "E5_shocks": [
+          {
+            "shock": "rate_shock_200bp",
+            "status": "RUN",
+            "scope": "exposed_only",
+            "description": "Mortgage rates +200 bp; proxied by a uniform valuation-gap increase.",
+            "n_metros": 2011,
+            "n_exposed": 503,
+            "graded_on": "response_sign",
+            "relative_response": 0.001116,
+            "expected_sign": -1,
+            "observed_sign": 1,
+            "rank_correlation_after_shock": 0.9948,
+            "verdict": "IMPLAUSIBLE",
+            "rationale": "Metros already priced furthest above their own long-run trend are the most affordability-constrained and should decline relative to peers.",
+            "failure_signature": "A uniform or positive response means the model carries no rate sensitivity at all.",
+            "notes": ""
+          },
+          {
+            "shock": "premium_shock_40pct",
+            "status": "RUN",
+            "scope": "exposed_only",
+            "description": "Homeowners premium +40% concentrated in high-hazard metros.",
+            "n_metros": 2011,
+            "n_exposed": 503,
+            "graded_on": "response_sign",
+            "relative_response": 0.000557,
+            "expected_sign": -1,
+            "observed_sign": 1,
+            "rank_correlation_after_shock": 0.9987,
+            "verdict": "IMPLAUSIBLE",
+            "rationale": "Insurance cost is a housing-cost shock; exposed metros should lose relative attractiveness.",
+            "failure_signature": "Wrong sign means the climate/insurance pillar is acting as a proxy for Sun Belt growth rather than for risk -- the exact inversion already measured (+1.57% vs +0.51%).",
+            "notes": "Replace hpi_vol_wr with the Treasury FIO premium-level feature once the FIO adapter lands; hpi_vol is a stand-in."
+          },
+          {
+            "shock": "momentum_reversal",
+            "status": "RUN",
+            "scope": "uniform",
+            "description": "Prior growth momentum halved everywhere.",
+            "n_metros": 2011,
+            "n_exposed": 503,
+            "graded_on": "rank_stability",
+            "relative_response": -0.0,
+            "expected_sign": -1,
+            "observed_sign": 0,
+            "rank_correlation_after_shock": 1.0,
+            "verdict": "PLAUSIBLE",
+            "rationale": "If momentum is the dominant real signal, removing it must compress the ranking.",
+            "failure_signature": "Wholesale reordering rather than compression indicates a scale artifact.",
+            "notes": ""
+          }
+        ],
+        "loo_origin_stability": [
+          {
+            "feature": "pop_g1_wr",
+            "mean_coef": 0.00232,
+            "min_coef": 0.00225,
+            "max_coef": 0.00239,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 9
+          },
+          {
+            "feature": "pop_g3_wr",
+            "mean_coef": 0.00187,
+            "min_coef": 0.00177,
+            "max_coef": 0.00214,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 9
+          },
+          {
+            "feature": "pop_accel_wr",
+            "mean_coef": 0.0009,
+            "min_coef": 0.00069,
+            "max_coef": 0.00104,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 9
+          },
+          {
+            "feature": "hpi_g1_wr",
+            "mean_coef": 0.00015,
+            "min_coef": 0.0,
+            "max_coef": 0.00026,
+            "share_positive": 0.889,
+            "sign_stable": false,
+            "n_refits": 9
+          },
+          {
+            "feature": "hpi_g5_wr",
+            "mean_coef": -0.00178,
+            "min_coef": -0.0021,
+            "max_coef": -0.00145,
+            "share_positive": 0.0,
+            "sign_stable": true,
+            "n_refits": 9
+          },
+          {
+            "feature": "hpi_gap_wr",
+            "mean_coef": 0.00112,
+            "min_coef": 0.00084,
+            "max_coef": 0.00136,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 9
+          },
+          {
+            "feature": "hpi_vol_wr",
+            "mean_coef": 0.00056,
+            "min_coef": 0.00042,
+            "max_coef": 0.00065,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 9
+          },
+          {
+            "feature": "permits_pc_wr",
+            "mean_coef": 0.00181,
+            "min_coef": 0.00169,
+            "max_coef": 0.002,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 9
+          },
+          {
+            "feature": "permits_g3_wr",
+            "mean_coef": -0.00026,
+            "min_coef": -0.00032,
+            "max_coef": -0.00019,
+            "share_positive": 0.0,
+            "sign_stable": true,
+            "n_refits": 9
+          }
+        ],
+        "clustered_ols": [
+          {
+            "feature": "pop_g1_wr",
+            "coef": 0.002326,
+            "se_clustered": 0.000225,
+            "t": 10.332,
+            "significant_5pct": true,
+            "n": 2011,
+            "n_clusters": 231
+          },
+          {
+            "feature": "pop_g3_wr",
+            "coef": 0.001875,
+            "se_clustered": 0.0002,
+            "t": 9.395,
+            "significant_5pct": true,
+            "n": 2011,
+            "n_clusters": 231
+          },
+          {
+            "feature": "pop_accel_wr",
+            "coef": 0.000915,
+            "se_clustered": 0.000161,
+            "t": 5.684,
+            "significant_5pct": true,
+            "n": 2011,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_g1_wr",
+            "coef": 0.000138,
+            "se_clustered": 0.000235,
+            "t": 0.589,
+            "significant_5pct": false,
+            "n": 2011,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_g5_wr",
+            "coef": -0.001917,
+            "se_clustered": 0.000391,
+            "t": -4.904,
+            "significant_5pct": true,
+            "n": 2011,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_gap_wr",
+            "coef": 0.001255,
+            "se_clustered": 0.000397,
+            "t": 3.159,
+            "significant_5pct": true,
+            "n": 2011,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_vol_wr",
+            "coef": 0.000546,
+            "se_clustered": 0.000191,
+            "t": 2.857,
+            "significant_5pct": true,
+            "n": 2011,
+            "n_clusters": 231
+          },
+          {
+            "feature": "permits_pc_wr",
+            "coef": 0.001843,
+            "se_clustered": 0.000347,
+            "t": 5.308,
+            "significant_5pct": true,
+            "n": 2011,
+            "n_clusters": 231
+          },
+          {
+            "feature": "permits_g3_wr",
+            "coef": -0.000265,
+            "se_clustered": 0.000169,
+            "t": -1.565,
+            "significant_5pct": false,
+            "n": 2011,
+            "n_clusters": 231
+          }
+        ]
+      },
+      "S1": {
+        "status": "RUN",
+        "n": 2011,
+        "n_metros": 231,
+        "n_origins": 9,
+        "origins": [
+          2012,
+          2013,
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020
+        ],
+        "in_sample_r2": 0.1012,
+        "pooled_ridge_coefficients": {
+          "pop_g1_wr": 0.000188,
+          "pop_g3_wr": -7e-06,
+          "pop_accel_wr": 0.000208,
+          "hpi_g1_wr": 0.000686,
+          "hpi_g5_wr": -0.001616,
+          "hpi_gap_wr": 0.00075,
+          "hpi_vol_wr": -0.000124,
+          "permits_pc_wr": -0.000227,
+          "permits_g3_wr": 0.000301
+        },
+        "E5_shocks": [
+          {
+            "shock": "rate_shock_200bp",
+            "status": "RUN",
+            "scope": "exposed_only",
+            "description": "Mortgage rates +200 bp; proxied by a uniform valuation-gap increase.",
+            "n_metros": 2011,
+            "n_exposed": 503,
+            "graded_on": "response_sign",
+            "relative_response": 0.00075,
+            "expected_sign": -1,
+            "observed_sign": 1,
+            "rank_correlation_after_shock": 0.9282,
+            "verdict": "IMPLAUSIBLE",
+            "rationale": "Metros already priced furthest above their own long-run trend are the most affordability-constrained and should decline relative to peers.",
+            "failure_signature": "A uniform or positive response means the model carries no rate sensitivity at all.",
+            "notes": ""
+          },
+          {
+            "shock": "premium_shock_40pct",
+            "status": "RUN",
+            "scope": "exposed_only",
+            "description": "Homeowners premium +40% concentrated in high-hazard metros.",
+            "n_metros": 2011,
+            "n_exposed": 503,
+            "graded_on": "response_sign",
+            "relative_response": -0.000124,
+            "expected_sign": -1,
+            "observed_sign": -1,
+            "rank_correlation_after_shock": 0.9981,
+            "verdict": "PLAUSIBLE",
+            "rationale": "Insurance cost is a housing-cost shock; exposed metros should lose relative attractiveness.",
+            "failure_signature": "Wrong sign means the climate/insurance pillar is acting as a proxy for Sun Belt growth rather than for risk -- the exact inversion already measured (+1.57% vs +0.51%).",
+            "notes": "Replace hpi_vol_wr with the Treasury FIO premium-level feature once the FIO adapter lands; hpi_vol is a stand-in."
+          },
+          {
+            "shock": "momentum_reversal",
+            "status": "RUN",
+            "scope": "uniform",
+            "description": "Prior growth momentum halved everywhere.",
+            "n_metros": 2011,
+            "n_exposed": 503,
+            "graded_on": "rank_stability",
+            "relative_response": -0.0,
+            "expected_sign": -1,
+            "observed_sign": 0,
+            "rank_correlation_after_shock": 1.0,
+            "verdict": "PLAUSIBLE",
+            "rationale": "If momentum is the dominant real signal, removing it must compress the ranking.",
+            "failure_signature": "Wholesale reordering rather than compression indicates a scale artifact.",
+            "notes": ""
+          }
+        ],
+        "loo_origin_stability": [
+          {
+            "feature": "pop_g1_wr",
+            "mean_coef": 0.00019,
+            "min_coef": 0.00012,
+            "max_coef": 0.00023,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 9
+          },
+          {
+            "feature": "pop_g3_wr",
+            "mean_coef": -1e-05,
+            "min_coef": -7e-05,
+            "max_coef": 4e-05,
+            "share_positive": 0.556,
+            "sign_stable": false,
+            "n_refits": 9
+          },
+          {
+            "feature": "pop_accel_wr",
+            "mean_coef": 0.00021,
+            "min_coef": 0.00017,
+            "max_coef": 0.00024,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 9
+          },
+          {
+            "feature": "hpi_g1_wr",
+            "mean_coef": 0.00068,
+            "min_coef": 0.00055,
+            "max_coef": 0.00075,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 9
+          },
+          {
+            "feature": "hpi_g5_wr",
+            "mean_coef": -0.00163,
+            "min_coef": -0.00182,
+            "max_coef": -0.0015,
+            "share_positive": 0.0,
+            "sign_stable": true,
+            "n_refits": 9
+          },
+          {
+            "feature": "hpi_gap_wr",
+            "mean_coef": 0.00076,
+            "min_coef": 0.00059,
+            "max_coef": 0.00096,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 9
+          },
+          {
+            "feature": "hpi_vol_wr",
+            "mean_coef": -0.00012,
+            "min_coef": -0.00019,
+            "max_coef": 1e-05,
+            "share_positive": 0.111,
+            "sign_stable": false,
+            "n_refits": 9
+          },
+          {
+            "feature": "permits_pc_wr",
+            "mean_coef": -0.00023,
+            "min_coef": -0.00032,
+            "max_coef": -0.00013,
+            "share_positive": 0.0,
+            "sign_stable": true,
+            "n_refits": 9
+          },
+          {
+            "feature": "permits_g3_wr",
+            "mean_coef": 0.0003,
+            "min_coef": 0.00024,
+            "max_coef": 0.00036,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 9
+          }
+        ],
+        "clustered_ols": [
+          {
+            "feature": "pop_g1_wr",
+            "coef": 0.00019,
+            "se_clustered": 7.9e-05,
+            "t": 2.39,
+            "significant_5pct": true,
+            "n": 2011,
+            "n_clusters": 231
+          },
+          {
+            "feature": "pop_g3_wr",
+            "coef": -6e-06,
+            "se_clustered": 0.000116,
+            "t": -0.054,
+            "significant_5pct": false,
+            "n": 2011,
+            "n_clusters": 231
+          },
+          {
+            "feature": "pop_accel_wr",
+            "coef": 0.000209,
+            "se_clustered": 8.6e-05,
+            "t": 2.437,
+            "significant_5pct": true,
+            "n": 2011,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_g1_wr",
+            "coef": 0.000682,
+            "se_clustered": 0.000133,
+            "t": 5.124,
+            "significant_5pct": true,
+            "n": 2011,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_g5_wr",
+            "coef": -0.001734,
+            "se_clustered": 0.000533,
+            "t": -3.255,
+            "significant_5pct": true,
+            "n": 2011,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_gap_wr",
+            "coef": 0.000866,
+            "se_clustered": 0.000635,
+            "t": 1.363,
+            "significant_5pct": false,
+            "n": 2011,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_vol_wr",
+            "coef": -0.00012,
+            "se_clustered": 0.00016,
+            "t": -0.753,
+            "significant_5pct": false,
+            "n": 2011,
+            "n_clusters": 231
+          },
+          {
+            "feature": "permits_pc_wr",
+            "coef": -0.000224,
+            "se_clustered": 0.000154,
+            "t": -1.458,
+            "significant_5pct": false,
+            "n": 2011,
+            "n_clusters": 231
+          },
+          {
+            "feature": "permits_g3_wr",
+            "coef": 0.000303,
+            "se_clustered": 0.000116,
+            "t": 2.61,
+            "significant_5pct": true,
+            "n": 2011,
+            "n_clusters": 231
+          }
+        ]
+      },
+      "S2": {
+        "status": "RUN",
+        "n": 1549,
+        "n_metros": 231,
+        "n_origins": 7,
+        "origins": [
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020
+        ],
+        "in_sample_r2": 0.2704,
+        "pooled_ridge_coefficients": {
+          "pop_g1_wr": 0.001221,
+          "pop_g3_wr": 0.001387,
+          "pop_accel_wr": -7.9e-05,
+          "hpi_g1_wr": 0.0014,
+          "hpi_g5_wr": 0.000872,
+          "hpi_gap_wr": -0.001961,
+          "hpi_vol_wr": -0.000864,
+          "permits_pc_wr": 0.001946,
+          "permits_g3_wr": -0.000218
+        },
+        "E5_shocks": [
+          {
+            "shock": "rate_shock_200bp",
+            "status": "RUN",
+            "scope": "exposed_only",
+            "description": "Mortgage rates +200 bp; proxied by a uniform valuation-gap increase.",
+            "n_metros": 1549,
+            "n_exposed": 387,
+            "graded_on": "response_sign",
+            "relative_response": -0.001961,
+            "expected_sign": -1,
+            "observed_sign": -1,
+            "rank_correlation_after_shock": 0.9594,
+            "verdict": "PLAUSIBLE",
+            "rationale": "Metros already priced furthest above their own long-run trend are the most affordability-constrained and should decline relative to peers.",
+            "failure_signature": "A uniform or positive response means the model carries no rate sensitivity at all.",
+            "notes": ""
+          },
+          {
+            "shock": "premium_shock_40pct",
+            "status": "RUN",
+            "scope": "exposed_only",
+            "description": "Homeowners premium +40% concentrated in high-hazard metros.",
+            "n_metros": 1549,
+            "n_exposed": 387,
+            "graded_on": "response_sign",
+            "relative_response": -0.000864,
+            "expected_sign": -1,
+            "observed_sign": -1,
+            "rank_correlation_after_shock": 0.9891,
+            "verdict": "PLAUSIBLE",
+            "rationale": "Insurance cost is a housing-cost shock; exposed metros should lose relative attractiveness.",
+            "failure_signature": "Wrong sign means the climate/insurance pillar is acting as a proxy for Sun Belt growth rather than for risk -- the exact inversion already measured (+1.57% vs +0.51%).",
+            "notes": "Replace hpi_vol_wr with the Treasury FIO premium-level feature once the FIO adapter lands; hpi_vol is a stand-in."
+          },
+          {
+            "shock": "momentum_reversal",
+            "status": "RUN",
+            "scope": "uniform",
+            "description": "Prior growth momentum halved everywhere.",
+            "n_metros": 1549,
+            "n_exposed": 387,
+            "graded_on": "rank_stability",
+            "relative_response": 0.0,
+            "expected_sign": -1,
+            "observed_sign": 0,
+            "rank_correlation_after_shock": 1.0,
+            "verdict": "PLAUSIBLE",
+            "rationale": "If momentum is the dominant real signal, removing it must compress the ranking.",
+            "failure_signature": "Wholesale reordering rather than compression indicates a scale artifact.",
+            "notes": ""
+          }
+        ],
+        "loo_origin_stability": [
+          {
+            "feature": "pop_g1_wr",
+            "mean_coef": 0.00122,
+            "min_coef": 0.00113,
+            "max_coef": 0.00133,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 7
+          },
+          {
+            "feature": "pop_g3_wr",
+            "mean_coef": 0.00138,
+            "min_coef": 0.00127,
+            "max_coef": 0.00144,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 7
+          },
+          {
+            "feature": "pop_accel_wr",
+            "mean_coef": -8e-05,
+            "min_coef": -0.00021,
+            "max_coef": 2e-05,
+            "share_positive": 0.143,
+            "sign_stable": false,
+            "n_refits": 7
+          },
+          {
+            "feature": "hpi_g1_wr",
+            "mean_coef": 0.00137,
+            "min_coef": 0.00128,
+            "max_coef": 0.00155,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 7
+          },
+          {
+            "feature": "hpi_g5_wr",
+            "mean_coef": 0.0008,
+            "min_coef": 0.00051,
+            "max_coef": 0.00117,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 7
+          },
+          {
+            "feature": "hpi_gap_wr",
+            "mean_coef": -0.00186,
+            "min_coef": -0.00228,
+            "max_coef": -0.00146,
+            "share_positive": 0.0,
+            "sign_stable": true,
+            "n_refits": 7
+          },
+          {
+            "feature": "hpi_vol_wr",
+            "mean_coef": -0.00084,
+            "min_coef": -0.00092,
+            "max_coef": -0.00074,
+            "share_positive": 0.0,
+            "sign_stable": true,
+            "n_refits": 7
+          },
+          {
+            "feature": "permits_pc_wr",
+            "mean_coef": 0.00194,
+            "min_coef": 0.00187,
+            "max_coef": 0.00203,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 7
+          },
+          {
+            "feature": "permits_g3_wr",
+            "mean_coef": -0.00022,
+            "min_coef": -0.00033,
+            "max_coef": -0.00014,
+            "share_positive": 0.0,
+            "sign_stable": true,
+            "n_refits": 7
+          }
+        ],
+        "clustered_ols": [
+          {
+            "feature": "pop_g1_wr",
+            "coef": 0.001222,
+            "se_clustered": 0.000187,
+            "t": 6.523,
+            "significant_5pct": true,
+            "n": 1549,
+            "n_clusters": 231
+          },
+          {
+            "feature": "pop_g3_wr",
+            "coef": 0.001391,
+            "se_clustered": 0.000259,
+            "t": 5.382,
+            "significant_5pct": true,
+            "n": 1549,
+            "n_clusters": 231
+          },
+          {
+            "feature": "pop_accel_wr",
+            "coef": -8.4e-05,
+            "se_clustered": 0.000233,
+            "t": -0.359,
+            "significant_5pct": false,
+            "n": 1549,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_g1_wr",
+            "coef": 0.001449,
+            "se_clustered": 0.00035,
+            "t": 4.143,
+            "significant_5pct": true,
+            "n": 1549,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_g5_wr",
+            "coef": 0.001081,
+            "se_clustered": 0.000828,
+            "t": 1.306,
+            "significant_5pct": false,
+            "n": 1549,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_gap_wr",
+            "coef": -0.002225,
+            "se_clustered": 0.001047,
+            "t": -2.125,
+            "significant_5pct": true,
+            "n": 1549,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_vol_wr",
+            "coef": -0.000898,
+            "se_clustered": 0.000443,
+            "t": -2.028,
+            "significant_5pct": true,
+            "n": 1549,
+            "n_clusters": 231
+          },
+          {
+            "feature": "permits_pc_wr",
+            "coef": 0.00195,
+            "se_clustered": 0.000401,
+            "t": 4.859,
+            "significant_5pct": true,
+            "n": 1549,
+            "n_clusters": 231
+          },
+          {
+            "feature": "permits_g3_wr",
+            "coef": -0.000221,
+            "se_clustered": 0.000391,
+            "t": -0.564,
+            "significant_5pct": false,
+            "n": 1549,
+            "n_clusters": 231
+          }
+        ]
+      },
+      "S0_on_S2_sample": {
+        "status": "RUN",
+        "n": 1549,
+        "n_metros": 231,
+        "n_origins": 7,
+        "origins": [
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020
+        ],
+        "in_sample_r2": 0.6091,
+        "pooled_ridge_coefficients": {
+          "pop_g1_wr": 0.002427,
+          "pop_g3_wr": 0.002603,
+          "pop_accel_wr": 0.000154,
+          "hpi_g1_wr": -0.00016,
+          "hpi_g5_wr": -0.002008,
+          "hpi_gap_wr": 0.001347,
+          "hpi_vol_wr": 0.000742,
+          "permits_pc_wr": 0.001382,
+          "permits_g3_wr": -8.5e-05
+        },
+        "E5_shocks": [
+          {
+            "shock": "rate_shock_200bp",
+            "status": "RUN",
+            "scope": "exposed_only",
+            "description": "Mortgage rates +200 bp; proxied by a uniform valuation-gap increase.",
+            "n_metros": 1549,
+            "n_exposed": 387,
+            "graded_on": "response_sign",
+            "relative_response": 0.001347,
+            "expected_sign": -1,
+            "observed_sign": 1,
+            "rank_correlation_after_shock": 0.9937,
+            "verdict": "IMPLAUSIBLE",
+            "rationale": "Metros already priced furthest above their own long-run trend are the most affordability-constrained and should decline relative to peers.",
+            "failure_signature": "A uniform or positive response means the model carries no rate sensitivity at all.",
+            "notes": ""
+          },
+          {
+            "shock": "premium_shock_40pct",
+            "status": "RUN",
+            "scope": "exposed_only",
+            "description": "Homeowners premium +40% concentrated in high-hazard metros.",
+            "n_metros": 1549,
+            "n_exposed": 387,
+            "graded_on": "response_sign",
+            "relative_response": 0.000742,
+            "expected_sign": -1,
+            "observed_sign": 1,
+            "rank_correlation_after_shock": 0.9981,
+            "verdict": "IMPLAUSIBLE",
+            "rationale": "Insurance cost is a housing-cost shock; exposed metros should lose relative attractiveness.",
+            "failure_signature": "Wrong sign means the climate/insurance pillar is acting as a proxy for Sun Belt growth rather than for risk -- the exact inversion already measured (+1.57% vs +0.51%).",
+            "notes": "Replace hpi_vol_wr with the Treasury FIO premium-level feature once the FIO adapter lands; hpi_vol is a stand-in."
+          },
+          {
+            "shock": "momentum_reversal",
+            "status": "RUN",
+            "scope": "uniform",
+            "description": "Prior growth momentum halved everywhere.",
+            "n_metros": 1549,
+            "n_exposed": 387,
+            "graded_on": "rank_stability",
+            "relative_response": -0.0,
+            "expected_sign": -1,
+            "observed_sign": 0,
+            "rank_correlation_after_shock": 1.0,
+            "verdict": "PLAUSIBLE",
+            "rationale": "If momentum is the dominant real signal, removing it must compress the ranking.",
+            "failure_signature": "Wholesale reordering rather than compression indicates a scale artifact.",
+            "notes": ""
+          }
+        ],
+        "loo_origin_stability": [
+          {
+            "feature": "pop_g1_wr",
+            "mean_coef": 0.00243,
+            "min_coef": 0.00236,
+            "max_coef": 0.00252,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 7
+          },
+          {
+            "feature": "pop_g3_wr",
+            "mean_coef": 0.0026,
+            "min_coef": 0.00256,
+            "max_coef": 0.00268,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 7
+          },
+          {
+            "feature": "pop_accel_wr",
+            "mean_coef": 0.00016,
+            "min_coef": -2e-05,
+            "max_coef": 0.00035,
+            "share_positive": 0.857,
+            "sign_stable": false,
+            "n_refits": 7
+          },
+          {
+            "feature": "hpi_g1_wr",
+            "mean_coef": -0.00017,
+            "min_coef": -0.00052,
+            "max_coef": 3e-05,
+            "share_positive": 0.143,
+            "sign_stable": false,
+            "n_refits": 7
+          },
+          {
+            "feature": "hpi_g5_wr",
+            "mean_coef": -0.002,
+            "min_coef": -0.00234,
+            "max_coef": -0.00158,
+            "share_positive": 0.0,
+            "sign_stable": true,
+            "n_refits": 7
+          },
+          {
+            "feature": "hpi_gap_wr",
+            "mean_coef": 0.00134,
+            "min_coef": 0.00102,
+            "max_coef": 0.00159,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 7
+          },
+          {
+            "feature": "hpi_vol_wr",
+            "mean_coef": 0.00074,
+            "min_coef": 0.00054,
+            "max_coef": 0.00101,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 7
+          },
+          {
+            "feature": "permits_pc_wr",
+            "mean_coef": 0.00138,
+            "min_coef": 0.0012,
+            "max_coef": 0.00158,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 7
+          },
+          {
+            "feature": "permits_g3_wr",
+            "mean_coef": -9e-05,
+            "min_coef": -0.00013,
+            "max_coef": 0.0,
+            "share_positive": 0.0,
+            "sign_stable": true,
+            "n_refits": 7
+          }
+        ],
+        "clustered_ols": [
+          {
+            "feature": "pop_g1_wr",
+            "coef": 0.002446,
+            "se_clustered": 0.000201,
+            "t": 12.157,
+            "significant_5pct": true,
+            "n": 1549,
+            "n_clusters": 231
+          },
+          {
+            "feature": "pop_g3_wr",
+            "coef": 0.002631,
+            "se_clustered": 0.000223,
+            "t": 11.793,
+            "significant_5pct": true,
+            "n": 1549,
+            "n_clusters": 231
+          },
+          {
+            "feature": "pop_accel_wr",
+            "coef": 0.000139,
+            "se_clustered": 0.000167,
+            "t": 0.835,
+            "significant_5pct": false,
+            "n": 1549,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_g1_wr",
+            "coef": -0.000188,
+            "se_clustered": 0.000282,
+            "t": -0.666,
+            "significant_5pct": false,
+            "n": 1549,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_g5_wr",
+            "coef": -0.002119,
+            "se_clustered": 0.000386,
+            "t": -5.495,
+            "significant_5pct": true,
+            "n": 1549,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_gap_wr",
+            "coef": 0.001443,
+            "se_clustered": 0.000403,
+            "t": 3.581,
+            "significant_5pct": true,
+            "n": 1549,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_vol_wr",
+            "coef": 0.000753,
+            "se_clustered": 0.000272,
+            "t": 2.773,
+            "significant_5pct": true,
+            "n": 1549,
+            "n_clusters": 231
+          },
+          {
+            "feature": "permits_pc_wr",
+            "coef": 0.00138,
+            "se_clustered": 0.000356,
+            "t": 3.879,
+            "significant_5pct": true,
+            "n": 1549,
+            "n_clusters": 231
+          },
+          {
+            "feature": "permits_g3_wr",
+            "coef": -8.6e-05,
+            "se_clustered": 0.000188,
+            "t": -0.455,
+            "significant_5pct": false,
+            "n": 1549,
+            "n_clusters": 231
+          }
+        ]
+      }
+    },
+    "pop_h3": {
+      "target_raw": "y_pop",
+      "horizon": 3,
+      "features_used": [
+        "pop_g1_wr",
+        "pop_g3_wr",
+        "pop_accel_wr",
+        "hpi_g1_wr",
+        "hpi_g5_wr",
+        "hpi_gap_wr",
+        "hpi_vol_wr",
+        "permits_pc_wr",
+        "permits_g3_wr"
+      ],
+      "features_banned_by_clock_leak": [],
+      "graded_scorecard_certified": false,
+      "variance_decomposition": [
+        {
+          "feature": "pop_g1",
+          "n": 2687,
+          "n_metros": 245,
+          "var_total": 8.32783e-05,
+          "within_metro_share": 0.3069,
+          "informative_under_fe": true
+        },
+        {
+          "feature": "pop_g3",
+          "n": 2687,
+          "n_metros": 245,
+          "var_total": 7.76668e-05,
+          "within_metro_share": 0.3213,
+          "informative_under_fe": true
+        },
+        {
+          "feature": "pop_accel",
+          "n": 2687,
+          "n_metros": 245,
+          "var_total": 2.38759e-05,
+          "within_metro_share": 0.9073,
+          "informative_under_fe": true
+        },
+        {
+          "feature": "hpi_g1",
+          "n": 2533,
+          "n_metros": 231,
+          "var_total": 0.0014711305,
+          "within_metro_share": 0.8391,
+          "informative_under_fe": true
+        },
+        {
+          "feature": "hpi_g5",
+          "n": 2533,
+          "n_metros": 231,
+          "var_total": 0.000939166,
+          "within_metro_share": 0.8747,
+          "informative_under_fe": true
+        },
+        {
+          "feature": "hpi_gap",
+          "n": 2533,
+          "n_metros": 231,
+          "var_total": 0.0085712933,
+          "within_metro_share": 0.8864,
+          "informative_under_fe": true
+        },
+        {
+          "feature": "hpi_vol",
+          "n": 2533,
+          "n_metros": 231,
+          "var_total": 0.0011270412,
+          "within_metro_share": 0.3793,
+          "informative_under_fe": true
+        },
+        {
+          "feature": "permits_pc",
+          "n": 2634,
+          "n_metros": 245,
+          "var_total": 6.1057901708,
+          "within_metro_share": 0.2174,
+          "informative_under_fe": true
+        },
+        {
+          "feature": "permits_g3",
+          "n": 2374,
+          "n_metros": 245,
+          "var_total": 0.3490524874,
+          "within_metro_share": 0.7621,
+          "informative_under_fe": true
+        }
+      ],
+      "S0": {
+        "status": "RUN",
+        "n": 2234,
+        "n_metros": 231,
+        "n_origins": 10,
+        "origins": [
+          2012,
+          2013,
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2022
+        ],
+        "in_sample_r2": 0.5609,
+        "pooled_ridge_coefficients": {
+          "pop_g1_wr": 0.002335,
+          "pop_g3_wr": 0.001944,
+          "pop_accel_wr": 0.00081,
+          "hpi_g1_wr": 0.000282,
+          "hpi_g5_wr": -0.001,
+          "hpi_gap_wr": 0.00042,
+          "hpi_vol_wr": 0.000542,
+          "permits_pc_wr": 0.001791,
+          "permits_g3_wr": -6.9e-05
+        },
+        "E5_shocks": [
+          {
+            "shock": "rate_shock_200bp",
+            "status": "RUN",
+            "scope": "exposed_only",
+            "description": "Mortgage rates +200 bp; proxied by a uniform valuation-gap increase.",
+            "n_metros": 2234,
+            "n_exposed": 559,
+            "graded_on": "response_sign",
+            "relative_response": 0.00042,
+            "expected_sign": -1,
+            "observed_sign": 1,
+            "rank_correlation_after_shock": 0.9992,
+            "verdict": "IMPLAUSIBLE",
+            "rationale": "Metros already priced furthest above their own long-run trend are the most affordability-constrained and should decline relative to peers.",
+            "failure_signature": "A uniform or positive response means the model carries no rate sensitivity at all.",
+            "notes": ""
+          },
+          {
+            "shock": "premium_shock_40pct",
+            "status": "RUN",
+            "scope": "exposed_only",
+            "description": "Homeowners premium +40% concentrated in high-hazard metros.",
+            "n_metros": 2234,
+            "n_exposed": 559,
+            "graded_on": "response_sign",
+            "relative_response": 0.000542,
+            "expected_sign": -1,
+            "observed_sign": 1,
+            "rank_correlation_after_shock": 0.9988,
+            "verdict": "IMPLAUSIBLE",
+            "rationale": "Insurance cost is a housing-cost shock; exposed metros should lose relative attractiveness.",
+            "failure_signature": "Wrong sign means the climate/insurance pillar is acting as a proxy for Sun Belt growth rather than for risk -- the exact inversion already measured (+1.57% vs +0.51%).",
+            "notes": "Replace hpi_vol_wr with the Treasury FIO premium-level feature once the FIO adapter lands; hpi_vol is a stand-in."
+          },
+          {
+            "shock": "momentum_reversal",
+            "status": "RUN",
+            "scope": "uniform",
+            "description": "Prior growth momentum halved everywhere.",
+            "n_metros": 2234,
+            "n_exposed": 559,
+            "graded_on": "rank_stability",
+            "relative_response": -0.0,
+            "expected_sign": -1,
+            "observed_sign": 0,
+            "rank_correlation_after_shock": 1.0,
+            "verdict": "PLAUSIBLE",
+            "rationale": "If momentum is the dominant real signal, removing it must compress the ranking.",
+            "failure_signature": "Wholesale reordering rather than compression indicates a scale artifact.",
+            "notes": ""
+          }
+        ],
+        "loo_origin_stability": [
+          {
+            "feature": "pop_g1_wr",
+            "mean_coef": 0.00234,
+            "min_coef": 0.00227,
+            "max_coef": 0.00242,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 10
+          },
+          {
+            "feature": "pop_g3_wr",
+            "mean_coef": 0.00195,
+            "min_coef": 0.00187,
+            "max_coef": 0.00217,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 10
+          },
+          {
+            "feature": "pop_accel_wr",
+            "mean_coef": 0.00081,
+            "min_coef": 0.00062,
+            "max_coef": 0.0009,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 10
+          },
+          {
+            "feature": "hpi_g1_wr",
+            "mean_coef": 0.00028,
+            "min_coef": 5e-05,
+            "max_coef": 0.00048,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 10
+          },
+          {
+            "feature": "hpi_g5_wr",
+            "mean_coef": -0.00102,
+            "min_coef": -0.0013,
+            "max_coef": -0.00074,
+            "share_positive": 0.0,
+            "sign_stable": true,
+            "n_refits": 10
+          },
+          {
+            "feature": "hpi_gap_wr",
+            "mean_coef": 0.00044,
+            "min_coef": 0.0002,
+            "max_coef": 0.00068,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 10
+          },
+          {
+            "feature": "hpi_vol_wr",
+            "mean_coef": 0.00054,
+            "min_coef": 0.00041,
+            "max_coef": 0.00063,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 10
+          },
+          {
+            "feature": "permits_pc_wr",
+            "mean_coef": 0.00179,
+            "min_coef": 0.00168,
+            "max_coef": 0.00193,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 10
+          },
+          {
+            "feature": "permits_g3_wr",
+            "mean_coef": -7e-05,
+            "min_coef": -0.00012,
+            "max_coef": -2e-05,
+            "share_positive": 0.0,
+            "sign_stable": true,
+            "n_refits": 10
+          }
+        ],
+        "clustered_ols": [
+          {
+            "feature": "pop_g1_wr",
+            "coef": 0.002371,
+            "se_clustered": 0.000219,
+            "t": 10.82,
+            "significant_5pct": true,
+            "n": 2234,
+            "n_clusters": 231
+          },
+          {
+            "feature": "pop_g3_wr",
+            "coef": 0.001976,
+            "se_clustered": 0.000178,
+            "t": 11.104,
+            "significant_5pct": true,
+            "n": 2234,
+            "n_clusters": 231
+          },
+          {
+            "feature": "pop_accel_wr",
+            "coef": 0.000819,
+            "se_clustered": 0.000175,
+            "t": 4.683,
+            "significant_5pct": true,
+            "n": 2234,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_g1_wr",
+            "coef": 0.000254,
+            "se_clustered": 0.000272,
+            "t": 0.933,
+            "significant_5pct": false,
+            "n": 2234,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_g5_wr",
+            "coef": -0.001211,
+            "se_clustered": 0.000367,
+            "t": -3.301,
+            "significant_5pct": true,
+            "n": 2234,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_gap_wr",
+            "coef": 0.000606,
+            "se_clustered": 0.000355,
+            "t": 1.709,
+            "significant_5pct": false,
+            "n": 2234,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_vol_wr",
+            "coef": 0.000528,
+            "se_clustered": 0.000229,
+            "t": 2.306,
+            "significant_5pct": true,
+            "n": 2234,
+            "n_clusters": 231
+          },
+          {
+            "feature": "permits_pc_wr",
+            "coef": 0.001828,
+            "se_clustered": 0.000302,
+            "t": 6.062,
+            "significant_5pct": true,
+            "n": 2234,
+            "n_clusters": 231
+          },
+          {
+            "feature": "permits_g3_wr",
+            "coef": -7.8e-05,
+            "se_clustered": 0.000191,
+            "t": -0.411,
+            "significant_5pct": false,
+            "n": 2234,
+            "n_clusters": 231
+          }
+        ]
+      },
+      "S1": {
+        "status": "RUN",
+        "n": 2234,
+        "n_metros": 231,
+        "n_origins": 10,
+        "origins": [
+          2012,
+          2013,
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2022
+        ],
+        "in_sample_r2": 0.096,
+        "pooled_ridge_coefficients": {
+          "pop_g1_wr": 0.000469,
+          "pop_g3_wr": 1.6e-05,
+          "pop_accel_wr": 0.000476,
+          "hpi_g1_wr": 0.000796,
+          "hpi_g5_wr": -0.001423,
+          "hpi_gap_wr": 0.000857,
+          "hpi_vol_wr": 0.000231,
+          "permits_pc_wr": -5.1e-05,
+          "permits_g3_wr": 0.000312
+        },
+        "E5_shocks": [
+          {
+            "shock": "rate_shock_200bp",
+            "status": "RUN",
+            "scope": "exposed_only",
+            "description": "Mortgage rates +200 bp; proxied by a uniform valuation-gap increase.",
+            "n_metros": 2234,
+            "n_exposed": 559,
+            "graded_on": "response_sign",
+            "relative_response": 0.000857,
+            "expected_sign": -1,
+            "observed_sign": 1,
+            "rank_correlation_after_shock": 0.9496,
+            "verdict": "IMPLAUSIBLE",
+            "rationale": "Metros already priced furthest above their own long-run trend are the most affordability-constrained and should decline relative to peers.",
+            "failure_signature": "A uniform or positive response means the model carries no rate sensitivity at all.",
+            "notes": ""
+          },
+          {
+            "shock": "premium_shock_40pct",
+            "status": "RUN",
+            "scope": "exposed_only",
+            "description": "Homeowners premium +40% concentrated in high-hazard metros.",
+            "n_metros": 2234,
+            "n_exposed": 559,
+            "graded_on": "response_sign",
+            "relative_response": 0.000231,
+            "expected_sign": -1,
+            "observed_sign": 1,
+            "rank_correlation_after_shock": 0.9968,
+            "verdict": "IMPLAUSIBLE",
+            "rationale": "Insurance cost is a housing-cost shock; exposed metros should lose relative attractiveness.",
+            "failure_signature": "Wrong sign means the climate/insurance pillar is acting as a proxy for Sun Belt growth rather than for risk -- the exact inversion already measured (+1.57% vs +0.51%).",
+            "notes": "Replace hpi_vol_wr with the Treasury FIO premium-level feature once the FIO adapter lands; hpi_vol is a stand-in."
+          },
+          {
+            "shock": "momentum_reversal",
+            "status": "RUN",
+            "scope": "uniform",
+            "description": "Prior growth momentum halved everywhere.",
+            "n_metros": 2234,
+            "n_exposed": 559,
+            "graded_on": "rank_stability",
+            "relative_response": 0.0,
+            "expected_sign": -1,
+            "observed_sign": 0,
+            "rank_correlation_after_shock": 1.0,
+            "verdict": "PLAUSIBLE",
+            "rationale": "If momentum is the dominant real signal, removing it must compress the ranking.",
+            "failure_signature": "Wholesale reordering rather than compression indicates a scale artifact.",
+            "notes": ""
+          }
+        ],
+        "loo_origin_stability": [
+          {
+            "feature": "pop_g1_wr",
+            "mean_coef": 0.00047,
+            "min_coef": 0.0004,
+            "max_coef": 0.00051,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 10
+          },
+          {
+            "feature": "pop_g3_wr",
+            "mean_coef": 2e-05,
+            "min_coef": -3e-05,
+            "max_coef": 0.0001,
+            "share_positive": 0.6,
+            "sign_stable": false,
+            "n_refits": 10
+          },
+          {
+            "feature": "pop_accel_wr",
+            "mean_coef": 0.00048,
+            "min_coef": 0.00039,
+            "max_coef": 0.00051,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 10
+          },
+          {
+            "feature": "hpi_g1_wr",
+            "mean_coef": 0.00079,
+            "min_coef": 0.00048,
+            "max_coef": 0.00091,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 10
+          },
+          {
+            "feature": "hpi_g5_wr",
+            "mean_coef": -0.00141,
+            "min_coef": -0.00177,
+            "max_coef": -0.00119,
+            "share_positive": 0.0,
+            "sign_stable": true,
+            "n_refits": 10
+          },
+          {
+            "feature": "hpi_gap_wr",
+            "mean_coef": 0.00084,
+            "min_coef": 0.00062,
+            "max_coef": 0.0011,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 10
+          },
+          {
+            "feature": "hpi_vol_wr",
+            "mean_coef": 0.00024,
+            "min_coef": 0.00013,
+            "max_coef": 0.0005,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 10
+          },
+          {
+            "feature": "permits_pc_wr",
+            "mean_coef": -5e-05,
+            "min_coef": -0.00018,
+            "max_coef": 1e-05,
+            "share_positive": 0.4,
+            "sign_stable": false,
+            "n_refits": 10
+          },
+          {
+            "feature": "permits_g3_wr",
+            "mean_coef": 0.00031,
+            "min_coef": 0.00023,
+            "max_coef": 0.00037,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 10
+          }
+        ],
+        "clustered_ols": [
+          {
+            "feature": "pop_g1_wr",
+            "coef": 0.000471,
+            "se_clustered": 0.000145,
+            "t": 3.243,
+            "significant_5pct": true,
+            "n": 2234,
+            "n_clusters": 231
+          },
+          {
+            "feature": "pop_g3_wr",
+            "coef": 1.7e-05,
+            "se_clustered": 0.000107,
+            "t": 0.162,
+            "significant_5pct": false,
+            "n": 2234,
+            "n_clusters": 231
+          },
+          {
+            "feature": "pop_accel_wr",
+            "coef": 0.000477,
+            "se_clustered": 0.000126,
+            "t": 3.799,
+            "significant_5pct": true,
+            "n": 2234,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_g1_wr",
+            "coef": 0.000791,
+            "se_clustered": 0.000175,
+            "t": 4.525,
+            "significant_5pct": true,
+            "n": 2234,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_g5_wr",
+            "coef": -0.001579,
+            "se_clustered": 0.000511,
+            "t": -3.09,
+            "significant_5pct": true,
+            "n": 2234,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_gap_wr",
+            "coef": 0.001011,
+            "se_clustered": 0.000623,
+            "t": 1.623,
+            "significant_5pct": false,
+            "n": 2234,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_vol_wr",
+            "coef": 0.000239,
+            "se_clustered": 0.000194,
+            "t": 1.23,
+            "significant_5pct": false,
+            "n": 2234,
+            "n_clusters": 231
+          },
+          {
+            "feature": "permits_pc_wr",
+            "coef": -4.6e-05,
+            "se_clustered": 0.000171,
+            "t": -0.271,
+            "significant_5pct": false,
+            "n": 2234,
+            "n_clusters": 231
+          },
+          {
+            "feature": "permits_g3_wr",
+            "coef": 0.000316,
+            "se_clustered": 0.000192,
+            "t": 1.647,
+            "significant_5pct": false,
+            "n": 2234,
+            "n_clusters": 231
+          }
+        ]
+      },
+      "S2": {
+        "status": "RUN",
+        "n": 1772,
+        "n_metros": 231,
+        "n_origins": 8,
+        "origins": [
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2022
+        ],
+        "in_sample_r2": 0.2518,
+        "pooled_ridge_coefficients": {
+          "pop_g1_wr": 0.001128,
+          "pop_g3_wr": 0.001218,
+          "pop_accel_wr": -2.1e-05,
+          "hpi_g1_wr": 0.001224,
+          "hpi_g5_wr": 0.001495,
+          "hpi_gap_wr": -0.002256,
+          "hpi_vol_wr": -0.000666,
+          "permits_pc_wr": 0.002313,
+          "permits_g3_wr": -0.000295
+        },
+        "E5_shocks": [
+          {
+            "shock": "rate_shock_200bp",
+            "status": "RUN",
+            "scope": "exposed_only",
+            "description": "Mortgage rates +200 bp; proxied by a uniform valuation-gap increase.",
+            "n_metros": 1772,
+            "n_exposed": 443,
+            "graded_on": "response_sign",
+            "relative_response": -0.002256,
+            "expected_sign": -1,
+            "observed_sign": -1,
+            "rank_correlation_after_shock": 0.9446,
+            "verdict": "PLAUSIBLE",
+            "rationale": "Metros already priced furthest above their own long-run trend are the most affordability-constrained and should decline relative to peers.",
+            "failure_signature": "A uniform or positive response means the model carries no rate sensitivity at all.",
+            "notes": ""
+          },
+          {
+            "shock": "premium_shock_40pct",
+            "status": "RUN",
+            "scope": "exposed_only",
+            "description": "Homeowners premium +40% concentrated in high-hazard metros.",
+            "n_metros": 1772,
+            "n_exposed": 443,
+            "graded_on": "response_sign",
+            "relative_response": -0.000666,
+            "expected_sign": -1,
+            "observed_sign": -1,
+            "rank_correlation_after_shock": 0.9932,
+            "verdict": "PLAUSIBLE",
+            "rationale": "Insurance cost is a housing-cost shock; exposed metros should lose relative attractiveness.",
+            "failure_signature": "Wrong sign means the climate/insurance pillar is acting as a proxy for Sun Belt growth rather than for risk -- the exact inversion already measured (+1.57% vs +0.51%).",
+            "notes": "Replace hpi_vol_wr with the Treasury FIO premium-level feature once the FIO adapter lands; hpi_vol is a stand-in."
+          },
+          {
+            "shock": "momentum_reversal",
+            "status": "RUN",
+            "scope": "uniform",
+            "description": "Prior growth momentum halved everywhere.",
+            "n_metros": 1772,
+            "n_exposed": 443,
+            "graded_on": "rank_stability",
+            "relative_response": -0.0,
+            "expected_sign": -1,
+            "observed_sign": 0,
+            "rank_correlation_after_shock": 1.0,
+            "verdict": "PLAUSIBLE",
+            "rationale": "If momentum is the dominant real signal, removing it must compress the ranking.",
+            "failure_signature": "Wholesale reordering rather than compression indicates a scale artifact.",
+            "notes": ""
+          }
+        ],
+        "loo_origin_stability": [
+          {
+            "feature": "pop_g1_wr",
+            "mean_coef": 0.00113,
+            "min_coef": 0.00103,
+            "max_coef": 0.00132,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 8
+          },
+          {
+            "feature": "pop_g3_wr",
+            "mean_coef": 0.00122,
+            "min_coef": 0.00111,
+            "max_coef": 0.00153,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 8
+          },
+          {
+            "feature": "pop_accel_wr",
+            "mean_coef": -2e-05,
+            "min_coef": -0.00011,
+            "max_coef": 7e-05,
+            "share_positive": 0.25,
+            "sign_stable": false,
+            "n_refits": 8
+          },
+          {
+            "feature": "hpi_g1_wr",
+            "mean_coef": 0.00122,
+            "min_coef": 0.00107,
+            "max_coef": 0.00142,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 8
+          },
+          {
+            "feature": "hpi_g5_wr",
+            "mean_coef": 0.00146,
+            "min_coef": 0.00095,
+            "max_coef": 0.00187,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 8
+          },
+          {
+            "feature": "hpi_gap_wr",
+            "mean_coef": -0.00222,
+            "min_coef": -0.00272,
+            "max_coef": -0.00185,
+            "share_positive": 0.0,
+            "sign_stable": true,
+            "n_refits": 8
+          },
+          {
+            "feature": "hpi_vol_wr",
+            "mean_coef": -0.00065,
+            "min_coef": -0.00073,
+            "max_coef": -0.00051,
+            "share_positive": 0.0,
+            "sign_stable": true,
+            "n_refits": 8
+          },
+          {
+            "feature": "permits_pc_wr",
+            "mean_coef": 0.00231,
+            "min_coef": 0.00211,
+            "max_coef": 0.00245,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 8
+          },
+          {
+            "feature": "permits_g3_wr",
+            "mean_coef": -0.0003,
+            "min_coef": -0.00047,
+            "max_coef": -0.00017,
+            "share_positive": 0.0,
+            "sign_stable": true,
+            "n_refits": 8
+          }
+        ],
+        "clustered_ols": [
+          {
+            "feature": "pop_g1_wr",
+            "coef": 0.001129,
+            "se_clustered": 0.000234,
+            "t": 4.828,
+            "significant_5pct": true,
+            "n": 1772,
+            "n_clusters": 231
+          },
+          {
+            "feature": "pop_g3_wr",
+            "coef": 0.00122,
+            "se_clustered": 0.000217,
+            "t": 5.629,
+            "significant_5pct": true,
+            "n": 1772,
+            "n_clusters": 231
+          },
+          {
+            "feature": "pop_accel_wr",
+            "coef": -2.3e-05,
+            "se_clustered": 0.000241,
+            "t": -0.095,
+            "significant_5pct": false,
+            "n": 1772,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_g1_wr",
+            "coef": 0.001266,
+            "se_clustered": 0.00034,
+            "t": 3.726,
+            "significant_5pct": true,
+            "n": 1772,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_g5_wr",
+            "coef": 0.001698,
+            "se_clustered": 0.000774,
+            "t": 2.194,
+            "significant_5pct": true,
+            "n": 1772,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_gap_wr",
+            "coef": -0.002503,
+            "se_clustered": 0.000908,
+            "t": -2.756,
+            "significant_5pct": true,
+            "n": 1772,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_vol_wr",
+            "coef": -0.000696,
+            "se_clustered": 0.000408,
+            "t": -1.705,
+            "significant_5pct": false,
+            "n": 1772,
+            "n_clusters": 231
+          },
+          {
+            "feature": "permits_pc_wr",
+            "coef": 0.002319,
+            "se_clustered": 0.00035,
+            "t": 6.623,
+            "significant_5pct": true,
+            "n": 1772,
+            "n_clusters": 231
+          },
+          {
+            "feature": "permits_g3_wr",
+            "coef": -0.0003,
+            "se_clustered": 0.000346,
+            "t": -0.869,
+            "significant_5pct": false,
+            "n": 1772,
+            "n_clusters": 231
+          }
+        ]
+      },
+      "S0_on_S2_sample": {
+        "status": "RUN",
+        "n": 1772,
+        "n_metros": 231,
+        "n_origins": 8,
+        "origins": [
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2022
+        ],
+        "in_sample_r2": 0.5653,
+        "pooled_ridge_coefficients": {
+          "pop_g1_wr": 0.002357,
+          "pop_g3_wr": 0.00244,
+          "pop_accel_wr": 0.000306,
+          "hpi_g1_wr": -0.000108,
+          "hpi_g5_wr": -0.001233,
+          "hpi_gap_wr": 0.000806,
+          "hpi_vol_wr": 0.000743,
+          "permits_pc_wr": 0.001613,
+          "permits_g3_wr": 5e-06
+        },
+        "E5_shocks": [
+          {
+            "shock": "rate_shock_200bp",
+            "status": "RUN",
+            "scope": "exposed_only",
+            "description": "Mortgage rates +200 bp; proxied by a uniform valuation-gap increase.",
+            "n_metros": 1772,
+            "n_exposed": 443,
+            "graded_on": "response_sign",
+            "relative_response": 0.000806,
+            "expected_sign": -1,
+            "observed_sign": 1,
+            "rank_correlation_after_shock": 0.9976,
+            "verdict": "IMPLAUSIBLE",
+            "rationale": "Metros already priced furthest above their own long-run trend are the most affordability-constrained and should decline relative to peers.",
+            "failure_signature": "A uniform or positive response means the model carries no rate sensitivity at all.",
+            "notes": ""
+          },
+          {
+            "shock": "premium_shock_40pct",
+            "status": "RUN",
+            "scope": "exposed_only",
+            "description": "Homeowners premium +40% concentrated in high-hazard metros.",
+            "n_metros": 1772,
+            "n_exposed": 443,
+            "graded_on": "response_sign",
+            "relative_response": 0.000743,
+            "expected_sign": -1,
+            "observed_sign": 1,
+            "rank_correlation_after_shock": 0.998,
+            "verdict": "IMPLAUSIBLE",
+            "rationale": "Insurance cost is a housing-cost shock; exposed metros should lose relative attractiveness.",
+            "failure_signature": "Wrong sign means the climate/insurance pillar is acting as a proxy for Sun Belt growth rather than for risk -- the exact inversion already measured (+1.57% vs +0.51%).",
+            "notes": "Replace hpi_vol_wr with the Treasury FIO premium-level feature once the FIO adapter lands; hpi_vol is a stand-in."
+          },
+          {
+            "shock": "momentum_reversal",
+            "status": "RUN",
+            "scope": "uniform",
+            "description": "Prior growth momentum halved everywhere.",
+            "n_metros": 1772,
+            "n_exposed": 443,
+            "graded_on": "rank_stability",
+            "relative_response": -0.0,
+            "expected_sign": -1,
+            "observed_sign": 0,
+            "rank_correlation_after_shock": 1.0,
+            "verdict": "PLAUSIBLE",
+            "rationale": "If momentum is the dominant real signal, removing it must compress the ranking.",
+            "failure_signature": "Wholesale reordering rather than compression indicates a scale artifact.",
+            "notes": ""
+          }
+        ],
+        "loo_origin_stability": [
+          {
+            "feature": "pop_g1_wr",
+            "mean_coef": 0.00236,
+            "min_coef": 0.0023,
+            "max_coef": 0.00249,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 8
+          },
+          {
+            "feature": "pop_g3_wr",
+            "mean_coef": 0.00244,
+            "min_coef": 0.00233,
+            "max_coef": 0.00266,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 8
+          },
+          {
+            "feature": "pop_accel_wr",
+            "mean_coef": 0.0003,
+            "min_coef": 0.00016,
+            "max_coef": 0.00043,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 8
+          },
+          {
+            "feature": "hpi_g1_wr",
+            "mean_coef": -0.0001,
+            "min_coef": -0.00031,
+            "max_coef": 0.00012,
+            "share_positive": 0.25,
+            "sign_stable": false,
+            "n_refits": 8
+          },
+          {
+            "feature": "hpi_g5_wr",
+            "mean_coef": -0.00123,
+            "min_coef": -0.00163,
+            "max_coef": -0.00092,
+            "share_positive": 0.0,
+            "sign_stable": true,
+            "n_refits": 8
+          },
+          {
+            "feature": "hpi_gap_wr",
+            "mean_coef": 0.0008,
+            "min_coef": 0.00057,
+            "max_coef": 0.00111,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 8
+          },
+          {
+            "feature": "hpi_vol_wr",
+            "mean_coef": 0.00074,
+            "min_coef": 0.00058,
+            "max_coef": 0.00095,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 8
+          },
+          {
+            "feature": "permits_pc_wr",
+            "mean_coef": 0.00161,
+            "min_coef": 0.00131,
+            "max_coef": 0.00175,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 8
+          },
+          {
+            "feature": "permits_g3_wr",
+            "mean_coef": 1e-05,
+            "min_coef": -4e-05,
+            "max_coef": 6e-05,
+            "share_positive": 0.375,
+            "sign_stable": false,
+            "n_refits": 8
+          }
+        ],
+        "clustered_ols": [
+          {
+            "feature": "pop_g1_wr",
+            "coef": 0.002399,
+            "se_clustered": 0.000216,
+            "t": 11.088,
+            "significant_5pct": true,
+            "n": 1772,
+            "n_clusters": 231
+          },
+          {
+            "feature": "pop_g3_wr",
+            "coef": 0.002494,
+            "se_clustered": 0.000216,
+            "t": 11.557,
+            "significant_5pct": true,
+            "n": 1772,
+            "n_clusters": 231
+          },
+          {
+            "feature": "pop_accel_wr",
+            "coef": 0.000291,
+            "se_clustered": 0.000239,
+            "t": 1.219,
+            "significant_5pct": false,
+            "n": 1772,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_g1_wr",
+            "coef": -0.000173,
+            "se_clustered": 0.000315,
+            "t": -0.551,
+            "significant_5pct": false,
+            "n": 1772,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_g5_wr",
+            "coef": -0.001418,
+            "se_clustered": 0.000403,
+            "t": -3.516,
+            "significant_5pct": true,
+            "n": 1772,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_gap_wr",
+            "coef": 0.000964,
+            "se_clustered": 0.000377,
+            "t": 2.556,
+            "significant_5pct": true,
+            "n": 1772,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_vol_wr",
+            "coef": 0.000774,
+            "se_clustered": 0.00028,
+            "t": 2.766,
+            "significant_5pct": true,
+            "n": 1772,
+            "n_clusters": 231
+          },
+          {
+            "feature": "permits_pc_wr",
+            "coef": 0.001623,
+            "se_clustered": 0.000312,
+            "t": 5.206,
+            "significant_5pct": true,
+            "n": 1772,
+            "n_clusters": 231
+          },
+          {
+            "feature": "permits_g3_wr",
+            "coef": 2e-06,
+            "se_clustered": 0.000224,
+            "t": 0.008,
+            "significant_5pct": false,
+            "n": 1772,
+            "n_clusters": 231
+          }
+        ]
+      }
+    },
+    "hpi_h5": {
+      "target_raw": "y_hpi",
+      "horizon": 5,
+      "features_used": [
+        "pop_g1_wr",
+        "pop_g3_wr",
+        "pop_accel_wr",
+        "hpi_g1_wr",
+        "hpi_g5_wr",
+        "hpi_gap_wr",
+        "hpi_vol_wr",
+        "permits_pc_wr",
+        "permits_g3_wr"
+      ],
+      "features_banned_by_clock_leak": [],
+      "graded_scorecard_certified": false,
+      "variance_decomposition": [
+        {
+          "feature": "pop_g1",
+          "n": 2309,
+          "n_metros": 231,
+          "var_total": 7.89519e-05,
+          "within_metro_share": 0.2836,
+          "informative_under_fe": true
+        },
+        {
+          "feature": "pop_g3",
+          "n": 2309,
+          "n_metros": 231,
+          "var_total": 7.56057e-05,
+          "within_metro_share": 0.2894,
+          "informative_under_fe": true
+        },
+        {
+          "feature": "pop_accel",
+          "n": 2309,
+          "n_metros": 231,
+          "var_total": 2.08174e-05,
+          "within_metro_share": 0.8788,
+          "informative_under_fe": true
+        },
+        {
+          "feature": "hpi_g1",
+          "n": 2309,
+          "n_metros": 231,
+          "var_total": 0.001444322,
+          "within_metro_share": 0.8454,
+          "informative_under_fe": true
+        },
+        {
+          "feature": "hpi_g5",
+          "n": 2309,
+          "n_metros": 231,
+          "var_total": 0.0009844875,
+          "within_metro_share": 0.8655,
+          "informative_under_fe": true
+        },
+        {
+          "feature": "hpi_gap",
+          "n": 2309,
+          "n_metros": 231,
+          "var_total": 0.0088903726,
+          "within_metro_share": 0.863,
+          "informative_under_fe": true
+        },
+        {
+          "feature": "hpi_vol",
+          "n": 2309,
+          "n_metros": 231,
+          "var_total": 0.0012234395,
+          "within_metro_share": 0.3353,
+          "informative_under_fe": true
+        },
+        {
+          "feature": "permits_pc",
+          "n": 2266,
+          "n_metros": 231,
+          "var_total": 5.6393954948,
+          "within_metro_share": 0.2119,
+          "informative_under_fe": true
+        },
+        {
+          "feature": "permits_g3",
+          "n": 2022,
+          "n_metros": 231,
+          "var_total": 0.3696824869,
+          "within_metro_share": 0.711,
+          "informative_under_fe": true
+        }
+      ],
+      "S0": {
+        "status": "RUN",
+        "n": 2022,
+        "n_metros": 231,
+        "n_origins": 9,
+        "origins": [
+          2012,
+          2013,
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020
+        ],
+        "in_sample_r2": 0.4655,
+        "pooled_ridge_coefficients": {
+          "pop_g1_wr": 0.004495,
+          "pop_g3_wr": 0.003291,
+          "pop_accel_wr": 0.002326,
+          "hpi_g1_wr": 0.005634,
+          "hpi_g5_wr": -0.012754,
+          "hpi_gap_wr": 0.005942,
+          "hpi_vol_wr": 0.002916,
+          "permits_pc_wr": -0.000577,
+          "permits_g3_wr": -0.000283
+        },
+        "E5_shocks": [
+          {
+            "shock": "rate_shock_200bp",
+            "status": "RUN",
+            "scope": "exposed_only",
+            "description": "Mortgage rates +200 bp; proxied by a uniform valuation-gap increase.",
+            "n_metros": 2022,
+            "n_exposed": 506,
+            "graded_on": "response_sign",
+            "relative_response": 0.005942,
+            "expected_sign": -1,
+            "observed_sign": 1,
+            "rank_correlation_after_shock": 0.972,
+            "verdict": "IMPLAUSIBLE",
+            "rationale": "Metros already priced furthest above their own long-run trend are the most affordability-constrained and should decline relative to peers.",
+            "failure_signature": "A uniform or positive response means the model carries no rate sensitivity at all.",
+            "notes": ""
+          },
+          {
+            "shock": "premium_shock_40pct",
+            "status": "RUN",
+            "scope": "exposed_only",
+            "description": "Homeowners premium +40% concentrated in high-hazard metros.",
+            "n_metros": 2022,
+            "n_exposed": 506,
+            "graded_on": "response_sign",
+            "relative_response": 0.002916,
+            "expected_sign": -1,
+            "observed_sign": 1,
+            "rank_correlation_after_shock": 0.9945,
+            "verdict": "IMPLAUSIBLE",
+            "rationale": "Insurance cost is a housing-cost shock; exposed metros should lose relative attractiveness.",
+            "failure_signature": "Wrong sign means the climate/insurance pillar is acting as a proxy for Sun Belt growth rather than for risk -- the exact inversion already measured (+1.57% vs +0.51%).",
+            "notes": "Replace hpi_vol_wr with the Treasury FIO premium-level feature once the FIO adapter lands; hpi_vol is a stand-in."
+          },
+          {
+            "shock": "momentum_reversal",
+            "status": "RUN",
+            "scope": "uniform",
+            "description": "Prior growth momentum halved everywhere.",
+            "n_metros": 2022,
+            "n_exposed": 506,
+            "graded_on": "rank_stability",
+            "relative_response": -0.0,
+            "expected_sign": -1,
+            "observed_sign": 0,
+            "rank_correlation_after_shock": 1.0,
+            "verdict": "PLAUSIBLE",
+            "rationale": "If momentum is the dominant real signal, removing it must compress the ranking.",
+            "failure_signature": "Wholesale reordering rather than compression indicates a scale artifact.",
+            "notes": ""
+          }
+        ],
+        "loo_origin_stability": [
+          {
+            "feature": "pop_g1_wr",
+            "mean_coef": 0.00448,
+            "min_coef": 0.00435,
+            "max_coef": 0.00463,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 9
+          },
+          {
+            "feature": "pop_g3_wr",
+            "mean_coef": 0.00328,
+            "min_coef": 0.00306,
+            "max_coef": 0.00382,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 9
+          },
+          {
+            "feature": "pop_accel_wr",
+            "mean_coef": 0.00231,
+            "min_coef": 0.00198,
+            "max_coef": 0.00267,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 9
+          },
+          {
+            "feature": "hpi_g1_wr",
+            "mean_coef": 0.00569,
+            "min_coef": 0.00514,
+            "max_coef": 0.00629,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 9
+          },
+          {
+            "feature": "hpi_g5_wr",
+            "mean_coef": -0.0127,
+            "min_coef": -0.01401,
+            "max_coef": -0.01147,
+            "share_positive": 0.0,
+            "sign_stable": true,
+            "n_refits": 9
+          },
+          {
+            "feature": "hpi_gap_wr",
+            "mean_coef": 0.00588,
+            "min_coef": 0.00534,
+            "max_coef": 0.00642,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 9
+          },
+          {
+            "feature": "hpi_vol_wr",
+            "mean_coef": 0.00288,
+            "min_coef": 0.00202,
+            "max_coef": 0.00349,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 9
+          },
+          {
+            "feature": "permits_pc_wr",
+            "mean_coef": -0.00059,
+            "min_coef": -0.00101,
+            "max_coef": -0.00028,
+            "share_positive": 0.0,
+            "sign_stable": true,
+            "n_refits": 9
+          },
+          {
+            "feature": "permits_g3_wr",
+            "mean_coef": -0.00028,
+            "min_coef": -0.0004,
+            "max_coef": -6e-05,
+            "share_positive": 0.0,
+            "sign_stable": true,
+            "n_refits": 9
+          }
+        ],
+        "clustered_ols": [
+          {
+            "feature": "pop_g1_wr",
+            "coef": 0.0045,
+            "se_clustered": 0.000522,
+            "t": 8.62,
+            "significant_5pct": true,
+            "n": 2022,
+            "n_clusters": 231
+          },
+          {
+            "feature": "pop_g3_wr",
+            "coef": 0.003298,
+            "se_clustered": 0.000495,
+            "t": 6.666,
+            "significant_5pct": true,
+            "n": 2022,
+            "n_clusters": 231
+          },
+          {
+            "feature": "pop_accel_wr",
+            "coef": 0.002324,
+            "se_clustered": 0.000545,
+            "t": 4.266,
+            "significant_5pct": true,
+            "n": 2022,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_g1_wr",
+            "coef": 0.005645,
+            "se_clustered": 0.000731,
+            "t": 7.718,
+            "significant_5pct": true,
+            "n": 2022,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_g5_wr",
+            "coef": -0.012918,
+            "se_clustered": 0.001338,
+            "t": -9.655,
+            "significant_5pct": true,
+            "n": 2022,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_gap_wr",
+            "coef": 0.006086,
+            "se_clustered": 0.001377,
+            "t": 4.42,
+            "significant_5pct": true,
+            "n": 2022,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_vol_wr",
+            "coef": 0.002896,
+            "se_clustered": 0.000743,
+            "t": 3.897,
+            "significant_5pct": true,
+            "n": 2022,
+            "n_clusters": 231
+          },
+          {
+            "feature": "permits_pc_wr",
+            "coef": -0.00057,
+            "se_clustered": 0.000964,
+            "t": -0.592,
+            "significant_5pct": false,
+            "n": 2022,
+            "n_clusters": 231
+          },
+          {
+            "feature": "permits_g3_wr",
+            "coef": -0.000277,
+            "se_clustered": 0.000512,
+            "t": -0.542,
+            "significant_5pct": false,
+            "n": 2022,
+            "n_clusters": 231
+          }
+        ]
+      },
+      "S1": {
+        "status": "RUN",
+        "n": 2022,
+        "n_metros": 231,
+        "n_origins": 9,
+        "origins": [
+          2012,
+          2013,
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020
+        ],
+        "in_sample_r2": 0.4373,
+        "pooled_ridge_coefficients": {
+          "pop_g1_wr": 0.00182,
+          "pop_g3_wr": 0.00112,
+          "pop_accel_wr": 0.000687,
+          "hpi_g1_wr": 0.004825,
+          "hpi_g5_wr": -0.01397,
+          "hpi_gap_wr": 0.002712,
+          "hpi_vol_wr": -0.000767,
+          "permits_pc_wr": -0.001707,
+          "permits_g3_wr": 0.001237
+        },
+        "E5_shocks": [
+          {
+            "shock": "rate_shock_200bp",
+            "status": "RUN",
+            "scope": "exposed_only",
+            "description": "Mortgage rates +200 bp; proxied by a uniform valuation-gap increase.",
+            "n_metros": 2022,
+            "n_exposed": 506,
+            "graded_on": "response_sign",
+            "relative_response": 0.002712,
+            "expected_sign": -1,
+            "observed_sign": 1,
+            "rank_correlation_after_shock": 0.9916,
+            "verdict": "IMPLAUSIBLE",
+            "rationale": "Metros already priced furthest above their own long-run trend are the most affordability-constrained and should decline relative to peers.",
+            "failure_signature": "A uniform or positive response means the model carries no rate sensitivity at all.",
+            "notes": ""
+          },
+          {
+            "shock": "premium_shock_40pct",
+            "status": "RUN",
+            "scope": "exposed_only",
+            "description": "Homeowners premium +40% concentrated in high-hazard metros.",
+            "n_metros": 2022,
+            "n_exposed": 506,
+            "graded_on": "response_sign",
+            "relative_response": -0.000767,
+            "expected_sign": -1,
+            "observed_sign": -1,
+            "rank_correlation_after_shock": 0.9992,
+            "verdict": "PLAUSIBLE",
+            "rationale": "Insurance cost is a housing-cost shock; exposed metros should lose relative attractiveness.",
+            "failure_signature": "Wrong sign means the climate/insurance pillar is acting as a proxy for Sun Belt growth rather than for risk -- the exact inversion already measured (+1.57% vs +0.51%).",
+            "notes": "Replace hpi_vol_wr with the Treasury FIO premium-level feature once the FIO adapter lands; hpi_vol is a stand-in."
+          },
+          {
+            "shock": "momentum_reversal",
+            "status": "RUN",
+            "scope": "uniform",
+            "description": "Prior growth momentum halved everywhere.",
+            "n_metros": 2022,
+            "n_exposed": 506,
+            "graded_on": "rank_stability",
+            "relative_response": 0.0,
+            "expected_sign": -1,
+            "observed_sign": 0,
+            "rank_correlation_after_shock": 1.0,
+            "verdict": "PLAUSIBLE",
+            "rationale": "If momentum is the dominant real signal, removing it must compress the ranking.",
+            "failure_signature": "Wholesale reordering rather than compression indicates a scale artifact.",
+            "notes": ""
+          }
+        ],
+        "loo_origin_stability": [
+          {
+            "feature": "pop_g1_wr",
+            "mean_coef": 0.00181,
+            "min_coef": 0.00157,
+            "max_coef": 0.00202,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 9
+          },
+          {
+            "feature": "pop_g3_wr",
+            "mean_coef": 0.00111,
+            "min_coef": 0.0009,
+            "max_coef": 0.0012,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 9
+          },
+          {
+            "feature": "pop_accel_wr",
+            "mean_coef": 0.00069,
+            "min_coef": 0.00059,
+            "max_coef": 0.00079,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 9
+          },
+          {
+            "feature": "hpi_g1_wr",
+            "mean_coef": 0.00481,
+            "min_coef": 0.00433,
+            "max_coef": 0.00518,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 9
+          },
+          {
+            "feature": "hpi_g5_wr",
+            "mean_coef": -0.01403,
+            "min_coef": -0.01558,
+            "max_coef": -0.01199,
+            "share_positive": 0.0,
+            "sign_stable": true,
+            "n_refits": 9
+          },
+          {
+            "feature": "hpi_gap_wr",
+            "mean_coef": 0.00281,
+            "min_coef": 0.00162,
+            "max_coef": 0.00383,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 9
+          },
+          {
+            "feature": "hpi_vol_wr",
+            "mean_coef": -0.00074,
+            "min_coef": -0.00164,
+            "max_coef": 6e-05,
+            "share_positive": 0.111,
+            "sign_stable": false,
+            "n_refits": 9
+          },
+          {
+            "feature": "permits_pc_wr",
+            "mean_coef": -0.00169,
+            "min_coef": -0.00196,
+            "max_coef": -0.00119,
+            "share_positive": 0.0,
+            "sign_stable": true,
+            "n_refits": 9
+          },
+          {
+            "feature": "permits_g3_wr",
+            "mean_coef": 0.00123,
+            "min_coef": 0.00102,
+            "max_coef": 0.00138,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 9
+          }
+        ],
+        "clustered_ols": [
+          {
+            "feature": "pop_g1_wr",
+            "coef": 0.001825,
+            "se_clustered": 0.000388,
+            "t": 4.701,
+            "significant_5pct": true,
+            "n": 2022,
+            "n_clusters": 231
+          },
+          {
+            "feature": "pop_g3_wr",
+            "coef": 0.001125,
+            "se_clustered": 0.000373,
+            "t": 3.012,
+            "significant_5pct": true,
+            "n": 2022,
+            "n_clusters": 231
+          },
+          {
+            "feature": "pop_accel_wr",
+            "coef": 0.000687,
+            "se_clustered": 0.000303,
+            "t": 2.27,
+            "significant_5pct": true,
+            "n": 2022,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_g1_wr",
+            "coef": 0.004821,
+            "se_clustered": 0.000506,
+            "t": 9.519,
+            "significant_5pct": true,
+            "n": 2022,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_g5_wr",
+            "coef": -0.014225,
+            "se_clustered": 0.00189,
+            "t": -7.528,
+            "significant_5pct": true,
+            "n": 2022,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_gap_wr",
+            "coef": 0.002955,
+            "se_clustered": 0.002137,
+            "t": 1.383,
+            "significant_5pct": false,
+            "n": 2022,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_vol_wr",
+            "coef": -0.000763,
+            "se_clustered": 0.000462,
+            "t": -1.651,
+            "significant_5pct": false,
+            "n": 2022,
+            "n_clusters": 231
+          },
+          {
+            "feature": "permits_pc_wr",
+            "coef": -0.001701,
+            "se_clustered": 0.0006,
+            "t": -2.834,
+            "significant_5pct": true,
+            "n": 2022,
+            "n_clusters": 231
+          },
+          {
+            "feature": "permits_g3_wr",
+            "coef": 0.001242,
+            "se_clustered": 0.00057,
+            "t": 2.178,
+            "significant_5pct": true,
+            "n": 2022,
+            "n_clusters": 231
+          }
+        ]
+      },
+      "S2": {
+        "status": "RUN",
+        "n": 1560,
+        "n_metros": 231,
+        "n_origins": 7,
+        "origins": [
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020
+        ],
+        "in_sample_r2": 0.3647,
+        "pooled_ridge_coefficients": {
+          "pop_g1_wr": 0.003976,
+          "pop_g3_wr": 0.004076,
+          "pop_accel_wr": 0.000263,
+          "hpi_g1_wr": 0.004922,
+          "hpi_g5_wr": -0.003718,
+          "hpi_gap_wr": 0.004017,
+          "hpi_vol_wr": 0.001196,
+          "permits_pc_wr": 0.000942,
+          "permits_g3_wr": 8.3e-05
+        },
+        "E5_shocks": [
+          {
+            "shock": "rate_shock_200bp",
+            "status": "RUN",
+            "scope": "exposed_only",
+            "description": "Mortgage rates +200 bp; proxied by a uniform valuation-gap increase.",
+            "n_metros": 1560,
+            "n_exposed": 390,
+            "graded_on": "response_sign",
+            "relative_response": 0.004017,
+            "expected_sign": -1,
+            "observed_sign": 1,
+            "rank_correlation_after_shock": 0.99,
+            "verdict": "IMPLAUSIBLE",
+            "rationale": "Metros already priced furthest above their own long-run trend are the most affordability-constrained and should decline relative to peers.",
+            "failure_signature": "A uniform or positive response means the model carries no rate sensitivity at all.",
+            "notes": ""
+          },
+          {
+            "shock": "premium_shock_40pct",
+            "status": "RUN",
+            "scope": "exposed_only",
+            "description": "Homeowners premium +40% concentrated in high-hazard metros.",
+            "n_metros": 1560,
+            "n_exposed": 390,
+            "graded_on": "response_sign",
+            "relative_response": 0.001196,
+            "expected_sign": -1,
+            "observed_sign": 1,
+            "rank_correlation_after_shock": 0.9984,
+            "verdict": "IMPLAUSIBLE",
+            "rationale": "Insurance cost is a housing-cost shock; exposed metros should lose relative attractiveness.",
+            "failure_signature": "Wrong sign means the climate/insurance pillar is acting as a proxy for Sun Belt growth rather than for risk -- the exact inversion already measured (+1.57% vs +0.51%).",
+            "notes": "Replace hpi_vol_wr with the Treasury FIO premium-level feature once the FIO adapter lands; hpi_vol is a stand-in."
+          },
+          {
+            "shock": "momentum_reversal",
+            "status": "RUN",
+            "scope": "uniform",
+            "description": "Prior growth momentum halved everywhere.",
+            "n_metros": 1560,
+            "n_exposed": 390,
+            "graded_on": "rank_stability",
+            "relative_response": 0.0,
+            "expected_sign": -1,
+            "observed_sign": 0,
+            "rank_correlation_after_shock": 1.0,
+            "verdict": "PLAUSIBLE",
+            "rationale": "If momentum is the dominant real signal, removing it must compress the ranking.",
+            "failure_signature": "Wholesale reordering rather than compression indicates a scale artifact.",
+            "notes": ""
+          }
+        ],
+        "loo_origin_stability": [
+          {
+            "feature": "pop_g1_wr",
+            "mean_coef": 0.00396,
+            "min_coef": 0.00358,
+            "max_coef": 0.00431,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 7
+          },
+          {
+            "feature": "pop_g3_wr",
+            "mean_coef": 0.00405,
+            "min_coef": 0.00382,
+            "max_coef": 0.00424,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 7
+          },
+          {
+            "feature": "pop_accel_wr",
+            "mean_coef": 0.00027,
+            "min_coef": -0.00012,
+            "max_coef": 0.0005,
+            "share_positive": 0.857,
+            "sign_stable": false,
+            "n_refits": 7
+          },
+          {
+            "feature": "hpi_g1_wr",
+            "mean_coef": 0.00491,
+            "min_coef": 0.00452,
+            "max_coef": 0.00527,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 7
+          },
+          {
+            "feature": "hpi_g5_wr",
+            "mean_coef": -0.00332,
+            "min_coef": -0.00471,
+            "max_coef": -0.00169,
+            "share_positive": 0.0,
+            "sign_stable": true,
+            "n_refits": 7
+          },
+          {
+            "feature": "hpi_gap_wr",
+            "mean_coef": 0.00363,
+            "min_coef": 0.00194,
+            "max_coef": 0.00545,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 7
+          },
+          {
+            "feature": "hpi_vol_wr",
+            "mean_coef": 0.0012,
+            "min_coef": 0.00045,
+            "max_coef": 0.00172,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 7
+          },
+          {
+            "feature": "permits_pc_wr",
+            "mean_coef": 0.00092,
+            "min_coef": 0.00065,
+            "max_coef": 0.00115,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 7
+          },
+          {
+            "feature": "permits_g3_wr",
+            "mean_coef": 0.0001,
+            "min_coef": 2e-05,
+            "max_coef": 0.00024,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 7
+          }
+        ],
+        "clustered_ols": [
+          {
+            "feature": "pop_g1_wr",
+            "coef": 0.003997,
+            "se_clustered": 0.000461,
+            "t": 8.678,
+            "significant_5pct": true,
+            "n": 1560,
+            "n_clusters": 231
+          },
+          {
+            "feature": "pop_g3_wr",
+            "coef": 0.0041,
+            "se_clustered": 0.000524,
+            "t": 7.825,
+            "significant_5pct": true,
+            "n": 1560,
+            "n_clusters": 231
+          },
+          {
+            "feature": "pop_accel_wr",
+            "coef": 0.000262,
+            "se_clustered": 0.000595,
+            "t": 0.44,
+            "significant_5pct": false,
+            "n": 1560,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_g1_wr",
+            "coef": 0.004922,
+            "se_clustered": 0.000745,
+            "t": 6.606,
+            "significant_5pct": true,
+            "n": 1560,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_g5_wr",
+            "coef": -0.004307,
+            "se_clustered": 0.002095,
+            "t": -2.056,
+            "significant_5pct": true,
+            "n": 1560,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_gap_wr",
+            "coef": 0.004596,
+            "se_clustered": 0.002272,
+            "t": 2.023,
+            "significant_5pct": true,
+            "n": 1560,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_vol_wr",
+            "coef": 0.001217,
+            "se_clustered": 0.000746,
+            "t": 1.631,
+            "significant_5pct": false,
+            "n": 1560,
+            "n_clusters": 231
+          },
+          {
+            "feature": "permits_pc_wr",
+            "coef": 0.000973,
+            "se_clustered": 0.000726,
+            "t": 1.341,
+            "significant_5pct": false,
+            "n": 1560,
+            "n_clusters": 231
+          },
+          {
+            "feature": "permits_g3_wr",
+            "coef": 6.6e-05,
+            "se_clustered": 0.000736,
+            "t": 0.09,
+            "significant_5pct": false,
+            "n": 1560,
+            "n_clusters": 231
+          }
+        ]
+      },
+      "S0_on_S2_sample": {
+        "status": "RUN",
+        "n": 1560,
+        "n_metros": 231,
+        "n_origins": 7,
+        "origins": [
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020
+        ],
+        "in_sample_r2": 0.4693,
+        "pooled_ridge_coefficients": {
+          "pop_g1_wr": 0.004334,
+          "pop_g3_wr": 0.004193,
+          "pop_accel_wr": 0.001315,
+          "hpi_g1_wr": 0.005285,
+          "hpi_g5_wr": -0.009305,
+          "hpi_gap_wr": 0.00636,
+          "hpi_vol_wr": 0.002188,
+          "permits_pc_wr": -0.001396,
+          "permits_g3_wr": 0.000147
+        },
+        "E5_shocks": [
+          {
+            "shock": "rate_shock_200bp",
+            "status": "RUN",
+            "scope": "exposed_only",
+            "description": "Mortgage rates +200 bp; proxied by a uniform valuation-gap increase.",
+            "n_metros": 1560,
+            "n_exposed": 390,
+            "graded_on": "response_sign",
+            "relative_response": 0.00636,
+            "expected_sign": -1,
+            "observed_sign": 1,
+            "rank_correlation_after_shock": 0.9747,
+            "verdict": "IMPLAUSIBLE",
+            "rationale": "Metros already priced furthest above their own long-run trend are the most affordability-constrained and should decline relative to peers.",
+            "failure_signature": "A uniform or positive response means the model carries no rate sensitivity at all.",
+            "notes": ""
+          },
+          {
+            "shock": "premium_shock_40pct",
+            "status": "RUN",
+            "scope": "exposed_only",
+            "description": "Homeowners premium +40% concentrated in high-hazard metros.",
+            "n_metros": 1560,
+            "n_exposed": 390,
+            "graded_on": "response_sign",
+            "relative_response": 0.002188,
+            "expected_sign": -1,
+            "observed_sign": 1,
+            "rank_correlation_after_shock": 0.9966,
+            "verdict": "IMPLAUSIBLE",
+            "rationale": "Insurance cost is a housing-cost shock; exposed metros should lose relative attractiveness.",
+            "failure_signature": "Wrong sign means the climate/insurance pillar is acting as a proxy for Sun Belt growth rather than for risk -- the exact inversion already measured (+1.57% vs +0.51%).",
+            "notes": "Replace hpi_vol_wr with the Treasury FIO premium-level feature once the FIO adapter lands; hpi_vol is a stand-in."
+          },
+          {
+            "shock": "momentum_reversal",
+            "status": "RUN",
+            "scope": "uniform",
+            "description": "Prior growth momentum halved everywhere.",
+            "n_metros": 1560,
+            "n_exposed": 390,
+            "graded_on": "rank_stability",
+            "relative_response": -0.0,
+            "expected_sign": -1,
+            "observed_sign": 0,
+            "rank_correlation_after_shock": 1.0,
+            "verdict": "PLAUSIBLE",
+            "rationale": "If momentum is the dominant real signal, removing it must compress the ranking.",
+            "failure_signature": "Wholesale reordering rather than compression indicates a scale artifact.",
+            "notes": ""
+          }
+        ],
+        "loo_origin_stability": [
+          {
+            "feature": "pop_g1_wr",
+            "mean_coef": 0.00433,
+            "min_coef": 0.0041,
+            "max_coef": 0.00454,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 7
+          },
+          {
+            "feature": "pop_g3_wr",
+            "mean_coef": 0.00418,
+            "min_coef": 0.00393,
+            "max_coef": 0.00448,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 7
+          },
+          {
+            "feature": "pop_accel_wr",
+            "mean_coef": 0.00133,
+            "min_coef": 0.00097,
+            "max_coef": 0.00197,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 7
+          },
+          {
+            "feature": "hpi_g1_wr",
+            "mean_coef": 0.00531,
+            "min_coef": 0.00476,
+            "max_coef": 0.00654,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 7
+          },
+          {
+            "feature": "hpi_g5_wr",
+            "mean_coef": -0.00934,
+            "min_coef": -0.01019,
+            "max_coef": -0.00864,
+            "share_positive": 0.0,
+            "sign_stable": true,
+            "n_refits": 7
+          },
+          {
+            "feature": "hpi_gap_wr",
+            "mean_coef": 0.00636,
+            "min_coef": 0.00575,
+            "max_coef": 0.00705,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 7
+          },
+          {
+            "feature": "hpi_vol_wr",
+            "mean_coef": 0.00218,
+            "min_coef": 0.00093,
+            "max_coef": 0.00282,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 7
+          },
+          {
+            "feature": "permits_pc_wr",
+            "mean_coef": -0.00139,
+            "min_coef": -0.00177,
+            "max_coef": -0.00106,
+            "share_positive": 0.0,
+            "sign_stable": true,
+            "n_refits": 7
+          },
+          {
+            "feature": "permits_g3_wr",
+            "mean_coef": 0.00015,
+            "min_coef": 5e-05,
+            "max_coef": 0.00028,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 7
+          }
+        ],
+        "clustered_ols": [
+          {
+            "feature": "pop_g1_wr",
+            "coef": 0.004359,
+            "se_clustered": 0.000443,
+            "t": 9.832,
+            "significant_5pct": true,
+            "n": 1560,
+            "n_clusters": 231
+          },
+          {
+            "feature": "pop_g3_wr",
+            "coef": 0.004234,
+            "se_clustered": 0.000542,
+            "t": 7.815,
+            "significant_5pct": true,
+            "n": 1560,
+            "n_clusters": 231
+          },
+          {
+            "feature": "pop_accel_wr",
+            "coef": 0.001283,
+            "se_clustered": 0.000744,
+            "t": 1.725,
+            "significant_5pct": false,
+            "n": 1560,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_g1_wr",
+            "coef": 0.005311,
+            "se_clustered": 0.000739,
+            "t": 7.191,
+            "significant_5pct": true,
+            "n": 1560,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_g5_wr",
+            "coef": -0.009571,
+            "se_clustered": 0.00132,
+            "t": -7.25,
+            "significant_5pct": true,
+            "n": 1560,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_gap_wr",
+            "coef": 0.006582,
+            "se_clustered": 0.001367,
+            "t": 4.817,
+            "significant_5pct": true,
+            "n": 1560,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_vol_wr",
+            "coef": 0.002161,
+            "se_clustered": 0.000801,
+            "t": 2.699,
+            "significant_5pct": true,
+            "n": 1560,
+            "n_clusters": 231
+          },
+          {
+            "feature": "permits_pc_wr",
+            "coef": -0.001412,
+            "se_clustered": 0.000925,
+            "t": -1.526,
+            "significant_5pct": false,
+            "n": 1560,
+            "n_clusters": 231
+          },
+          {
+            "feature": "permits_g3_wr",
+            "coef": 0.000157,
+            "se_clustered": 0.000507,
+            "t": 0.31,
+            "significant_5pct": false,
+            "n": 1560,
+            "n_clusters": 231
+          }
+        ]
+      }
+    },
+    "hpi_h3": {
+      "target_raw": "y_hpi",
+      "horizon": 3,
+      "features_used": [
+        "pop_g1_wr",
+        "pop_g3_wr",
+        "pop_accel_wr",
+        "hpi_g1_wr",
+        "hpi_g5_wr",
+        "hpi_gap_wr",
+        "hpi_vol_wr",
+        "permits_pc_wr",
+        "permits_g3_wr"
+      ],
+      "features_banned_by_clock_leak": [],
+      "graded_scorecard_certified": false,
+      "variance_decomposition": [
+        {
+          "feature": "pop_g1",
+          "n": 2540,
+          "n_metros": 231,
+          "var_total": 8.21124e-05,
+          "within_metro_share": 0.314,
+          "informative_under_fe": true
+        },
+        {
+          "feature": "pop_g3",
+          "n": 2540,
+          "n_metros": 231,
+          "var_total": 7.65188e-05,
+          "within_metro_share": 0.3315,
+          "informative_under_fe": true
+        },
+        {
+          "feature": "pop_accel",
+          "n": 2540,
+          "n_metros": 231,
+          "var_total": 2.41791e-05,
+          "within_metro_share": 0.9049,
+          "informative_under_fe": true
+        },
+        {
+          "feature": "hpi_g1",
+          "n": 2540,
+          "n_metros": 231,
+          "var_total": 0.0014675464,
+          "within_metro_share": 0.8396,
+          "informative_under_fe": true
+        },
+        {
+          "feature": "hpi_g5",
+          "n": 2540,
+          "n_metros": 231,
+          "var_total": 0.0009389331,
+          "within_metro_share": 0.8723,
+          "informative_under_fe": true
+        },
+        {
+          "feature": "hpi_gap",
+          "n": 2540,
+          "n_metros": 231,
+          "var_total": 0.0085456382,
+          "within_metro_share": 0.8872,
+          "informative_under_fe": true
+        },
+        {
+          "feature": "hpi_vol",
+          "n": 2540,
+          "n_metros": 231,
+          "var_total": 0.0011241939,
+          "within_metro_share": 0.3799,
+          "informative_under_fe": true
+        },
+        {
+          "feature": "permits_pc",
+          "n": 2487,
+          "n_metros": 231,
+          "var_total": 6.2506452824,
+          "within_metro_share": 0.2214,
+          "informative_under_fe": true
+        },
+        {
+          "feature": "permits_g3",
+          "n": 2241,
+          "n_metros": 231,
+          "var_total": 0.3535438088,
+          "within_metro_share": 0.7575,
+          "informative_under_fe": true
+        }
+      ],
+      "S0": {
+        "status": "RUN",
+        "n": 2241,
+        "n_metros": 231,
+        "n_origins": 10,
+        "origins": [
+          2012,
+          2013,
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2022
+        ],
+        "in_sample_r2": 0.4649,
+        "pooled_ridge_coefficients": {
+          "pop_g1_wr": 0.00491,
+          "pop_g3_wr": 0.004023,
+          "pop_accel_wr": 0.001801,
+          "hpi_g1_wr": 0.007262,
+          "hpi_g5_wr": -0.012648,
+          "hpi_gap_wr": 0.00532,
+          "hpi_vol_wr": 0.004256,
+          "permits_pc_wr": -0.001936,
+          "permits_g3_wr": 0.000285
+        },
+        "E5_shocks": [
+          {
+            "shock": "rate_shock_200bp",
+            "status": "RUN",
+            "scope": "exposed_only",
+            "description": "Mortgage rates +200 bp; proxied by a uniform valuation-gap increase.",
+            "n_metros": 2241,
+            "n_exposed": 560,
+            "graded_on": "response_sign",
+            "relative_response": 0.00532,
+            "expected_sign": -1,
+            "observed_sign": 1,
+            "rank_correlation_after_shock": 0.982,
+            "verdict": "IMPLAUSIBLE",
+            "rationale": "Metros already priced furthest above their own long-run trend are the most affordability-constrained and should decline relative to peers.",
+            "failure_signature": "A uniform or positive response means the model carries no rate sensitivity at all.",
+            "notes": ""
+          },
+          {
+            "shock": "premium_shock_40pct",
+            "status": "RUN",
+            "scope": "exposed_only",
+            "description": "Homeowners premium +40% concentrated in high-hazard metros.",
+            "n_metros": 2241,
+            "n_exposed": 560,
+            "graded_on": "response_sign",
+            "relative_response": 0.004256,
+            "expected_sign": -1,
+            "observed_sign": 1,
+            "rank_correlation_after_shock": 0.9919,
+            "verdict": "IMPLAUSIBLE",
+            "rationale": "Insurance cost is a housing-cost shock; exposed metros should lose relative attractiveness.",
+            "failure_signature": "Wrong sign means the climate/insurance pillar is acting as a proxy for Sun Belt growth rather than for risk -- the exact inversion already measured (+1.57% vs +0.51%).",
+            "notes": "Replace hpi_vol_wr with the Treasury FIO premium-level feature once the FIO adapter lands; hpi_vol is a stand-in."
+          },
+          {
+            "shock": "momentum_reversal",
+            "status": "RUN",
+            "scope": "uniform",
+            "description": "Prior growth momentum halved everywhere.",
+            "n_metros": 2241,
+            "n_exposed": 560,
+            "graded_on": "rank_stability",
+            "relative_response": 0.0,
+            "expected_sign": -1,
+            "observed_sign": 0,
+            "rank_correlation_after_shock": 1.0,
+            "verdict": "PLAUSIBLE",
+            "rationale": "If momentum is the dominant real signal, removing it must compress the ranking.",
+            "failure_signature": "Wholesale reordering rather than compression indicates a scale artifact.",
+            "notes": ""
+          }
+        ],
+        "loo_origin_stability": [
+          {
+            "feature": "pop_g1_wr",
+            "mean_coef": 0.00489,
+            "min_coef": 0.0047,
+            "max_coef": 0.00507,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 10
+          },
+          {
+            "feature": "pop_g3_wr",
+            "mean_coef": 0.004,
+            "min_coef": 0.00365,
+            "max_coef": 0.00454,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 10
+          },
+          {
+            "feature": "pop_accel_wr",
+            "mean_coef": 0.0018,
+            "min_coef": 0.00147,
+            "max_coef": 0.00215,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 10
+          },
+          {
+            "feature": "hpi_g1_wr",
+            "mean_coef": 0.00733,
+            "min_coef": 0.00628,
+            "max_coef": 0.00823,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 10
+          },
+          {
+            "feature": "hpi_g5_wr",
+            "mean_coef": -0.01259,
+            "min_coef": -0.01385,
+            "max_coef": -0.01074,
+            "share_positive": 0.0,
+            "sign_stable": true,
+            "n_refits": 10
+          },
+          {
+            "feature": "hpi_gap_wr",
+            "mean_coef": 0.00525,
+            "min_coef": 0.00419,
+            "max_coef": 0.00605,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 10
+          },
+          {
+            "feature": "hpi_vol_wr",
+            "mean_coef": 0.00421,
+            "min_coef": 0.00357,
+            "max_coef": 0.00485,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 10
+          },
+          {
+            "feature": "permits_pc_wr",
+            "mean_coef": -0.00193,
+            "min_coef": -0.00242,
+            "max_coef": -0.00086,
+            "share_positive": 0.0,
+            "sign_stable": true,
+            "n_refits": 10
+          },
+          {
+            "feature": "permits_g3_wr",
+            "mean_coef": 0.00028,
+            "min_coef": -6e-05,
+            "max_coef": 0.00057,
+            "share_positive": 0.9,
+            "sign_stable": false,
+            "n_refits": 10
+          }
+        ],
+        "clustered_ols": [
+          {
+            "feature": "pop_g1_wr",
+            "coef": 0.00492,
+            "se_clustered": 0.000572,
+            "t": 8.597,
+            "significant_5pct": true,
+            "n": 2241,
+            "n_clusters": 231
+          },
+          {
+            "feature": "pop_g3_wr",
+            "coef": 0.004038,
+            "se_clustered": 0.000496,
+            "t": 8.138,
+            "significant_5pct": true,
+            "n": 2241,
+            "n_clusters": 231
+          },
+          {
+            "feature": "pop_accel_wr",
+            "coef": 0.001794,
+            "se_clustered": 0.000559,
+            "t": 3.207,
+            "significant_5pct": true,
+            "n": 2241,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_g1_wr",
+            "coef": 0.007288,
+            "se_clustered": 0.000981,
+            "t": 7.43,
+            "significant_5pct": true,
+            "n": 2241,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_g5_wr",
+            "coef": -0.012889,
+            "se_clustered": 0.001219,
+            "t": -10.573,
+            "significant_5pct": true,
+            "n": 2241,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_gap_wr",
+            "coef": 0.005522,
+            "se_clustered": 0.001206,
+            "t": 4.579,
+            "significant_5pct": true,
+            "n": 2241,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_vol_wr",
+            "coef": 0.004225,
+            "se_clustered": 0.000844,
+            "t": 5.007,
+            "significant_5pct": true,
+            "n": 2241,
+            "n_clusters": 231
+          },
+          {
+            "feature": "permits_pc_wr",
+            "coef": -0.001936,
+            "se_clustered": 0.000851,
+            "t": -2.274,
+            "significant_5pct": true,
+            "n": 2241,
+            "n_clusters": 231
+          },
+          {
+            "feature": "permits_g3_wr",
+            "coef": 0.000298,
+            "se_clustered": 0.000446,
+            "t": 0.668,
+            "significant_5pct": false,
+            "n": 2241,
+            "n_clusters": 231
+          }
+        ]
+      },
+      "S1": {
+        "status": "RUN",
+        "n": 2241,
+        "n_metros": 231,
+        "n_origins": 10,
+        "origins": [
+          2012,
+          2013,
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2022
+        ],
+        "in_sample_r2": 0.3799,
+        "pooled_ridge_coefficients": {
+          "pop_g1_wr": 0.003374,
+          "pop_g3_wr": 0.002757,
+          "pop_accel_wr": 0.000539,
+          "hpi_g1_wr": 0.005342,
+          "hpi_g5_wr": -0.019604,
+          "hpi_gap_wr": 0.008087,
+          "hpi_vol_wr": 0.001088,
+          "permits_pc_wr": -0.002529,
+          "permits_g3_wr": 0.001716
+        },
+        "E5_shocks": [
+          {
+            "shock": "rate_shock_200bp",
+            "status": "RUN",
+            "scope": "exposed_only",
+            "description": "Mortgage rates +200 bp; proxied by a uniform valuation-gap increase.",
+            "n_metros": 2241,
+            "n_exposed": 560,
+            "graded_on": "response_sign",
+            "relative_response": 0.008087,
+            "expected_sign": -1,
+            "observed_sign": 1,
+            "rank_correlation_after_shock": 0.9414,
+            "verdict": "IMPLAUSIBLE",
+            "rationale": "Metros already priced furthest above their own long-run trend are the most affordability-constrained and should decline relative to peers.",
+            "failure_signature": "A uniform or positive response means the model carries no rate sensitivity at all.",
+            "notes": ""
+          },
+          {
+            "shock": "premium_shock_40pct",
+            "status": "RUN",
+            "scope": "exposed_only",
+            "description": "Homeowners premium +40% concentrated in high-hazard metros.",
+            "n_metros": 2241,
+            "n_exposed": 560,
+            "graded_on": "response_sign",
+            "relative_response": 0.001088,
+            "expected_sign": -1,
+            "observed_sign": 1,
+            "rank_correlation_after_shock": 0.999,
+            "verdict": "IMPLAUSIBLE",
+            "rationale": "Insurance cost is a housing-cost shock; exposed metros should lose relative attractiveness.",
+            "failure_signature": "Wrong sign means the climate/insurance pillar is acting as a proxy for Sun Belt growth rather than for risk -- the exact inversion already measured (+1.57% vs +0.51%).",
+            "notes": "Replace hpi_vol_wr with the Treasury FIO premium-level feature once the FIO adapter lands; hpi_vol is a stand-in."
+          },
+          {
+            "shock": "momentum_reversal",
+            "status": "RUN",
+            "scope": "uniform",
+            "description": "Prior growth momentum halved everywhere.",
+            "n_metros": 2241,
+            "n_exposed": 560,
+            "graded_on": "rank_stability",
+            "relative_response": 0.0,
+            "expected_sign": -1,
+            "observed_sign": 0,
+            "rank_correlation_after_shock": 1.0,
+            "verdict": "PLAUSIBLE",
+            "rationale": "If momentum is the dominant real signal, removing it must compress the ranking.",
+            "failure_signature": "Wholesale reordering rather than compression indicates a scale artifact.",
+            "notes": ""
+          }
+        ],
+        "loo_origin_stability": [
+          {
+            "feature": "pop_g1_wr",
+            "mean_coef": 0.00336,
+            "min_coef": 0.00295,
+            "max_coef": 0.0036,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 10
+          },
+          {
+            "feature": "pop_g3_wr",
+            "mean_coef": 0.00273,
+            "min_coef": 0.00212,
+            "max_coef": 0.00297,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 10
+          },
+          {
+            "feature": "pop_accel_wr",
+            "mean_coef": 0.00056,
+            "min_coef": 0.00039,
+            "max_coef": 0.00077,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 10
+          },
+          {
+            "feature": "hpi_g1_wr",
+            "mean_coef": 0.00534,
+            "min_coef": 0.00431,
+            "max_coef": 0.00759,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 10
+          },
+          {
+            "feature": "hpi_g5_wr",
+            "mean_coef": -0.01951,
+            "min_coef": -0.02136,
+            "max_coef": -0.01615,
+            "share_positive": 0.0,
+            "sign_stable": true,
+            "n_refits": 10
+          },
+          {
+            "feature": "hpi_gap_wr",
+            "mean_coef": 0.00804,
+            "min_coef": 0.00659,
+            "max_coef": 0.00923,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 10
+          },
+          {
+            "feature": "hpi_vol_wr",
+            "mean_coef": 0.00111,
+            "min_coef": -0.00196,
+            "max_coef": 0.00263,
+            "share_positive": 0.9,
+            "sign_stable": false,
+            "n_refits": 10
+          },
+          {
+            "feature": "permits_pc_wr",
+            "mean_coef": -0.00248,
+            "min_coef": -0.00345,
+            "max_coef": -0.00074,
+            "share_positive": 0.0,
+            "sign_stable": true,
+            "n_refits": 10
+          },
+          {
+            "feature": "permits_g3_wr",
+            "mean_coef": 0.00169,
+            "min_coef": 0.00121,
+            "max_coef": 0.0019,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 10
+          }
+        ],
+        "clustered_ols": [
+          {
+            "feature": "pop_g1_wr",
+            "coef": 0.003377,
+            "se_clustered": 0.000598,
+            "t": 5.649,
+            "significant_5pct": true,
+            "n": 2241,
+            "n_clusters": 231
+          },
+          {
+            "feature": "pop_g3_wr",
+            "coef": 0.002761,
+            "se_clustered": 0.000458,
+            "t": 6.03,
+            "significant_5pct": true,
+            "n": 2241,
+            "n_clusters": 231
+          },
+          {
+            "feature": "pop_accel_wr",
+            "coef": 0.000537,
+            "se_clustered": 0.000441,
+            "t": 1.219,
+            "significant_5pct": false,
+            "n": 2241,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_g1_wr",
+            "coef": 0.005334,
+            "se_clustered": 0.000681,
+            "t": 7.833,
+            "significant_5pct": true,
+            "n": 2241,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_g5_wr",
+            "coef": -0.019791,
+            "se_clustered": 0.001615,
+            "t": -12.255,
+            "significant_5pct": true,
+            "n": 2241,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_gap_wr",
+            "coef": 0.00827,
+            "se_clustered": 0.001822,
+            "t": 4.538,
+            "significant_5pct": true,
+            "n": 2241,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_vol_wr",
+            "coef": 0.001094,
+            "se_clustered": 0.000624,
+            "t": 1.754,
+            "significant_5pct": false,
+            "n": 2241,
+            "n_clusters": 231
+          },
+          {
+            "feature": "permits_pc_wr",
+            "coef": -0.002525,
+            "se_clustered": 0.000674,
+            "t": -3.746,
+            "significant_5pct": true,
+            "n": 2241,
+            "n_clusters": 231
+          },
+          {
+            "feature": "permits_g3_wr",
+            "coef": 0.001721,
+            "se_clustered": 0.000638,
+            "t": 2.698,
+            "significant_5pct": true,
+            "n": 2241,
+            "n_clusters": 231
+          }
+        ]
+      },
+      "S2": {
+        "status": "RUN",
+        "n": 1779,
+        "n_metros": 231,
+        "n_origins": 8,
+        "origins": [
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2022
+        ],
+        "in_sample_r2": 0.3309,
+        "pooled_ridge_coefficients": {
+          "pop_g1_wr": 0.003754,
+          "pop_g3_wr": 0.003607,
+          "pop_accel_wr": 0.000438,
+          "hpi_g1_wr": 0.00436,
+          "hpi_g5_wr": 0.000453,
+          "hpi_gap_wr": 0.002675,
+          "hpi_vol_wr": 0.002215,
+          "permits_pc_wr": 0.000662,
+          "permits_g3_wr": 0.000135
+        },
+        "E5_shocks": [
+          {
+            "shock": "rate_shock_200bp",
+            "status": "RUN",
+            "scope": "exposed_only",
+            "description": "Mortgage rates +200 bp; proxied by a uniform valuation-gap increase.",
+            "n_metros": 1779,
+            "n_exposed": 445,
+            "graded_on": "response_sign",
+            "relative_response": 0.002675,
+            "expected_sign": -1,
+            "observed_sign": 1,
+            "rank_correlation_after_shock": 0.9961,
+            "verdict": "IMPLAUSIBLE",
+            "rationale": "Metros already priced furthest above their own long-run trend are the most affordability-constrained and should decline relative to peers.",
+            "failure_signature": "A uniform or positive response means the model carries no rate sensitivity at all.",
+            "notes": ""
+          },
+          {
+            "shock": "premium_shock_40pct",
+            "status": "RUN",
+            "scope": "exposed_only",
+            "description": "Homeowners premium +40% concentrated in high-hazard metros.",
+            "n_metros": 1779,
+            "n_exposed": 445,
+            "graded_on": "response_sign",
+            "relative_response": 0.002215,
+            "expected_sign": -1,
+            "observed_sign": 1,
+            "rank_correlation_after_shock": 0.9953,
+            "verdict": "IMPLAUSIBLE",
+            "rationale": "Insurance cost is a housing-cost shock; exposed metros should lose relative attractiveness.",
+            "failure_signature": "Wrong sign means the climate/insurance pillar is acting as a proxy for Sun Belt growth rather than for risk -- the exact inversion already measured (+1.57% vs +0.51%).",
+            "notes": "Replace hpi_vol_wr with the Treasury FIO premium-level feature once the FIO adapter lands; hpi_vol is a stand-in."
+          },
+          {
+            "shock": "momentum_reversal",
+            "status": "RUN",
+            "scope": "uniform",
+            "description": "Prior growth momentum halved everywhere.",
+            "n_metros": 1779,
+            "n_exposed": 445,
+            "graded_on": "rank_stability",
+            "relative_response": 0.0,
+            "expected_sign": -1,
+            "observed_sign": 0,
+            "rank_correlation_after_shock": 1.0,
+            "verdict": "PLAUSIBLE",
+            "rationale": "If momentum is the dominant real signal, removing it must compress the ranking.",
+            "failure_signature": "Wholesale reordering rather than compression indicates a scale artifact.",
+            "notes": ""
+          }
+        ],
+        "loo_origin_stability": [
+          {
+            "feature": "pop_g1_wr",
+            "mean_coef": 0.00375,
+            "min_coef": 0.00335,
+            "max_coef": 0.00462,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 8
+          },
+          {
+            "feature": "pop_g3_wr",
+            "mean_coef": 0.0036,
+            "min_coef": 0.00328,
+            "max_coef": 0.00477,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 8
+          },
+          {
+            "feature": "pop_accel_wr",
+            "mean_coef": 0.00044,
+            "min_coef": 0.00016,
+            "max_coef": 0.00074,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 8
+          },
+          {
+            "feature": "hpi_g1_wr",
+            "mean_coef": 0.00433,
+            "min_coef": 0.00331,
+            "max_coef": 0.0051,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 8
+          },
+          {
+            "feature": "hpi_g5_wr",
+            "mean_coef": 0.00046,
+            "min_coef": -0.00146,
+            "max_coef": 0.00129,
+            "share_positive": 0.875,
+            "sign_stable": false,
+            "n_refits": 8
+          },
+          {
+            "feature": "hpi_gap_wr",
+            "mean_coef": 0.00264,
+            "min_coef": 0.00183,
+            "max_coef": 0.00384,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 8
+          },
+          {
+            "feature": "hpi_vol_wr",
+            "mean_coef": 0.0022,
+            "min_coef": 0.00155,
+            "max_coef": 0.00279,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 8
+          },
+          {
+            "feature": "permits_pc_wr",
+            "mean_coef": 0.00068,
+            "min_coef": 0.00013,
+            "max_coef": 0.00203,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 8
+          },
+          {
+            "feature": "permits_g3_wr",
+            "mean_coef": 0.00012,
+            "min_coef": -0.00047,
+            "max_coef": 0.00042,
+            "share_positive": 0.875,
+            "sign_stable": false,
+            "n_refits": 8
+          }
+        ],
+        "clustered_ols": [
+          {
+            "feature": "pop_g1_wr",
+            "coef": 0.003856,
+            "se_clustered": 0.000632,
+            "t": 6.1,
+            "significant_5pct": true,
+            "n": 1779,
+            "n_clusters": 231
+          },
+          {
+            "feature": "pop_g3_wr",
+            "coef": 0.003722,
+            "se_clustered": 0.000515,
+            "t": 7.224,
+            "significant_5pct": true,
+            "n": 1779,
+            "n_clusters": 231
+          },
+          {
+            "feature": "pop_accel_wr",
+            "coef": 0.000431,
+            "se_clustered": 0.000572,
+            "t": 0.753,
+            "significant_5pct": false,
+            "n": 1779,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_g1_wr",
+            "coef": 0.004457,
+            "se_clustered": 0.00075,
+            "t": 5.945,
+            "significant_5pct": true,
+            "n": 1779,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_g5_wr",
+            "coef": -0.000766,
+            "se_clustered": 0.002134,
+            "t": -0.359,
+            "significant_5pct": false,
+            "n": 1779,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_gap_wr",
+            "coef": 0.003939,
+            "se_clustered": 0.002193,
+            "t": 1.796,
+            "significant_5pct": false,
+            "n": 1779,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_vol_wr",
+            "coef": 0.00241,
+            "se_clustered": 0.000748,
+            "t": 3.224,
+            "significant_5pct": true,
+            "n": 1779,
+            "n_clusters": 231
+          },
+          {
+            "feature": "permits_pc_wr",
+            "coef": 0.000722,
+            "se_clustered": 0.000586,
+            "t": 1.233,
+            "significant_5pct": false,
+            "n": 1779,
+            "n_clusters": 231
+          },
+          {
+            "feature": "permits_g3_wr",
+            "coef": 8e-05,
+            "se_clustered": 0.000532,
+            "t": 0.15,
+            "significant_5pct": false,
+            "n": 1779,
+            "n_clusters": 231
+          }
+        ]
+      },
+      "S0_on_S2_sample": {
+        "status": "RUN",
+        "n": 1779,
+        "n_metros": 231,
+        "n_origins": 8,
+        "origins": [
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2022
+        ],
+        "in_sample_r2": 0.4584,
+        "pooled_ridge_coefficients": {
+          "pop_g1_wr": 0.004654,
+          "pop_g3_wr": 0.004602,
+          "pop_accel_wr": 0.00101,
+          "hpi_g1_wr": 0.005925,
+          "hpi_g5_wr": -0.007641,
+          "hpi_gap_wr": 0.005678,
+          "hpi_vol_wr": 0.00348,
+          "permits_pc_wr": -0.002628,
+          "permits_g3_wr": 0.000514
+        },
+        "E5_shocks": [
+          {
+            "shock": "rate_shock_200bp",
+            "status": "RUN",
+            "scope": "exposed_only",
+            "description": "Mortgage rates +200 bp; proxied by a uniform valuation-gap increase.",
+            "n_metros": 1779,
+            "n_exposed": 445,
+            "graded_on": "response_sign",
+            "relative_response": 0.005678,
+            "expected_sign": -1,
+            "observed_sign": 1,
+            "rank_correlation_after_shock": 0.9849,
+            "verdict": "IMPLAUSIBLE",
+            "rationale": "Metros already priced furthest above their own long-run trend are the most affordability-constrained and should decline relative to peers.",
+            "failure_signature": "A uniform or positive response means the model carries no rate sensitivity at all.",
+            "notes": ""
+          },
+          {
+            "shock": "premium_shock_40pct",
+            "status": "RUN",
+            "scope": "exposed_only",
+            "description": "Homeowners premium +40% concentrated in high-hazard metros.",
+            "n_metros": 1779,
+            "n_exposed": 445,
+            "graded_on": "response_sign",
+            "relative_response": 0.00348,
+            "expected_sign": -1,
+            "observed_sign": 1,
+            "rank_correlation_after_shock": 0.9941,
+            "verdict": "IMPLAUSIBLE",
+            "rationale": "Insurance cost is a housing-cost shock; exposed metros should lose relative attractiveness.",
+            "failure_signature": "Wrong sign means the climate/insurance pillar is acting as a proxy for Sun Belt growth rather than for risk -- the exact inversion already measured (+1.57% vs +0.51%).",
+            "notes": "Replace hpi_vol_wr with the Treasury FIO premium-level feature once the FIO adapter lands; hpi_vol is a stand-in."
+          },
+          {
+            "shock": "momentum_reversal",
+            "status": "RUN",
+            "scope": "uniform",
+            "description": "Prior growth momentum halved everywhere.",
+            "n_metros": 1779,
+            "n_exposed": 445,
+            "graded_on": "rank_stability",
+            "relative_response": -0.0,
+            "expected_sign": -1,
+            "observed_sign": 0,
+            "rank_correlation_after_shock": 1.0,
+            "verdict": "PLAUSIBLE",
+            "rationale": "If momentum is the dominant real signal, removing it must compress the ranking.",
+            "failure_signature": "Wholesale reordering rather than compression indicates a scale artifact.",
+            "notes": ""
+          }
+        ],
+        "loo_origin_stability": [
+          {
+            "feature": "pop_g1_wr",
+            "mean_coef": 0.00463,
+            "min_coef": 0.00448,
+            "max_coef": 0.0048,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 8
+          },
+          {
+            "feature": "pop_g3_wr",
+            "mean_coef": 0.00455,
+            "min_coef": 0.00428,
+            "max_coef": 0.00488,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 8
+          },
+          {
+            "feature": "pop_accel_wr",
+            "mean_coef": 0.00106,
+            "min_coef": 0.00073,
+            "max_coef": 0.00136,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 8
+          },
+          {
+            "feature": "hpi_g1_wr",
+            "mean_coef": 0.00598,
+            "min_coef": 0.00491,
+            "max_coef": 0.00793,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 8
+          },
+          {
+            "feature": "hpi_g5_wr",
+            "mean_coef": -0.00755,
+            "min_coef": -0.00835,
+            "max_coef": -0.00706,
+            "share_positive": 0.0,
+            "sign_stable": true,
+            "n_refits": 8
+          },
+          {
+            "feature": "hpi_gap_wr",
+            "mean_coef": 0.00562,
+            "min_coef": 0.00484,
+            "max_coef": 0.00633,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 8
+          },
+          {
+            "feature": "hpi_vol_wr",
+            "mean_coef": 0.0034,
+            "min_coef": 0.00225,
+            "max_coef": 0.00419,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 8
+          },
+          {
+            "feature": "permits_pc_wr",
+            "mean_coef": -0.00258,
+            "min_coef": -0.00298,
+            "max_coef": -0.00132,
+            "share_positive": 0.0,
+            "sign_stable": true,
+            "n_refits": 8
+          },
+          {
+            "feature": "permits_g3_wr",
+            "mean_coef": 0.0005,
+            "min_coef": 0.00012,
+            "max_coef": 0.0008,
+            "share_positive": 1.0,
+            "sign_stable": true,
+            "n_refits": 8
+          }
+        ],
+        "clustered_ols": [
+          {
+            "feature": "pop_g1_wr",
+            "coef": 0.004691,
+            "se_clustered": 0.000541,
+            "t": 8.678,
+            "significant_5pct": true,
+            "n": 1779,
+            "n_clusters": 231
+          },
+          {
+            "feature": "pop_g3_wr",
+            "coef": 0.004663,
+            "se_clustered": 0.000507,
+            "t": 9.205,
+            "significant_5pct": true,
+            "n": 1779,
+            "n_clusters": 231
+          },
+          {
+            "feature": "pop_accel_wr",
+            "coef": 0.000971,
+            "se_clustered": 0.000658,
+            "t": 1.476,
+            "significant_5pct": false,
+            "n": 1779,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_g1_wr",
+            "coef": 0.005971,
+            "se_clustered": 0.001014,
+            "t": 5.892,
+            "significant_5pct": true,
+            "n": 1779,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_g5_wr",
+            "coef": -0.007977,
+            "se_clustered": 0.001108,
+            "t": -7.199,
+            "significant_5pct": true,
+            "n": 1779,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_gap_wr",
+            "coef": 0.005949,
+            "se_clustered": 0.001207,
+            "t": 4.928,
+            "significant_5pct": true,
+            "n": 1779,
+            "n_clusters": 231
+          },
+          {
+            "feature": "hpi_vol_wr",
+            "coef": 0.003447,
+            "se_clustered": 0.000947,
+            "t": 3.638,
+            "significant_5pct": true,
+            "n": 1779,
+            "n_clusters": 231
+          },
+          {
+            "feature": "permits_pc_wr",
+            "coef": -0.002668,
+            "se_clustered": 0.000801,
+            "t": -3.332,
+            "significant_5pct": true,
+            "n": 1779,
+            "n_clusters": 231
+          },
+          {
+            "feature": "permits_g3_wr",
+            "coef": 0.000533,
+            "se_clustered": 0.00042,
+            "t": 1.269,
+            "significant_5pct": false,
+            "n": 1779,
+            "n_clusters": 231
+          }
+        ]
+      }
+    }
+  },
+  "verdict": {
+    "per_cell": {
+      "pop_h5": {
+        "P1_both_negative": false,
+        "P2_both_reliably_negative": false,
+        "P3_S2_shocks_plausible": true,
+        "P4_power_precondition_met": true,
+        "confound_hypothesis": "NOT_SUPPORTED",
+        "per_feature": {
+          "hpi_vol_wr": {
+            "within_metro_share": 0.3353,
+            "informative_under_fe": true,
+            "S1_pooled_coef": -0.000124,
+            "P1_negative": true,
+            "S1_loo_share_positive": 0.111,
+            "P2_reliably_negative": true
+          },
+          "hpi_gap_wr": {
+            "within_metro_share": 0.8649,
+            "informative_under_fe": true,
+            "S1_pooled_coef": 0.00075,
+            "P1_negative": false,
+            "S1_loo_share_positive": 1.0,
+            "P2_reliably_negative": false
+          }
+        },
+        "S2_shock_verdicts": {
+          "rate_shock_200bp": "PLAUSIBLE",
+          "premium_shock_40pct": "PLAUSIBLE",
+          "momentum_reversal": "PLAUSIBLE"
+        }
+      },
+      "pop_h3": {
+        "P1_both_negative": false,
+        "P2_both_reliably_negative": false,
+        "P3_S2_shocks_plausible": true,
+        "P4_power_precondition_met": true,
+        "confound_hypothesis": "NOT_SUPPORTED",
+        "per_feature": {
+          "hpi_vol_wr": {
+            "within_metro_share": 0.3793,
+            "informative_under_fe": true,
+            "S1_pooled_coef": 0.000231,
+            "P1_negative": false,
+            "S1_loo_share_positive": 1.0,
+            "P2_reliably_negative": false
+          },
+          "hpi_gap_wr": {
+            "within_metro_share": 0.8864,
+            "informative_under_fe": true,
+            "S1_pooled_coef": 0.000857,
+            "P1_negative": false,
+            "S1_loo_share_positive": 1.0,
+            "P2_reliably_negative": false
+          }
+        },
+        "S2_shock_verdicts": {
+          "rate_shock_200bp": "PLAUSIBLE",
+          "premium_shock_40pct": "PLAUSIBLE",
+          "momentum_reversal": "PLAUSIBLE"
+        }
+      },
+      "hpi_h5": {
+        "P1_both_negative": false,
+        "P2_both_reliably_negative": false,
+        "P3_S2_shocks_plausible": false,
+        "P4_power_precondition_met": true,
+        "confound_hypothesis": "NOT_SUPPORTED",
+        "per_feature": {
+          "hpi_vol_wr": {
+            "within_metro_share": 0.3353,
+            "informative_under_fe": true,
+            "S1_pooled_coef": -0.000767,
+            "P1_negative": true,
+            "S1_loo_share_positive": 0.111,
+            "P2_reliably_negative": true
+          },
+          "hpi_gap_wr": {
+            "within_metro_share": 0.863,
+            "informative_under_fe": true,
+            "S1_pooled_coef": 0.002712,
+            "P1_negative": false,
+            "S1_loo_share_positive": 1.0,
+            "P2_reliably_negative": false
+          }
+        },
+        "S2_shock_verdicts": {
+          "rate_shock_200bp": "IMPLAUSIBLE",
+          "premium_shock_40pct": "IMPLAUSIBLE",
+          "momentum_reversal": "PLAUSIBLE"
+        }
+      },
+      "hpi_h3": {
+        "P1_both_negative": false,
+        "P2_both_reliably_negative": false,
+        "P3_S2_shocks_plausible": false,
+        "P4_power_precondition_met": true,
+        "confound_hypothesis": "NOT_SUPPORTED",
+        "per_feature": {
+          "hpi_vol_wr": {
+            "within_metro_share": 0.3799,
+            "informative_under_fe": true,
+            "S1_pooled_coef": 0.001088,
+            "P1_negative": false,
+            "S1_loo_share_positive": 0.9,
+            "P2_reliably_negative": false
+          },
+          "hpi_gap_wr": {
+            "within_metro_share": 0.8872,
+            "informative_under_fe": true,
+            "S1_pooled_coef": 0.008087,
+            "P1_negative": false,
+            "S1_loo_share_positive": 1.0,
+            "P2_reliably_negative": false
+          }
+        },
+        "S2_shock_verdicts": {
+          "rate_shock_200bp": "IMPLAUSIBLE",
+          "premium_shock_40pct": "IMPLAUSIBLE",
+          "momentum_reversal": "PLAUSIBLE"
+        }
+      }
+    },
+    "cells_supporting_confound_hypothesis": "0/4",
+    "certification_effect": "NONE -- E9 is a post-hoc diagnostic and cannot certify."
+  }
+}

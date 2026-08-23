@@ -263,6 +263,11 @@ def main() -> None:
                 continue
             cell = f"{slug}_h{horizon}"
             p = pd.read_parquet(pq)
+            # The cached panel already carries the *_wr columns from the graded
+            # run. Every specification below writes its own, and a stale column
+            # would collide on merge and could silently reach a fit. Dropped at
+            # load so each spec is built from raw features only.
+            p = p.drop(columns=[c for c in p.columns if c.endswith("_wr")])
 
             sc = latest_scorecard(slug, horizon)
             feats = sc["features_used"] if sc else [f + "_wr" for f in RAW_FEATURES]

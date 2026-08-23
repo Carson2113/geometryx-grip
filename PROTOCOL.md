@@ -710,6 +710,63 @@ verdicts in `v1.0.0-grip1` stand whatever E9 returns. If P3 holds, S2 becomes a
 CANDIDATE requiring a fresh full backtest under a fresh blind pre-registration
 before any shock claim attaches to it.
 
+**Outcome — REJECTED, 0 of 4 cells.** Released with results as `v1.6.0-grip1`;
+full report at `out/E9_METRO_FE.md`.
+
+P1 and P2 fail. Under the pure within-metro transformation `hpi_gap` stays
+positive in all four cells and in 38 of 38 leave-one-origin-out refits, reaching
+t = +4.54 with metro-clustered errors. Removing every persistent difference
+between metros does not touch it. The valuation-gap inversion is therefore a real
+within-metro relationship, not a between-metro confound: when a metro is priced
+further above its own long-run trend than it usually is, its subsequent growth is
+*higher*. `hpi_gap` is a momentum term wearing an affordability label, and
+`rate_shock_200bp` has been testing mean reversion against a feature that measures
+its opposite. `hpi_vol` turns negative under S1 in both h = 5 cells but at
+t = −0.75 and t = −1.65, insignificant in both, and stays positive at h = 3 — a
+feature with little to say rather than a vindicated one. P4 passed everywhere, so
+these signs are readable and the rejection is not a power failure.
+
+A secondary result matters more for the product than the shock gate does.
+Removing metro identity collapses the population fit from 0.584 to 0.101 while the
+house-price fit falls only from 0.466 to 0.437. Which metro you are is nearly the
+whole population story; prices genuinely carry within-metro dynamics. A population
+ranking is therefore carried by persistent cross-sectional characteristics, and the
+honest way to improve it is better cross-sectional features, not better time-series
+handling.
+
+**P3 held for population, and is recorded as a CANDIDATE with an extra
+condition.** In both population cells S2 flips both shocks to PLAUSIBLE with
+leave-one-origin-out sign agreement of 0.000. That is not the shock gate repaired.
+S2 redefines the feature: `hpi_gap_wr` under S2 measures how far a metro's gap sits
+above its own recent average gap, a second difference, and because the exposed set
+is a quantile of the perturbed feature the exposure changes meaning with it —
+selecting metros whose overvaluation is unusually high for them rather than metros
+that are most overvalued. `rate_shock_200bp` as registered asks about metros
+"already priced furthest above their own long-run trend", so S2 has not passed that
+shock; it has passed a different one sharing a name. The t-statistics are marginal
+(as weak as −1.71) on 7 to 8 heavily overlapping origins. S2 is therefore a
+CANDIDATE for the population target only, and its blind re-registration must
+**re-specify the shock exposure against the S2 feature definition**. Re-registering
+the existing shock text against a redefined feature would be a label error, not a
+test.
+
+**Consequence, per the attempt's own reject clause.** The inversion is
+within-metro as well, so the estimator is not the problem and the features are.
+Attempt 2 must not be another estimator. `hpi_vol` was never an insurance price and
+is now shown to carry almost no within-metro information about either target, while
+E8's NFIP realised paid losses already beat the modelled NRI rate head to head.
+Replacing the proxy is the remaining move.
+
+Nothing here changes any certification. The four NOT CERTIFIED verdicts in
+`v1.0.0-grip1` stand, and both failing shocks remain registered as published and
+remain failing.
+
+**Deviation disclosed.** One mechanical code change landed after the
+`v1.6.0-prereg` anchor: the cached panels already carried `*_wr` columns from the
+graded run, which collided on merge and raised a `KeyError` on first execution, so
+stale `*_wr` columns are now dropped at load. Visible in the diff; it changed no
+specification, prediction or rule.
+
 
 ---
 
