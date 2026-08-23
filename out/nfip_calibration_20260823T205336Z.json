@@ -1,0 +1,894 @@
+{
+  "diagnostic": "E8",
+  "title": "NFIP flood price and realised loss as insurance signals",
+  "status": "DESCRIPTIVE -- NOT A GRADED FORECAST",
+  "pre_registration": {
+    "commit": "6ca77bbf0bcb13bbbf49a9301a3e364379bfb384",
+    "commit_utc": "2026-08-23T20:45:59Z",
+    "release": "v1.5.0-prereg",
+    "expected_sign_y_hpi": -1,
+    "expected_sign_y_pop": -1,
+    "fidelity_r2_floor": 0.25
+  },
+  "why_not_yet_graded": "Both NFIP files are Class B under PROTOCOL Amendment 1: dated, never-restated transactions published later than the origins they would serve. Class B is gradeable with a declared availability deviation, but the OpenFEMA API serves only the current file with no archived vintages, so an as-of-origin snapshot cannot be demonstrated for this run. Both series were first published 2019-06-01, so the earliest legal origin is 2020: one of eleven h=5 origins and three of thirteen h=3 origins. This run is a measurement exercise about two features, not a prediction.",
+  "generated_utc": "2026-08-23T20:53:36+00:00",
+  "delineation_vintage": 2020,
+  "nfip": {
+    "claims_endpoint": "https://www.fema.gov/api/open/v3/NfipClaims",
+    "policies_endpoint": "https://www.fema.gov/api/open/v3/NfipPolicies",
+    "claims_records": 2724656,
+    "policies_records": 74349525,
+    "policies_temporal_start": "2009-01-01",
+    "claims_earliest_observed_loss_year": 1978,
+    "loss_window_years": 20,
+    "premium_cross_section_year": 2022
+  },
+  "outcome_windows": {
+    "base_year": 2022,
+    "y_pop_horizon_years": 2,
+    "y_hpi_horizon_years": 3
+  },
+  "coverage": {
+    "metros_with_nfip_price": 346,
+    "metros_with_nfip_loss": 380,
+    "metros_with_fio_premium": 384,
+    "metros_in_panel": 384
+  },
+  "e6_reference": {
+    "y_hpi": {
+      "beta_per_sd": -0.005234,
+      "t": -6.822
+    },
+    "y_pop": {
+      "beta_per_sd": 0.00072,
+      "t": 2.122
+    }
+  },
+  "e7_reference": {
+    "y_hpi": {
+      "beta_per_sd": -0.00293,
+      "t": -2.8
+    },
+    "y_pop": {
+      "beta_per_sd": 0.00065,
+      "t": 2.05
+    },
+    "flood_share_was_significant": false,
+    "wind_share": {
+      "beta_per_sd": -0.00366,
+      "t": -2.66
+    }
+  },
+  "e8a_fidelity": {
+    "nfip_rate_per_1k_log": {
+      "feature": "nfip_rate_per_1k_log",
+      "n_metros": 346,
+      "pooled": {
+        "pearson": -0.3175,
+        "spearman": -0.267,
+        "r2": 0.1008,
+        "elasticity": -0.3038,
+        "se": 0.0536,
+        "t": -5.663
+      },
+      "within_division": {
+        "pearson": -0.2841,
+        "r2": 0.0807,
+        "elasticity": -0.2673,
+        "se": 0.0567,
+        "t": -4.711
+      },
+      "clears_prereg_r2_floor": false
+    },
+    "nfip_loss_pc_log": {
+      "feature": "nfip_loss_pc_log",
+      "n_metros": 380,
+      "pooled": {
+        "pearson": 0.4226,
+        "spearman": 0.3625,
+        "r2": 0.1786,
+        "elasticity": 0.0726,
+        "se": 0.0087,
+        "t": 8.325
+      },
+      "within_division": {
+        "pearson": 0.4094,
+        "r2": 0.1676,
+        "elasticity": 0.0693,
+        "se": 0.0093,
+        "t": 7.462
+      },
+      "clears_prereg_r2_floor": false
+    }
+  },
+  "e8b_e8c_outcomes": {
+    "y_hpi": {
+      "target": "y_hpi",
+      "momentum_control": "hpi_g5",
+      "e6_reference": {
+        "beta_per_sd": -0.005234,
+        "t": -6.822
+      },
+      "e7_reference": {
+        "beta_per_sd": -0.00293,
+        "t": -2.8
+      },
+      "substituted": {
+        "nfip_rate_per_1k_log": {
+          "n_metros": 321,
+          "rows": [
+            {
+              "predictor": "nfip_rate_per_1k_log",
+              "beta_per_sd": 0.001283,
+              "se": 0.00092,
+              "t": 1.394,
+              "n": 321,
+              "k": 3,
+              "expected_sign": -1,
+              "matches_expected": false,
+              "spec": "nfip_rate_per_1k_log + momentum"
+            },
+            {
+              "predictor": "hpi_g5",
+              "beta_per_sd": -0.00294,
+              "se": 0.001149,
+              "t": -2.558,
+              "n": 321,
+              "k": 3,
+              "expected_sign": null,
+              "matches_expected": null,
+              "spec": "nfip_rate_per_1k_log + momentum"
+            }
+          ]
+        },
+        "nfip_loss_pc_log": {
+          "n_metros": 353,
+          "rows": [
+            {
+              "predictor": "nfip_loss_pc_log",
+              "beta_per_sd": -0.003909,
+              "se": 0.00091,
+              "t": -4.296,
+              "n": 353,
+              "k": 3,
+              "expected_sign": -1,
+              "matches_expected": true,
+              "spec": "nfip_loss_pc_log + momentum"
+            },
+            {
+              "predictor": "hpi_g5",
+              "beta_per_sd": -0.003272,
+              "se": 0.000996,
+              "t": -3.287,
+              "n": 353,
+              "k": 3,
+              "expected_sign": null,
+              "matches_expected": null,
+              "spec": "nfip_loss_pc_log + momentum"
+            }
+          ]
+        }
+      },
+      "vs_premium": {
+        "nfip_rate_per_1k_log": {
+          "n_metros": 321,
+          "rows": [
+            {
+              "predictor": "nfip_rate_per_1k_log",
+              "beta_per_sd": 7.4e-05,
+              "se": 0.000921,
+              "t": 0.081,
+              "n": 321,
+              "k": 4,
+              "expected_sign": -1,
+              "matches_expected": false,
+              "spec": "nfip_rate_per_1k_log + FIO premium + momentum"
+            },
+            {
+              "predictor": "premium_log_2022",
+              "beta_per_sd": -0.00494,
+              "se": 0.000905,
+              "t": -5.459,
+              "n": 321,
+              "k": 4,
+              "expected_sign": -1,
+              "matches_expected": true,
+              "spec": "nfip_rate_per_1k_log + FIO premium + momentum"
+            },
+            {
+              "predictor": "hpi_g5",
+              "beta_per_sd": -0.002837,
+              "se": 0.001085,
+              "t": -2.616,
+              "n": 321,
+              "k": 4,
+              "expected_sign": null,
+              "matches_expected": null,
+              "spec": "nfip_rate_per_1k_log + FIO premium + momentum"
+            }
+          ]
+        },
+        "nfip_loss_pc_log": {
+          "n_metros": 353,
+          "rows": [
+            {
+              "predictor": "nfip_loss_pc_log",
+              "beta_per_sd": -0.00188,
+              "se": 0.000883,
+              "t": -2.129,
+              "n": 353,
+              "k": 4,
+              "expected_sign": -1,
+              "matches_expected": true,
+              "spec": "nfip_loss_pc_log + FIO premium + momentum"
+            },
+            {
+              "predictor": "premium_log_2022",
+              "beta_per_sd": -0.004411,
+              "se": 0.00082,
+              "t": -5.379,
+              "n": 353,
+              "k": 4,
+              "expected_sign": -1,
+              "matches_expected": true,
+              "spec": "nfip_loss_pc_log + FIO premium + momentum"
+            },
+            {
+              "predictor": "hpi_g5",
+              "beta_per_sd": -0.002716,
+              "se": 0.000968,
+              "t": -2.806,
+              "n": 353,
+              "k": 4,
+              "expected_sign": null,
+              "matches_expected": null,
+              "spec": "nfip_loss_pc_log + FIO premium + momentum"
+            }
+          ]
+        }
+      },
+      "price_vs_loss": {
+        "n_metros": 317,
+        "rows": [
+          {
+            "predictor": "nfip_rate_per_1k_log",
+            "beta_per_sd": 0.001025,
+            "se": 0.000923,
+            "t": 1.11,
+            "n": 317,
+            "k": 4,
+            "expected_sign": -1,
+            "matches_expected": false,
+            "spec": "NFIP price + NFIP loss + momentum"
+          },
+          {
+            "predictor": "nfip_loss_pc_log",
+            "beta_per_sd": -0.003706,
+            "se": 0.000953,
+            "t": -3.888,
+            "n": 317,
+            "k": 4,
+            "expected_sign": -1,
+            "matches_expected": true,
+            "spec": "NFIP price + NFIP loss + momentum"
+          },
+          {
+            "predictor": "hpi_g5",
+            "beta_per_sd": -0.00329,
+            "se": 0.001148,
+            "t": -2.867,
+            "n": 317,
+            "k": 4,
+            "expected_sign": null,
+            "matches_expected": null,
+            "spec": "NFIP price + NFIP loss + momentum"
+          }
+        ]
+      },
+      "vs_nri": {
+        "n_metros": 317,
+        "rows": [
+          {
+            "predictor": "nfip_rate_per_1k_log",
+            "beta_per_sd": 0.001065,
+            "se": 0.000934,
+            "t": 1.14,
+            "n": 317,
+            "k": 5,
+            "expected_sign": -1,
+            "matches_expected": false,
+            "spec": "NFIP flood + NRI all-hazard + momentum"
+          },
+          {
+            "predictor": "nfip_loss_pc_log",
+            "beta_per_sd": -0.003094,
+            "se": 0.00106,
+            "t": -2.918,
+            "n": 317,
+            "k": 5,
+            "expected_sign": -1,
+            "matches_expected": true,
+            "spec": "NFIP flood + NRI all-hazard + momentum"
+          },
+          {
+            "predictor": "eal_rate_log",
+            "beta_per_sd": -0.001101,
+            "se": 0.001229,
+            "t": -0.896,
+            "n": 317,
+            "k": 5,
+            "expected_sign": -1,
+            "matches_expected": true,
+            "spec": "NFIP flood + NRI all-hazard + momentum"
+          },
+          {
+            "predictor": "hpi_g5",
+            "beta_per_sd": -0.003207,
+            "se": 0.001154,
+            "t": -2.778,
+            "n": 317,
+            "k": 5,
+            "expected_sign": null,
+            "matches_expected": null,
+            "spec": "NFIP flood + NRI all-hazard + momentum"
+          }
+        ]
+      },
+      "ex_south": {
+        "nfip_rate_per_1k_log": {
+          "rows": [
+            {
+              "predictor": "nfip_rate_per_1k_log",
+              "beta_per_sd": 0.000385,
+              "se": 0.001108,
+              "t": 0.348,
+              "n": 194,
+              "k": 3,
+              "expected_sign": -1,
+              "matches_expected": false,
+              "spec": "ex-South, nfip_rate_per_1k_log"
+            },
+            {
+              "predictor": "hpi_g5",
+              "beta_per_sd": -0.001275,
+              "se": 0.00111,
+              "t": -1.149,
+              "n": 194,
+              "k": 3,
+              "expected_sign": null,
+              "matches_expected": null,
+              "spec": "ex-South, nfip_rate_per_1k_log"
+            }
+          ]
+        },
+        "nfip_loss_pc_log": {
+          "rows": [
+            {
+              "predictor": "nfip_loss_pc_log",
+              "beta_per_sd": -0.000541,
+              "se": 0.001122,
+              "t": -0.482,
+              "n": 207,
+              "k": 3,
+              "expected_sign": -1,
+              "matches_expected": true,
+              "spec": "ex-South, nfip_loss_pc_log"
+            },
+            {
+              "predictor": "hpi_g5",
+              "beta_per_sd": -0.001117,
+              "se": 0.00117,
+              "t": -0.955,
+              "n": 207,
+              "k": 3,
+              "expected_sign": null,
+              "matches_expected": null,
+              "spec": "ex-South, nfip_loss_pc_log"
+            }
+          ]
+        }
+      },
+      "quartile_contrast_loss": {
+        "top_quartile_growth_pct": 4.878,
+        "bottom_quartile_growth_pct": 4.567,
+        "gap_pp": 0.31,
+        "n_top": 89,
+        "n_bottom": 89,
+        "matches_expected": false
+      }
+    },
+    "y_pop": {
+      "target": "y_pop",
+      "momentum_control": "pop_g3",
+      "e6_reference": {
+        "beta_per_sd": 0.00072,
+        "t": 2.122
+      },
+      "e7_reference": {
+        "beta_per_sd": 0.00065,
+        "t": 2.05
+      },
+      "substituted": {
+        "nfip_rate_per_1k_log": {
+          "n_metros": 342,
+          "rows": [
+            {
+              "predictor": "nfip_rate_per_1k_log",
+              "beta_per_sd": -0.001612,
+              "se": 0.000334,
+              "t": -4.822,
+              "n": 342,
+              "k": 3,
+              "expected_sign": -1,
+              "matches_expected": true,
+              "spec": "nfip_rate_per_1k_log + momentum"
+            },
+            {
+              "predictor": "pop_g3",
+              "beta_per_sd": 0.004372,
+              "se": 0.000456,
+              "t": 9.598,
+              "n": 342,
+              "k": 3,
+              "expected_sign": null,
+              "matches_expected": null,
+              "spec": "nfip_rate_per_1k_log + momentum"
+            }
+          ]
+        },
+        "nfip_loss_pc_log": {
+          "n_metros": 380,
+          "rows": [
+            {
+              "predictor": "nfip_loss_pc_log",
+              "beta_per_sd": -0.000195,
+              "se": 0.000368,
+              "t": -0.53,
+              "n": 380,
+              "k": 3,
+              "expected_sign": -1,
+              "matches_expected": true,
+              "spec": "nfip_loss_pc_log + momentum"
+            },
+            {
+              "predictor": "pop_g3",
+              "beta_per_sd": 0.004552,
+              "se": 0.000471,
+              "t": 9.662,
+              "n": 380,
+              "k": 3,
+              "expected_sign": null,
+              "matches_expected": null,
+              "spec": "nfip_loss_pc_log + momentum"
+            }
+          ]
+        }
+      },
+      "vs_premium": {
+        "nfip_rate_per_1k_log": {
+          "n_metros": 342,
+          "rows": [
+            {
+              "predictor": "nfip_rate_per_1k_log",
+              "beta_per_sd": -0.001469,
+              "se": 0.000331,
+              "t": -4.442,
+              "n": 342,
+              "k": 4,
+              "expected_sign": -1,
+              "matches_expected": true,
+              "spec": "nfip_rate_per_1k_log + FIO premium + momentum"
+            },
+            {
+              "predictor": "premium_log_2022",
+              "beta_per_sd": 0.000518,
+              "se": 0.000354,
+              "t": 1.466,
+              "n": 342,
+              "k": 4,
+              "expected_sign": -1,
+              "matches_expected": false,
+              "spec": "nfip_rate_per_1k_log + FIO premium + momentum"
+            },
+            {
+              "predictor": "pop_g3",
+              "beta_per_sd": 0.004354,
+              "se": 0.000454,
+              "t": 9.595,
+              "n": 342,
+              "k": 4,
+              "expected_sign": null,
+              "matches_expected": null,
+              "spec": "nfip_rate_per_1k_log + FIO premium + momentum"
+            }
+          ]
+        },
+        "nfip_loss_pc_log": {
+          "n_metros": 380,
+          "rows": [
+            {
+              "predictor": "nfip_loss_pc_log",
+              "beta_per_sd": -0.000663,
+              "se": 0.000408,
+              "t": -1.623,
+              "n": 380,
+              "k": 4,
+              "expected_sign": -1,
+              "matches_expected": true,
+              "spec": "nfip_loss_pc_log + FIO premium + momentum"
+            },
+            {
+              "predictor": "premium_log_2022",
+              "beta_per_sd": 0.001108,
+              "se": 0.000377,
+              "t": 2.943,
+              "n": 380,
+              "k": 4,
+              "expected_sign": -1,
+              "matches_expected": false,
+              "spec": "nfip_loss_pc_log + FIO premium + momentum"
+            },
+            {
+              "predictor": "pop_g3",
+              "beta_per_sd": 0.004406,
+              "se": 0.000464,
+              "t": 9.501,
+              "n": 380,
+              "k": 4,
+              "expected_sign": null,
+              "matches_expected": null,
+              "spec": "nfip_loss_pc_log + FIO premium + momentum"
+            }
+          ]
+        }
+      },
+      "price_vs_loss": {
+        "n_metros": 342,
+        "rows": [
+          {
+            "predictor": "nfip_rate_per_1k_log",
+            "beta_per_sd": -0.001617,
+            "se": 0.000331,
+            "t": -4.891,
+            "n": 342,
+            "k": 4,
+            "expected_sign": -1,
+            "matches_expected": true,
+            "spec": "NFIP price + NFIP loss + momentum"
+          },
+          {
+            "predictor": "nfip_loss_pc_log",
+            "beta_per_sd": -4.7e-05,
+            "se": 0.000358,
+            "t": -0.132,
+            "n": 342,
+            "k": 4,
+            "expected_sign": -1,
+            "matches_expected": true,
+            "spec": "NFIP price + NFIP loss + momentum"
+          },
+          {
+            "predictor": "pop_g3",
+            "beta_per_sd": 0.004365,
+            "se": 0.000473,
+            "t": 9.231,
+            "n": 342,
+            "k": 4,
+            "expected_sign": null,
+            "matches_expected": null,
+            "spec": "NFIP price + NFIP loss + momentum"
+          }
+        ]
+      },
+      "vs_nri": {
+        "n_metros": 342,
+        "rows": [
+          {
+            "predictor": "nfip_rate_per_1k_log",
+            "beta_per_sd": -0.001679,
+            "se": 0.000326,
+            "t": -5.156,
+            "n": 342,
+            "k": 5,
+            "expected_sign": -1,
+            "matches_expected": true,
+            "spec": "NFIP flood + NRI all-hazard + momentum"
+          },
+          {
+            "predictor": "nfip_loss_pc_log",
+            "beta_per_sd": -0.000782,
+            "se": 0.000443,
+            "t": -1.765,
+            "n": 342,
+            "k": 5,
+            "expected_sign": -1,
+            "matches_expected": true,
+            "spec": "NFIP flood + NRI all-hazard + momentum"
+          },
+          {
+            "predictor": "eal_rate_log",
+            "beta_per_sd": 0.00133,
+            "se": 0.000398,
+            "t": 3.341,
+            "n": 342,
+            "k": 5,
+            "expected_sign": -1,
+            "matches_expected": false,
+            "spec": "NFIP flood + NRI all-hazard + momentum"
+          },
+          {
+            "predictor": "pop_g3",
+            "beta_per_sd": 0.004297,
+            "se": 0.000462,
+            "t": 9.298,
+            "n": 342,
+            "k": 5,
+            "expected_sign": null,
+            "matches_expected": null,
+            "spec": "NFIP flood + NRI all-hazard + momentum"
+          }
+        ]
+      },
+      "ex_south": {
+        "nfip_rate_per_1k_log": {
+          "rows": [
+            {
+              "predictor": "nfip_rate_per_1k_log",
+              "beta_per_sd": -0.000268,
+              "se": 0.000361,
+              "t": -0.742,
+              "n": 205,
+              "k": 3,
+              "expected_sign": -1,
+              "matches_expected": true,
+              "spec": "ex-South, nfip_rate_per_1k_log"
+            },
+            {
+              "predictor": "pop_g3",
+              "beta_per_sd": 0.002407,
+              "se": 0.000547,
+              "t": 4.402,
+              "n": 205,
+              "k": 3,
+              "expected_sign": null,
+              "matches_expected": null,
+              "spec": "ex-South, nfip_rate_per_1k_log"
+            }
+          ]
+        },
+        "nfip_loss_pc_log": {
+          "rows": [
+            {
+              "predictor": "nfip_loss_pc_log",
+              "beta_per_sd": -0.000788,
+              "se": 0.000386,
+              "t": -2.042,
+              "n": 224,
+              "k": 3,
+              "expected_sign": -1,
+              "matches_expected": true,
+              "spec": "ex-South, nfip_loss_pc_log"
+            },
+            {
+              "predictor": "pop_g3",
+              "beta_per_sd": 0.002323,
+              "se": 0.00051,
+              "t": 4.559,
+              "n": 224,
+              "k": 3,
+              "expected_sign": null,
+              "matches_expected": null,
+              "spec": "ex-South, nfip_loss_pc_log"
+            }
+          ]
+        }
+      },
+      "quartile_contrast_loss": {
+        "top_quartile_growth_pct": 0.855,
+        "bottom_quartile_growth_pct": 0.836,
+        "gap_pp": 0.019,
+        "n_top": 95,
+        "n_bottom": 95,
+        "matches_expected": false
+      }
+    }
+  },
+  "e8d_preregistered_falsification_test": {
+    "prediction": "E7 attributed the entire price signal to the wind share and found the flood share insignificant. Flood-only measures must therefore be WEAKER on house prices than E7's all-hazard NRI coefficient.",
+    "e7_nri_all_hazard_abs_beta": 0.00293,
+    "per_feature": {
+      "nfip_rate_per_1k_log": {
+        "measurable": true,
+        "abs_beta": 0.001283,
+        "t": 1.394,
+        "significant": false,
+        "weaker_than_multi_peril": true
+      },
+      "nfip_loss_pc_log": {
+        "measurable": true,
+        "abs_beta": 0.003909,
+        "t": -4.296,
+        "significant": true,
+        "weaker_than_multi_peril": false
+      }
+    },
+    "any_flood_feature_significant_on_prices": true,
+    "all_significant_are_weaker_than_multi_peril": false,
+    "prediction_upheld": false,
+    "e7_hazard_decomposition_falsified": true,
+    "falsification_survives_trimming": false,
+    "trimmed_specifications": [
+      {
+        "cut": "drop top 5% of loss burden",
+        "abs_beta": 0.002609,
+        "t": -3.056,
+        "exceeds_e7": false
+      },
+      {
+        "cut": "drop top 10% of loss burden",
+        "abs_beta": 0.001712,
+        "t": -2.017,
+        "exceeds_e7": false
+      },
+      {
+        "cut": "drop the 12 highest-loss metros by name",
+        "abs_beta": 0.002954,
+        "t": -3.544,
+        "exceeds_e7": true
+      }
+    ],
+    "verdict": "CONDITIONAL. E7's hazard decomposition is falsified on the full cross-section, but the falsification does not survive trimming the top loss decile, so E7 is not refuted outright."
+  },
+  "e8e_robustness": {
+    "loss_burden_on_y_hpi": [
+      {
+        "cut": "baseline, 20-year window",
+        "beta_per_sd": -0.003909,
+        "t": -4.296,
+        "n": 353,
+        "sign_ok": true,
+        "significant": true
+      },
+      {
+        "cut": "drop top 5% of loss burden",
+        "beta_per_sd": -0.002609,
+        "t": -3.056,
+        "n": 337,
+        "sign_ok": true,
+        "significant": true
+      },
+      {
+        "cut": "drop top 10% of loss burden",
+        "beta_per_sd": -0.001712,
+        "t": -2.017,
+        "n": 319,
+        "sign_ok": true,
+        "significant": true
+      },
+      {
+        "cut": "drop the 12 highest-loss metros by name",
+        "beta_per_sd": -0.002954,
+        "t": -3.544,
+        "n": 343,
+        "sign_ok": true,
+        "significant": true
+      },
+      {
+        "cut": "10-year loss window",
+        "beta_per_sd": -0.002982,
+        "t": -3.313,
+        "n": 352,
+        "sign_ok": true,
+        "significant": true
+      },
+      {
+        "cut": "30-year loss window",
+        "beta_per_sd": -0.004387,
+        "t": -4.88,
+        "n": 353,
+        "sign_ok": true,
+        "significant": true
+      },
+      {
+        "cut": "claim frequency per 10k residents, not dollars",
+        "beta_per_sd": -0.003908,
+        "t": -3.759,
+        "n": 353,
+        "sign_ok": true,
+        "significant": true
+      }
+    ],
+    "flood_price_on_y_pop": [
+      {
+        "cut": "baseline",
+        "beta_per_sd": -0.001612,
+        "t": -4.822,
+        "n": 342,
+        "sign_ok": true,
+        "significant": true
+      },
+      {
+        "cut": "drop top 5% of flood price",
+        "beta_per_sd": -0.001257,
+        "t": -3.666,
+        "n": 324,
+        "sign_ok": true,
+        "significant": true
+      },
+      {
+        "cut": "drop top 10% of flood price",
+        "beta_per_sd": -0.001246,
+        "t": -3.601,
+        "n": 307,
+        "sign_ok": true,
+        "significant": true
+      },
+      {
+        "cut": "metros with at least 200 sampled policies",
+        "beta_per_sd": -0.001637,
+        "t": -4.49,
+        "n": 285,
+        "sign_ok": true,
+        "significant": true
+      },
+      {
+        "cut": "metros with at least 500 sampled policies",
+        "beta_per_sd": -0.001231,
+        "t": -2.464,
+        "n": 188,
+        "sign_ok": true,
+        "significant": true
+      }
+    ],
+    "catastrophe_metros_dropped": {
+      "35380": "New Orleans-Metairie, LA",
+      "25060": "Gulfport-Biloxi, MS",
+      "13140": "Beaumont-Port Arthur, TX",
+      "15980": "Cape Coral-Fort Myers, FL",
+      "36140": "Ocean City, NJ",
+      "35100": "New Bern, NC",
+      "12940": "Baton Rouge, LA",
+      "34940": "Naples-Marco Island, FL",
+      "29340": "Lake Charles, LA",
+      "19300": "Daphne-Fairhope-Foley, AL",
+      "37860": "Pensacola-Ferry Pass-Brent, FL",
+      "12100": "Atlantic City-Hammonton, NJ"
+    }
+  },
+  "verdict": {
+    "nfip_rate_per_1k_log": {
+      "tracks_actual_homeowners_premium": false,
+      "reproduces_e6_price_sign": false,
+      "magnitude_vs_e6_ratio": -0.245,
+      "survives_premium_control": false,
+      "vintage_class": "B",
+      "eligible_as_graded_predictor": false
+    },
+    "nfip_loss_pc_log": {
+      "tracks_actual_homeowners_premium": false,
+      "reproduces_e6_price_sign": true,
+      "magnitude_vs_e6_ratio": 0.747,
+      "survives_premium_control": true,
+      "vintage_class": "B",
+      "eligible_as_graded_predictor": false
+    }
+  },
+  "deviations": [
+    "OpenFEMA publishes no as-of-origin vintage archive for either file. Both are current snapshots refreshed monthly; the retrieval date and asOfDate are recorded in place of a release hash.",
+    "The bulk CSV and parquet distributions return HTTP 403, and the API cannot be paged past roughly 5 million rows, so the premium series is a stratified sample rather than a census: 612 (state, calendar-month) strata drawn at fixed offsets inside each, because counting a large filtered partition returns HTTP 503 for the biggest states. Stratifying by month is necessary rather than cosmetic, since the API returns each partition ordered by effective date and sampling a state-year from the head would return almost nothing but policies effective on 1 January. Sampled policy counts per metro are reported alongside every estimate.",
+    "NfipPolicies has no county identifier. Metro assignment routes through the Census 2020 ZCTA-to-county relationship file, which introduces the same ZIP-to-county ambiguity already declared for the FIO adapter.",
+    "Claims are reported at the county of the insured property, but the paid amount reflects the policy limits in force, so a county-year loss cost is censored above by coverage limits. It is a lower bound on gross flood loss.",
+    "NFIP premiums are federally set, not market-rated, and until the phased introduction of Risk Rating 2.0 from October 2021 they were substantially cross-subsidised. The premium series measures a regulated price, and its level is not comparable to the FIO market homeowners premium.",
+    "Flood is a single peril. Neither series speaks to wind, wildfire or the multi-peril homeowners cost that E6 measured."
+  ],
+  "vintage_verdict": {
+    "graded_predictor_eligible": false,
+    "class": "B -- contemporaneous fact, later publication, no restatement",
+    "grounds": [
+      "PUBLICATION. Both datasets carry issued = 2019-06-01. Under the minimum-history rule as written in PROTOCOL section 4 (published in v1.4.0-grip1), a feature first published in year P serves no origin before P+1, so 2019 publication means the first legal origin is 2020. That is 1 of 11 graded origins at h=5 and 3 of 13 at h=3. Both fail.",
+      "COVERAGE, policies only. NfipPolicies temporal coverage begins 2009-01-01, so no premium feature requiring a pre-2009 lag window can be constructed at all. Claims are unaffected: coverage begins 1970-08-31 and every lag window in the panel is available."
+    ],
+    "correction": "This module corrects a claim made in the v1.4.0-grip1 release notes, which described NfipPolicies as having 'genuine pre-2009 history'. It does not. The OpenFEMA catalogue reports temporal coverage of 2009-01-01 onward. The claims file, not the policy file, is the long-history series, and it is a loss cost rather than a price.",
+    "why_it_is_not_the_same_failure_as_nri_and_fio": "NRI's expected annual loss is a model output: the 2025 release embeds 2025 hazard science, so its value at any historical date is a retrospective construct. The FIO workbook is a period aggregate computed once over 2018-2022. Neither number existed, in any form, at the origins it would have to serve. An NFIP paid claim is different in kind: a dollar amount settled on a dated loss and never restated. The hazard is availability, not hindsight in the value. That distinction is proposed as a formal source taxonomy in PROTOCOL section 4, and it is deliberately drawn so that it does NOT rescue NRI or FIO."
+  }
+}

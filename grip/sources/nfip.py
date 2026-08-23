@@ -133,8 +133,13 @@ DEVIATIONS = [
     "are recorded in place of a release hash.",
     "The bulk CSV and parquet distributions return HTTP 403, and the API cannot "
     "be paged past roughly 5 million rows, so the premium series is a "
-    "systematic sample within (state, year) partitions rather than a census. "
-    "Sample sizes per metro-year are reported alongside every estimate.",
+    "stratified sample rather than a census: 612 (state, calendar-month) strata "
+    "drawn at fixed offsets inside each, because counting a large filtered "
+    "partition returns HTTP 503 for the biggest states. Stratifying by month is "
+    "necessary rather than cosmetic, since the API returns each partition "
+    "ordered by effective date and sampling a state-year from the head would "
+    "return almost nothing but policies effective on 1 January. Sampled policy "
+    "counts per metro are reported alongside every estimate.",
     "NfipPolicies has no county identifier. Metro assignment routes through the "
     "Census 2020 ZCTA-to-county relationship file, which introduces the same "
     "ZIP-to-county ambiguity already declared for the FIO adapter.",

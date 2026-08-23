@@ -1,0 +1,154 @@
+# E8 — NFIP flood price and realised loss as insurance signals
+
+**Status: DESCRIPTIVE -- NOT A GRADED FORECAST**
+
+Generated 2026-08-23T20:53:36+00:00 from `run_nfip_calibration.py`. Machine-readable results: `out/nfip_calibration_20260823T205336Z.json`.
+
+Out-of-panel diagnostic under PROTOCOL section 8. Nothing here is scored and nothing here enters a gate.
+
+## The pre-registration came first, and it failed
+
+Every threshold and expected sign below was published with **no results** at commit `6ca77bbf0bcb13bbbf49a9301a3e364379bfb384` (2026-08-23T20:45:59Z), release [v1.5.0-prereg](https://github.com/Carson2113/geometryx-grip/releases/tag/v1.5.0-prereg). The commit order is checkable and it is the only reason the fourth prediction below counts for anything.
+
+| Pre-registered prediction | Outcome |
+|---|---|
+| Price sign on `y_hpi` negative | loss burden yes, flood price **no** |
+| Price sign on `y_pop` negative | flood price **yes**, loss burden insignificant |
+| Fidelity to FIO premium, R² ≥ 0.25 | **both fail** |
+| Flood weaker than multi-peril on prices | **falsified, conditionally** |
+
+## E8a — Neither NFIP series is a homeowners premium proxy
+
+Both fail the pre-registered fidelity floor, and the flood price fails it in an informative direction.
+
+| Series | n | R² | Elasticity | t | Clears 0.25 |
+|---|---|---|---|---|---|
+| `nfip_rate_per_1k_log` | 346 | 0.101 | -0.3038 | -5.66 | **no** |
+| `nfip_loss_pc_log` | 380 | 0.179 | +0.0726 | +8.32 | **no** |
+
+The flood price elasticity against the homeowners premium is **-0.304** (t = -5.66). It is not weak, it is *inverted*: metros where NFIP flood cover is expensive are metros where homeowners cover is cheap. That is a real feature of the two markets rather than noise. NFIP flood premiums are set by federal rate tables on floodplain position — coastal and riverine — while the homeowners premium is driven by wind, hail and convective storm exposure across the interior South and Plains. The two peril maps barely overlap, so a flood price can never stand in for a homeowners price. That question is now closed.
+
+## E8b/E8c — The realised loss carries price signal the modelled rate did not
+
+E6 specification throughout: demeaned within Census division, momentum controlled, HC1 errors, predictors standardised, so every coefficient is per standard deviation.
+
+### House prices (`y_hpi`)
+
+| Specification | Coefficient | t |
+|---|---|---|
+| E6 reference, Treasury FIO premium | -0.00523 | -6.82 |
+| E7 reference, FEMA NRI all-hazard rate | -0.00293 | -2.80 |
+| **`nfip_loss_pc_log`** substituted | -0.00391 | -4.30 |
+| **`nfip_rate_per_1k_log`** substituted | +0.00128 | +1.39 |
+| `nfip_loss_pc_log` **with** FIO premium present | -0.00188 | -2.13 |
+| the FIO premium in that same regression | -0.00441 | -5.38 |
+| `nfip_loss_pc_log` **with** the NRI all-hazard rate present | -0.00309 | -2.92 |
+| the NRI rate in that same regression | -0.00110 | -0.90 |
+
+This is the first result in the series where a free federal feature is not merely a shadow of the premium. Substituted alone the loss burden gives -0.00391 (t = -4.30), which is 75% of the E6 premium magnitude. More importantly it **survives** the premium control at -0.00188 (t = -2.13), where E7's NRI rate collapsed to −0.00079 (t = −0.83). Head to head against that NRI rate the realised loss wins outright: -2.92 against -0.90.
+
+Realised losses beat modelled losses. A dollar someone was actually paid after a flood measures the hazard better than a model's estimate of what that dollar should have been.
+
+### Population (`y_pop`) — the sign inversion partly resolves
+
+| Specification | Coefficient | t |
+|---|---|---|
+| E6 reference, Treasury FIO premium | +0.00072 | +2.12 |
+| E7 reference, FEMA NRI all-hazard rate | +0.00065 | +2.05 |
+| **`nfip_rate_per_1k_log`** substituted | -0.00161 | -4.82 |
+| **`nfip_loss_pc_log`** substituted | -0.00019 | -0.53 |
+| `nfip_rate_per_1k_log` **with** FIO premium present | -0.00147 | -4.44 |
+| the FIO premium in that same regression | +0.00052 | +1.47 |
+
+E6 and E7 both found population growth moving *with* insurance cost — the inversion that has embarrassed this project since the first scorecard, and which the production Geometryx composite reproduces. The NFIP flood price is the first feature to recover the pre-registered negative sign: -0.00161 (t = -4.82). And with both in the same regression the flood price holds at -0.00147 (t = -4.44) while the FIO premium's positive coefficient falls to t = +1.47 and loses significance.
+
+The reading this suggests, stated as a hypothesis and not a finding: the positive population coefficient on the homeowners premium is not people moving toward risk, it is the homeowners premium standing in for warm, fast-growing Sun Belt states. A flood price identified off floodplain position within a division does not carry that confound, and once it is in the regression the premium's positive sign has little left to do. **This is a hypothesis generated by a diagnostic, not a graded result, and it does not license changing `premium_shock_40pct`.**
+
+## E8d — The pre-registered falsification test, and why the answer is conditional
+
+The prediction: E7 attributed the entire price signal to the wind share (-0.00366, t = -2.66) and found the flood share insignificant. If true, flood-only measures had to come in weaker than E7's all-hazard coefficient of 0.00293 in absolute value.
+
+They did not. `nfip_loss_pc_log` gives an absolute beta of 0.00391 at t = -4.30 — larger than the all-hazard rate and strongly significant. **The prediction is falsified on the full cross-section.**
+
+But the falsification is itself fragile, and reporting it without that would be the same offence this protocol exists to prevent:
+
+| Trim | Absolute beta | t | Still exceeds E7 |
+|---|---|---|---|
+| drop top 5% of loss burden | 0.00261 | -3.06 | **no** |
+| drop top 10% of loss burden | 0.00171 | -2.02 | **no** |
+| drop the 12 highest-loss metros by name | 0.00295 | -3.54 | yes |
+
+**Verdict: CONDITIONAL. E7's hazard decomposition is falsified on the full cross-section, but the falsification does not survive trimming the top loss decile, so E7 is not refuted outright.**
+
+So the honest statement is narrower than the headline. E7's claim that flood carries no price signal is wrong — the sign is right and significant at every cut tested. E7's claim that flood is *weaker than all-hazard* survives once the coastal tail is removed. What E7 actually got wrong was measuring flood with a modelled share of a modelled construct instead of with paid claims.
+
+## E8e — Robustness
+
+The concern is specific: paid flood losses per capita concentrate in a coastal tail, and the twenty-year window ending 2022 contains Katrina, Sandy and Harvey. If the coefficient is those storms, it is a story about three events.
+
+### Loss burden on house prices
+
+| Cut | Coefficient | t | n | Significant |
+|---|---|---|---|---|
+| baseline, 20-year window | -0.00391 | -4.30 | 353 | yes |
+| drop top 5% of loss burden | -0.00261 | -3.06 | 337 | yes |
+| drop top 10% of loss burden | -0.00171 | -2.02 | 319 | yes |
+| drop the 12 highest-loss metros by name | -0.00295 | -3.54 | 343 | yes |
+| 10-year loss window | -0.00298 | -3.31 | 352 | yes |
+| 30-year loss window | -0.00439 | -4.88 | 353 | yes |
+| claim frequency per 10k residents, not dollars | -0.00391 | -3.76 | 353 | yes |
+
+### Flood price on population
+
+| Cut | Coefficient | t | n | Significant |
+|---|---|---|---|---|
+| baseline | -0.00161 | -4.82 | 342 | yes |
+| drop top 5% of flood price | -0.00126 | -3.67 | 324 | yes |
+| drop top 10% of flood price | -0.00125 | -3.60 | 307 | yes |
+| metros with at least 200 sampled policies | -0.00164 | -4.49 | 285 | yes |
+| metros with at least 500 sampled policies | -0.00123 | -2.46 | 188 | yes |
+
+The sign is right and significant in every specification tested for both features. The loss-burden magnitude attenuates as the tail is trimmed, which is the honest caveat: part of it is coastal catastrophe. The population result attenuates less and holds when metros with thin policy samples are dropped. Neither result is three storms.
+
+The twelve metros dropped by name: Atlantic City-Hammonton, NJ, Baton Rouge, LA, Beaumont-Port Arthur, TX, Cape Coral-Fort Myers, FL, Daphne-Fairhope-Foley, AL, Gulfport-Biloxi, MS, Lake Charles, LA, Naples-Marco Island, FL, New Bern, NC, New Orleans-Metairie, LA, Ocean City, NJ, Pensacola-Ferry Pass-Brent, FL.
+
+## Why neither feature is graded
+
+Both NFIP files are Class B under PROTOCOL Amendment 1: dated, never-restated transactions published later than the origins they would serve. Class B is gradeable with a declared availability deviation, but the OpenFEMA API serves only the current file with no archived vintages, so an as-of-origin snapshot cannot be demonstrated for this run. Both series were first published 2019-06-01, so the earliest legal origin is 2020: one of eleven h=5 origins and three of thirteen h=3 origins. This run is a measurement exercise about two features, not a prediction.
+
+Under PROTOCOL Amendment 1 both are **Class B**: dated, never-restated transactions whose publication postdates the origins they would serve. Class B is gradeable in principle with the availability deviation printed on the scorecard. It is not gradeable in this run, because OpenFEMA serves one current file and no archived vintages, so an as-of-origin snapshot cannot be demonstrated. The route to grading is to begin archiving monthly snapshots now and wait, which is a real cost honestly stated rather than a reason to bend the rule.
+
+## Correction to v1.4.0-grip1
+
+The v1.4.0 release notes stated the NFIP policy file offers "genuine pre-2009 history" and named it the next adapter partly on that basis. **That was wrong.** OpenFEMA reports `NfipPolicies` v3 temporal coverage beginning 2009-01-01, which was checkable at the time and was not checked. The policy file reaches no further back than the FHFA and PEP series already in the panel.
+
+The claims file does reach back: earliest observed loss year 1978, 2,724,656 records, 2,942 counties, $89.4bn paid. But a paid claim is a realised loss, not a price, so it cannot substitute for a premium — it can only proxy the hazard a premium is meant to price. That distinction is the whole content of E8.
+
+## Coverage and construction
+
+- Metros in panel: 384; with NFIP flood price 346; with NFIP loss burden 380; with FIO premium 384.
+- Claims: full pull of all 2,724,656 records, aggregated to county-year, then to 2020 OMB metro definitions.
+- Premium: the 74.3M-row policy file cannot be pulled — bulk downloads return HTTP 403 and `$skip` past 40M returns HTTP 503. Instead a stratified sample of 780,695 policies effective in 2022 was drawn across 612 state-by-month strata. Stratifying by month is necessary, not cosmetic: the API returns each partition ordered by effective date, so sampling a state-year from the head would return almost nothing but policies effective on 1 January.
+- Loss burden: paid building, contents and ICC claims over a 20-year trailing window, divided by base-year population and by the window length. Nothing after the base year enters either numerator or denominator.
+- Policies carry no county field, only a reported ZIP, so premiums are mapped through the Census 2020 ZCTA-to-county relationship file. Claims carry a county FIPS directly and need no crosswalk.
+
+### Declared deviations
+
+- OpenFEMA publishes no as-of-origin vintage archive for either file. Both are current snapshots refreshed monthly; the retrieval date and asOfDate are recorded in place of a release hash.
+- The bulk CSV and parquet distributions return HTTP 403, and the API cannot be paged past roughly 5 million rows, so the premium series is a stratified sample rather than a census: 612 (state, calendar-month) strata drawn at fixed offsets inside each, because counting a large filtered partition returns HTTP 503 for the biggest states. Stratifying by month is necessary rather than cosmetic, since the API returns each partition ordered by effective date and sampling a state-year from the head would return almost nothing but policies effective on 1 January. Sampled policy counts per metro are reported alongside every estimate.
+- NfipPolicies has no county identifier. Metro assignment routes through the Census 2020 ZCTA-to-county relationship file, which introduces the same ZIP-to-county ambiguity already declared for the FIO adapter.
+- Claims are reported at the county of the insured property, but the paid amount reflects the policy limits in force, so a county-year loss cost is censored above by coverage limits. It is a lower bound on gross flood loss.
+- NFIP premiums are federally set, not market-rated, and until the phased introduction of Risk Rating 2.0 from October 2021 they were substantially cross-subsidised. The premium series measures a regulated price, and its level is not comparable to the FIO market homeowners premium.
+- Flood is a single peril. Neither series speaks to wind, wildfire or the multi-peril homeowners cost that E6 measured.
+
+## Sources
+
+- OpenFEMA NfipClaims v3, 2,724,656 records: https://www.fema.gov/api/open/v3/NfipClaims
+- OpenFEMA NfipPolicies v3, 74,349,525 records, coverage from 2009-01-01: https://www.fema.gov/api/open/v3/NfipPolicies
+- OpenFEMA dataset catalogue: https://www.fema.gov/api/open/v1/DataSets
+- Treasury FIO, Analyses of U.S. Homeowners Insurance Markets 2018-2022: https://home.treasury.gov/news/press-releases/jy2791
+- FEMA National Risk Index Counties, December 2025 release: https://services.arcgis.com/XG15cJAlne2vxtgt/arcgis/rest/services/National_Risk_Index_Counties/FeatureServer/0
+- FHFA House Price Index, metro annual: https://www.fhfa.gov/hpi/download/quarterly_datasets/hpi_at_metro.csv — This product uses FHFA Data but is neither endorsed nor certified by FHFA.
+- Census Population Estimates Program: https://www2.census.gov/programs-surveys/popest/datasets/
+- Census 2020 ZCTA-to-county relationship file: https://www2.census.gov/geo/docs/maps-data/data/rel2020/zcta520/tab20_zcta520_county20_natl.txt
+- OMB metropolitan delineation files: https://www.census.gov/geographies/reference-files/time-series/demo/metro-micro/delineation-files.html
