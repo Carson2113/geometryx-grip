@@ -1,0 +1,500 @@
+{
+  "protocol": "GRIP-1",
+  "run_started_utc": "2026-08-23T14:05:14Z",
+  "target": "y_pop_wr",
+  "horizon_years": 5,
+  "origins_requested": [
+    2010,
+    2011,
+    2012,
+    2013,
+    2014,
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2020
+  ],
+  "origins_in_panel": [
+    2010,
+    2012,
+    2013,
+    2014,
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2020
+  ],
+  "n_panel_rows": 2438,
+  "n_metros_median_per_origin": 245,
+  "features_offered": [
+    "pop_g1_wr",
+    "pop_g3_wr",
+    "pop_accel_wr",
+    "hpi_g1_wr",
+    "hpi_g5_wr",
+    "hpi_gap_wr",
+    "hpi_vol_wr",
+    "permits_pc_wr",
+    "permits_g3_wr"
+  ],
+  "features_used": [
+    "pop_g1_wr",
+    "pop_g3_wr",
+    "pop_accel_wr",
+    "hpi_g1_wr",
+    "hpi_g5_wr",
+    "hpi_gap_wr",
+    "hpi_vol_wr",
+    "permits_pc_wr",
+    "permits_g3_wr"
+  ],
+  "features_banned_by_clock_leak": [],
+  "baseline": "pop_g1_wr",
+  "vintage_lock_checks": {
+    "max_pep_vintage_matches_base_year": {
+      "violations": 0,
+      "pass": true
+    },
+    "delineation_not_from_future": {
+      "violations": 0,
+      "pass": true
+    }
+  },
+  "E1_descriptive": {
+    "n": 2011,
+    "in_sample_r2": 0.584,
+    "spearman": 0.7444
+  },
+  "E2_E3_rolling_origin": [
+    {
+      "test_origin": 2014,
+      "n_train_origins": 3,
+      "n_test_metros": 228,
+      "model_spearman": 0.7169,
+      "model_spearman_p05": 0.6413,
+      "model_spearman_p95": 0.7839,
+      "baseline_spearman": 0.7146,
+      "model_oos_r2": 0.5485,
+      "baseline_oos_r2": 0.4895,
+      "model_hit_rate": 0.8421,
+      "baseline_hit_rate": 0.8387,
+      "beats_baseline": true,
+      "coefficients": {
+        "pop_g1_wr": 0.0022,
+        "pop_g3_wr": 0.0008,
+        "pop_accel_wr": 0.0011,
+        "hpi_g1_wr": 0.0007,
+        "hpi_g5_wr": -0.0008,
+        "hpi_gap_wr": -0.0004,
+        "hpi_vol_wr": 0.0005,
+        "permits_pc_wr": 0.0019,
+        "permits_g3_wr": -0.0008
+      }
+    },
+    {
+      "test_origin": 2015,
+      "n_train_origins": 4,
+      "n_test_metros": 228,
+      "model_spearman": 0.7956,
+      "model_spearman_p05": 0.7329,
+      "model_spearman_p95": 0.8531,
+      "baseline_spearman": 0.7903,
+      "model_oos_r2": 0.6752,
+      "baseline_oos_r2": 0.6197,
+      "model_hit_rate": 0.9474,
+      "baseline_hit_rate": 0.9516,
+      "beats_baseline": true,
+      "coefficients": {
+        "pop_g1_wr": 0.0022,
+        "pop_g3_wr": 0.0011,
+        "pop_accel_wr": 0.0011,
+        "hpi_g1_wr": 0.0005,
+        "hpi_g5_wr": -0.0026,
+        "hpi_gap_wr": 0.0012,
+        "hpi_vol_wr": 0.0001,
+        "permits_pc_wr": 0.0021,
+        "permits_g3_wr": -0.0006
+      }
+    },
+    {
+      "test_origin": 2016,
+      "n_train_origins": 5,
+      "n_test_metros": 230,
+      "model_spearman": 0.7699,
+      "model_spearman_p05": 0.7257,
+      "model_spearman_p95": 0.8185,
+      "baseline_spearman": 0.7586,
+      "model_oos_r2": 0.5689,
+      "baseline_oos_r2": 0.5262,
+      "model_hit_rate": 0.9138,
+      "baseline_hit_rate": 0.9032,
+      "beats_baseline": true,
+      "coefficients": {
+        "pop_g1_wr": 0.0023,
+        "pop_g3_wr": 0.0013,
+        "pop_accel_wr": 0.0012,
+        "hpi_g1_wr": 0.0004,
+        "hpi_g5_wr": -0.0029,
+        "hpi_gap_wr": 0.0017,
+        "hpi_vol_wr": 0.0002,
+        "permits_pc_wr": 0.002,
+        "permits_g3_wr": -0.0004
+      }
+    },
+    {
+      "test_origin": 2017,
+      "n_train_origins": 6,
+      "n_test_metros": 221,
+      "model_spearman": 0.7163,
+      "model_spearman_p05": 0.6529,
+      "model_spearman_p95": 0.7793,
+      "baseline_spearman": 0.7365,
+      "model_oos_r2": 0.5549,
+      "baseline_oos_r2": 0.5772,
+      "model_hit_rate": 0.9107,
+      "baseline_hit_rate": 0.8871,
+      "beats_baseline": false,
+      "coefficients": {
+        "pop_g1_wr": 0.0022,
+        "pop_g3_wr": 0.0014,
+        "pop_accel_wr": 0.0012,
+        "hpi_g1_wr": 0.0002,
+        "hpi_g5_wr": -0.0026,
+        "hpi_gap_wr": 0.0016,
+        "hpi_vol_wr": 0.0004,
+        "permits_pc_wr": 0.0021,
+        "permits_g3_wr": -0.0004
+      }
+    },
+    {
+      "test_origin": 2018,
+      "n_train_origins": 7,
+      "n_test_metros": 217,
+      "model_spearman": 0.728,
+      "model_spearman_p05": 0.6528,
+      "model_spearman_p95": 0.787,
+      "baseline_spearman": 0.7798,
+      "model_oos_r2": 0.569,
+      "baseline_oos_r2": 0.6324,
+      "model_hit_rate": 0.8909,
+      "baseline_hit_rate": 0.9344,
+      "beats_baseline": false,
+      "coefficients": {
+        "pop_g1_wr": 0.0023,
+        "pop_g3_wr": 0.0016,
+        "pop_accel_wr": 0.0011,
+        "hpi_g1_wr": 0.0,
+        "hpi_g5_wr": -0.0021,
+        "hpi_gap_wr": 0.0013,
+        "hpi_vol_wr": 0.0007,
+        "permits_pc_wr": 0.002,
+        "permits_g3_wr": -0.0005
+      }
+    },
+    {
+      "test_origin": 2019,
+      "n_train_origins": 8,
+      "n_test_metros": 217,
+      "model_spearman": 0.7415,
+      "model_spearman_p05": 0.6766,
+      "model_spearman_p95": 0.7999,
+      "baseline_spearman": 0.774,
+      "model_oos_r2": 0.5917,
+      "baseline_oos_r2": 0.6043,
+      "model_hit_rate": 0.9273,
+      "baseline_hit_rate": 0.9344,
+      "beats_baseline": false,
+      "coefficients": {
+        "pop_g1_wr": 0.0023,
+        "pop_g3_wr": 0.0017,
+        "pop_accel_wr": 0.0011,
+        "hpi_g1_wr": 0.0001,
+        "hpi_g5_wr": -0.0017,
+        "hpi_gap_wr": 0.001,
+        "hpi_vol_wr": 0.0007,
+        "permits_pc_wr": 0.0018,
+        "permits_g3_wr": -0.0004
+      }
+    },
+    {
+      "test_origin": 2020,
+      "n_train_origins": 9,
+      "n_test_metros": 217,
+      "model_spearman": 0.7419,
+      "model_spearman_p05": 0.6773,
+      "model_spearman_p95": 0.7991,
+      "baseline_spearman": 0.7536,
+      "model_oos_r2": 0.5697,
+      "baseline_oos_r2": 0.5546,
+      "model_hit_rate": 0.9273,
+      "baseline_hit_rate": 0.8852,
+      "beats_baseline": false,
+      "coefficients": {
+        "pop_g1_wr": 0.0024,
+        "pop_g3_wr": 0.0018,
+        "pop_accel_wr": 0.001,
+        "hpi_g1_wr": 0.0,
+        "hpi_g5_wr": -0.0018,
+        "hpi_gap_wr": 0.0012,
+        "hpi_vol_wr": 0.0006,
+        "permits_pc_wr": 0.0018,
+        "permits_g3_wr": -0.0003
+      }
+    }
+  ],
+  "E4_coefficient_stability": [
+    {
+      "feature": "pop_g1_wr",
+      "mean_coef": 0.0023,
+      "min_coef": 0.0022,
+      "max_coef": 0.0024,
+      "share_positive": 1.0,
+      "sign_stable": true,
+      "verdict": "STABLE"
+    },
+    {
+      "feature": "pop_g3_wr",
+      "mean_coef": 0.0014,
+      "min_coef": 0.0008,
+      "max_coef": 0.0018,
+      "share_positive": 1.0,
+      "sign_stable": true,
+      "verdict": "STABLE"
+    },
+    {
+      "feature": "pop_accel_wr",
+      "mean_coef": 0.0011,
+      "min_coef": 0.001,
+      "max_coef": 0.0012,
+      "share_positive": 1.0,
+      "sign_stable": true,
+      "verdict": "STABLE"
+    },
+    {
+      "feature": "hpi_g1_wr",
+      "mean_coef": 0.0003,
+      "min_coef": 0.0,
+      "max_coef": 0.0007,
+      "share_positive": 0.714,
+      "sign_stable": false,
+      "verdict": "SIGN-UNSTABLE"
+    },
+    {
+      "feature": "hpi_g5_wr",
+      "mean_coef": -0.0021,
+      "min_coef": -0.0029,
+      "max_coef": -0.0008,
+      "share_positive": 0.0,
+      "sign_stable": true,
+      "verdict": "STABLE"
+    },
+    {
+      "feature": "hpi_gap_wr",
+      "mean_coef": 0.0011,
+      "min_coef": -0.0004,
+      "max_coef": 0.0017,
+      "share_positive": 0.857,
+      "sign_stable": false,
+      "verdict": "SIGN-UNSTABLE"
+    },
+    {
+      "feature": "hpi_vol_wr",
+      "mean_coef": 0.0005,
+      "min_coef": 0.0001,
+      "max_coef": 0.0007,
+      "share_positive": 1.0,
+      "sign_stable": true,
+      "verdict": "STABLE"
+    },
+    {
+      "feature": "permits_pc_wr",
+      "mean_coef": 0.002,
+      "min_coef": 0.0018,
+      "max_coef": 0.0021,
+      "share_positive": 1.0,
+      "sign_stable": true,
+      "verdict": "STABLE"
+    },
+    {
+      "feature": "permits_g3_wr",
+      "mean_coef": -0.0005,
+      "min_coef": -0.0008,
+      "max_coef": -0.0003,
+      "share_positive": 0.0,
+      "sign_stable": true,
+      "verdict": "STABLE"
+    }
+  ],
+  "E5_shocks": [
+    {
+      "shock": "rate_shock_200bp",
+      "status": "RUN",
+      "scope": "exposed_only",
+      "description": "Mortgage rates +200 bp; proxied by a uniform valuation-gap increase.",
+      "n_metros": 2011,
+      "n_exposed": 503,
+      "graded_on": "response_sign",
+      "relative_response": 0.001116,
+      "expected_sign": -1,
+      "observed_sign": 1,
+      "rank_correlation_after_shock": 0.9948,
+      "verdict": "IMPLAUSIBLE",
+      "rationale": "Metros already priced furthest above their own long-run trend are the most affordability-constrained and should decline relative to peers.",
+      "failure_signature": "A uniform or positive response means the model carries no rate sensitivity at all.",
+      "notes": ""
+    },
+    {
+      "shock": "premium_shock_40pct",
+      "status": "RUN",
+      "scope": "exposed_only",
+      "description": "Homeowners premium +40% concentrated in high-hazard metros.",
+      "n_metros": 2011,
+      "n_exposed": 503,
+      "graded_on": "response_sign",
+      "relative_response": 0.000557,
+      "expected_sign": -1,
+      "observed_sign": 1,
+      "rank_correlation_after_shock": 0.9987,
+      "verdict": "IMPLAUSIBLE",
+      "rationale": "Insurance cost is a housing-cost shock; exposed metros should lose relative attractiveness.",
+      "failure_signature": "Wrong sign means the climate/insurance pillar is acting as a proxy for Sun Belt growth rather than for risk -- the exact inversion already measured (+1.57% vs +0.51%).",
+      "notes": "Replace hpi_vol_wr with the Treasury FIO premium-level feature once the FIO adapter lands; hpi_vol is a stand-in."
+    },
+    {
+      "shock": "momentum_reversal",
+      "status": "RUN",
+      "scope": "uniform",
+      "description": "Prior growth momentum halved everywhere.",
+      "n_metros": 2011,
+      "n_exposed": 503,
+      "graded_on": "rank_stability",
+      "relative_response": -0.0,
+      "expected_sign": -1,
+      "observed_sign": 0,
+      "rank_correlation_after_shock": 1.0,
+      "verdict": "PLAUSIBLE",
+      "rationale": "If momentum is the dominant real signal, removing it must compress the ranking.",
+      "failure_signature": "Wholesale reordering rather than compression indicates a scale artifact.",
+      "notes": ""
+    }
+  ],
+  "CLOCK_LEAK_audit": [
+    {
+      "feature": "pop_g1_wr",
+      "n_origins": 10,
+      "drift_spearman": 0.407,
+      "p_value": 0.2427,
+      "mean_first_origin": 0.0,
+      "mean_last_origin": 0.0,
+      "sign_flips": 3,
+      "verdict": "PASS"
+    },
+    {
+      "feature": "pop_accel_wr",
+      "n_origins": 10,
+      "drift_spearman": -0.079,
+      "p_value": 0.8287,
+      "mean_first_origin": 0.0,
+      "mean_last_origin": 0.0,
+      "sign_flips": 6,
+      "verdict": "PASS"
+    },
+    {
+      "feature": "hpi_g1_wr",
+      "n_origins": 10,
+      "drift_spearman": -0.273,
+      "p_value": 0.4458,
+      "mean_first_origin": 0.0,
+      "mean_last_origin": 0.0,
+      "sign_flips": 4,
+      "verdict": "PASS"
+    },
+    {
+      "feature": "hpi_g5_wr",
+      "n_origins": 10,
+      "drift_spearman": 0.079,
+      "p_value": 0.8287,
+      "mean_first_origin": 0.0,
+      "mean_last_origin": 0.0,
+      "sign_flips": 5,
+      "verdict": "PASS"
+    },
+    {
+      "feature": "hpi_gap_wr",
+      "n_origins": 10,
+      "drift_spearman": 0.085,
+      "p_value": 0.8152,
+      "mean_first_origin": 0.0,
+      "mean_last_origin": 0.0,
+      "sign_flips": 7,
+      "verdict": "PASS"
+    },
+    {
+      "feature": "hpi_vol_wr",
+      "n_origins": 10,
+      "drift_spearman": -0.273,
+      "p_value": 0.4458,
+      "mean_first_origin": 0.0,
+      "mean_last_origin": 0.0,
+      "sign_flips": 7,
+      "verdict": "PASS"
+    },
+    {
+      "feature": "permits_pc_wr",
+      "n_origins": 10,
+      "drift_spearman": 0.358,
+      "p_value": 0.3104,
+      "mean_first_origin": 0.0,
+      "mean_last_origin": 0.0,
+      "sign_flips": 3,
+      "verdict": "PASS"
+    },
+    {
+      "feature": "permits_g3_wr",
+      "n_origins": 9,
+      "drift_spearman": -0.383,
+      "p_value": 0.3085,
+      "mean_first_origin": 0.0,
+      "mean_last_origin": 0.0,
+      "sign_flips": 3,
+      "verdict": "PASS"
+    },
+    {
+      "feature": "pop_g3_wr",
+      "n_origins": 10,
+      "drift_spearman": -0.661,
+      "p_value": 0.0376,
+      "mean_first_origin": 0.0,
+      "mean_last_origin": 0.0,
+      "sign_flips": 3,
+      "verdict": "WARN"
+    }
+  ],
+  "summary": {
+    "n_origins_scored": 7,
+    "median_model_spearman": 0.7415,
+    "median_baseline_spearman": 0.7586,
+    "origins_beating_baseline": "3/7",
+    "median_model_hit_rate": 0.9138,
+    "median_baseline_hit_rate": 0.9032,
+    "median_model_oos_r2": 0.569,
+    "median_baseline_oos_r2": 0.5772,
+    "median_paired_rho_gain": -0.0117,
+    "median_paired_r2_gain": 0.0151,
+    "median_paired_hit_rate_gain": 0.0034
+  },
+  "declared_deviations": [
+    "Census BPS publishes no revision-vintage archive; annual permit totals are the current revision, not the as-of-origin revision. Mitigated by using counts lagged at least one full year before the origin.",
+    "FHFA does not archive per-release vintages of the metro HPI, so index values are the current revision rather than the as-of-origin revision. Mitigated by using only lagged growth rates and own-history trend deviations, never levels compared across metros."
+  ],
+  "attribution": [
+    "This product uses FHFA Data but is neither endorsed nor certified by FHFA.",
+    "Building permits: U.S. Census Bureau Building Permits Survey (public domain).",
+    "Population estimates: U.S. Census Bureau Population Estimates Program (public domain).",
+    "Metro delineations: OMB/U.S. Census Bureau delineation files (public domain)."
+  ]
+}

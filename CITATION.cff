@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+title: "GRIP-1: Geometryx Relocation Intercomparison Protocol"
+message: "If you use this protocol or submit to it, please cite it."
+type: software
+authors:
+  - family-names: Carson
+    given-names: Justin
+    affiliation: Geometryx
+repository-code: "https://github.com/Carson2113/geometryx-grip"
+license: MIT
+version: 1.0.0
+date-released: "2026-08-23"
+abstract: >-
+  GRIP-1 is a public, vintage-locked evaluation protocol for forecasts of US
+  metropolitan population and house-price movement, built entirely on
+  public-domain federal data. It is modelled on AIMIP, the AI Model
+  Intercomparison Project for machine-learning climate emulators, and adapts
+  its central disciplines to housing: a ban on features that act as proxies for
+  a clock, prescribed forcing via within-region and within-origin demeaning,
+  expanding rolling origins rather than a single holdout, a mandatory naive
+  baseline, pre-registered shock-response signs where no ground truth exists,
+  and public declaration of protocol deviations.
+keywords:
+  - housing
+  - migration
+  - forecast evaluation
+  - climate risk
+  - insurance
+  - intercomparison
+  - backtesting
