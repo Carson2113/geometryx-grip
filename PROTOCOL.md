@@ -768,6 +768,149 @@ stale `*_wr` columns are now dropped at load. Visible in the diff; it changed no
 specification, prediction or rule.
 
 
+## 14. Specification attempt 2 — the single-episode hypothesis (registered, results-free)
+
+Attempt 1 (section 13) was rejected in all four cells. Its reject clause states that attempt 2
+must not be another estimator. This attempt is not an estimator change. It is a change of sample
+period and of feature definition, and it is registered here before the estimation code has been
+written or run.
+
+### 14.1 A disclosed defect in the shock gate
+
+A feature-space audit (`run_feature_audit.py`, output `out/feature_audit.json`) measured what the
+two failing focal features actually contain. It reads predictors and price history only; it does
+not read any forecast target and estimates no coefficient on any target.
+
+| Quantity | Value |
+|---|---|
+| `corr(hpi_gap, hpi_g5)`, pooled over the graded panel | +0.909 |
+| `corr(hpi_gap, hpi_g5)`, range over the ten graded origins | +0.762 to +0.966 |
+| `corr(hpi_vol, 2000s peak-to-trough log fall)`, origin 2010 | −0.947 |
+| same, origins 2010 through 2018 | −0.790 to −0.947 |
+| same, origins 2019 and 2020 | −0.499 and −0.521 |
+| `corr(hpi_vol, 2000–2006 log boom)`, pooled | +0.623 |
+
+`hpi_gap` is registered as an affordability headwind. It is defined as the deviation of a metro's
+log price from that metro's own fifteen-year log-linear trend, and it correlates +0.91 with that
+same metro's five-year price growth. It is a momentum term, not a valuation term. `hpi_vol` is
+registered as a stand-in for insurance cost. It correlates −0.95 with the depth of a metro's
+2000s collapse, and the correlation decays toward −0.50 as that collapse leaves the fifteen-year
+window, which identifies it as an artifact of the window rather than a property of the feature.
+
+The graded origins, 2010 through 2020 with three- and five-year outcomes, observe one monotone
+recovery from one crash. In that sample the metros with the most momentum and the deepest prior
+collapse are the metros that rebounded hardest. `rate_shock_200bp` asks the model to assert that
+metros priced furthest above their own long-run trend will grow more slowly, and
+`premium_shock_40pct` asks it to assert that more volatile metros will grow more slowly. On this
+sample both are requests to predict the opposite of what occurred.
+
+**GRIP-1 therefore discloses the following defect: the shock gate as written cannot be passed by a
+correct model on a single-episode sample.** A gate that no correct model can pass is broken rather
+than strict. This disclosure is published whatever the outcome of this attempt, and it does not
+revise any registered shock, nor does it change the four standing NOT CERTIFIED verdicts.
+
+### 14.2 What is being changed
+
+Three changes, each tested only where it can be tested legally.
+
+**Sample period.** The FHFA metro index already retrieved for GRIP-1 spans 1975 to 2025 across 410
+metros. The graded panel uses origins from 2010 only. A price-target panel requires no population
+estimate, no permit file and no CBSA delineation, so origins can be extended back without any new
+source and without any new vintage exposure. Origins run from 1995 to the latest year Y for which
+base year B = Y − 1 satisfies B + h ≤ 2025.
+
+**A denominator for the valuation gap.** `hpi_income_gap` replaces `hpi_gap` with the deviation of
+log price *relative to income* from its own fifteen-year trend. Let r_t = log(HPI_t) −
+log(per-capita personal income_t); the feature is r_B minus its fitted fifteen-year log-linear
+trend value at B, using the existing `_log_trend_gap`. Because the feature is a deviation from the
+metro's own trend, the arbitrary constant in an index-versus-dollars ratio drops out. Income is
+BEA CAINC1 per-capita personal income, county level, 1969–2024, aggregated to CBSA as total
+personal income divided by total population over the metro's counties.
+
+**An explicit bust control.** `hpi_drawdown` at base year B is the deepest peak-to-trough log
+decline inside the fifteen-year window: min over t in [B−14, B] of ( log p_t − max over s in
+[B−14, t] of log p_s ). It is always ≤ 0, more negative meaning a deeper bust already experienced.
+This is the rolling, vintage-legal generalisation of "2000s crash depth" and is defined
+identically at every origin.
+
+**Estimator: unchanged.** Pooled `RidgeCV(alphas=np.logspace(-3, 3, 25))`, features and target
+demeaned within `(origin_year, division)` exactly as the registered baseline S0 does, OLS standard
+errors clustered on metro via `grip/fe.py:cluster_ols`, and leave-one-origin-out stability via
+`grip/fe.py:loo_origin_coefficients`. Nothing in the estimation path is modified.
+
+### 14.3 Cells
+
+- **LONG** — target `y_hpi`, origins 1995 onward, features `hpi_g1`, `hpi_g5`, `hpi_gap`,
+  `hpi_vol`, `hpi_drawdown`. FHFA only. Horizons 5 and 3.
+- **WINDOW** — target `y_hpi`, origins 2010 onward, same features plus `hpi_income_gap`. Requires
+  BEA and a CBSA delineation, both legal in this range. Horizons 5 and 3.
+
+Division is derived from the state abbreviation carried in the FHFA metro name. Census divisions
+have been fixed since 1950, so this introduces no vintage dependency and requires no delineation
+file.
+
+### 14.4 Registered predictions
+
+- **P1.** In LONG at h = 5, the pooled ridge coefficient on `hpi_gap` is **negative**, and its
+  leave-one-origin-out `share_positive` is **< 0.5**.
+- **P2.** In WINDOW at h = 5, the pooled ridge coefficient on `hpi_income_gap` is **negative**, and
+  its leave-one-origin-out `share_positive` is **< 0.5**.
+- **P3.** In WINDOW at h = 5, once `hpi_drawdown` is included, the metro-clustered t-statistic on
+  `hpi_vol` satisfies **|t| < 2.0**, indicating it was proxying for the bust rather than for risk.
+- **P4, power precondition.** LONG must contain **≥ 20 origins** and a median of **≥ 150 metros per
+  origin**; WINDOW must contain **≥ 8 origins**. If either fails, the corresponding predictions
+  return UNINFORMATIVE rather than a rejection.
+
+h = 3 is reported for every prediction as a secondary cell and does not enter the accept rule.
+
+### 14.5 Accept rule, fixed before the run
+
+- **SUPPORTED** only if P4 passes and **both P1 and P2 hold**.
+- **PARTIAL** if P4 passes and exactly one of P1, P2 holds.
+- **REJECTED** if P4 passes and neither holds.
+- **UNINFORMATIVE** if P4 fails.
+
+P3 is a supporting diagnostic and cannot change the verdict.
+
+### 14.6 Status ceiling, and what a pass would and would not mean
+
+Section 13 applies in full. This specification was chosen with knowledge of a graded failure, so
+**it cannot certify that failure away under any outcome.** Its maximum status is CANDIDATE. A
+SUPPORTED verdict would be evidence about *why* the graded cells failed and a basis for proposing
+GRIP-2; it would not re-grade `v1.0.0-grip1`, would not revise `rate_shock_200bp` or
+`premium_shock_40pct`, and would not certify anything. Re-grading requires a fresh blind
+re-registration and a full backtest.
+
+LONG is additionally **not a re-grade and not comparable to the published scorecard**. It carries a
+reduced, price-only feature set with no population or permit predictors, and its 2010-onward
+origins include 2011 and 2021, which the graded panel omits because a PEP vintage was unavailable.
+Published E4 and E5 numbers must not be compared to LONG.
+
+### 14.7 Reject clause
+
+If REJECTED with P4 passing — that is, if the wrong sign survives both a sample containing the
+2006–2011 bust entry and a genuine affordability denominator — then the mean-reversion mechanism
+encoded in `rate_shock_200bp` is declared **dead**. GRIP-1 will publish that the mechanism is not
+present in US metro house prices at these horizons, and the shock will be retired as an encoded
+mechanism rather than repaired again. Attempt 3 will not be permitted to re-test it.
+
+### 14.8 Deviations disclosed in advance
+
+1. **FHFA revises index history with each release.** Features for a 1995 origin are computed from
+   the file as published in 2026. This is inherited from existing practice — it applies equally to
+   the graded window — and is unchanged by this attempt, but it is a genuine revision exposure and
+   the long panel enlarges it. FHFA also expresses its whole history under current CBSA
+   definitions, so early-year metro geography is anachronistic by FHFA's own construction.
+2. **BEA revises personal income history.** `hpi_income_gap` carries the same exposure. WINDOW is
+   therefore reported as Class B under Amendment 1, not Class A.
+3. **The FHFA ZIP, county and tract indexes are developmental** and are not used in this attempt.
+4. No licensed data is used. HUD-USPS address vacancy data is excluded because access is restricted
+   to governmental entities and registered non-profits. Zillow and Redfin research files are
+   excluded from graded use because they are licensed with attribution rather than public-domain
+   federal data.
+
+*This product uses FHFA Data but is neither endorsed nor certified by FHFA.*
+
 ---
 
 **Attribution.** This product uses FHFA Data but is neither endorsed nor
