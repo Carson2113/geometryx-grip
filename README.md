@@ -26,8 +26,11 @@ better-funded competitor.
 ```bash
 pip install -r requirements.txt
 
-python run_backtest.py --horizon 5 --first-origin 2010 --last-origin 2020
-python run_backtest.py --horizon 3 --first-origin 2010 --last-origin 2022
+# two targets x two horizons = the four graded cells
+python run_backtest.py --target y_pop_wr --horizon 5 --first-origin 2010 --last-origin 2020
+python run_backtest.py --target y_pop_wr --horizon 3 --first-origin 2010 --last-origin 2022
+python run_backtest.py --target y_hpi_wr --horizon 5 --first-origin 2010 --last-origin 2020
+python run_backtest.py --target y_hpi_wr --horizon 3 --first-origin 2010 --last-origin 2022
 python -m grip.scorecard          # renders out/SCORECARD.md
 ```
 
@@ -51,53 +54,89 @@ with a sha256 manifest. Subsequent runs are offline. Expect ~4 minutes cold.
 
 Features offered to the model, all demeaned within `(origin_year, division)`:
 
-`pop_g1` (the mandatory baseline), `pop_g3`, `pop_accel`, `hpi_g1`, `hpi_g5`,
-`hpi_gap` (deviation from the metro's own 15-year log-price trend), `hpi_vol`,
-`permits_pc`, `permits_g3`.
+`pop_g1`, `pop_g3`, `pop_accel`, `hpi_g1`, `hpi_g5`, `hpi_gap` (deviation from
+the metro's own 15-year log-price trend), `hpi_vol`, `permits_pc`, `permits_g3`.
+
+Two graded targets, each with its own mandatory baseline — the prior one-year
+change in the same quantity being forecast:
+
+| Target | Quantity | Source | Baseline | Metros/origin |
+|---|---|---|---|---|
+| `y_pop_wr` | annualised population growth | Census PEP | `pop_g1_wr` | 245 |
+| `y_hpi_wr` | annualised house-price growth | FHFA HPI | `hpi_g1_wr` | 231 |
 
 ## Reference-run result
 
 Read [`out/SCORECARD.md`](out/SCORECARD.md) for the full grading. The headline,
 stated plainly because the protocol requires it:
 
-**The multi-feature model is NOT CERTIFIED for forward-looking claims.** Across
-7 rolling origins at a 5-year horizon it beat prior one-year within-region
-population growth on 3 of 7 origins, with a median paired Spearman gain of
-**−0.0100**. At a 3-year horizon it won 1 of 8 origins, paired gain **−0.0162**.
+**The multi-feature model is NOT CERTIFIED for forward-looking claims in any of
+the four graded cells.** Certification is a conjunction of four gates, not a
+skill score:
 
-The verdict does not rest on the ensemble mean. Of the individual members, only
-**35.2%** at h=5 and **18.2%** at h=3 beat the baseline, and in each of the four
-most recent 5-year origins the count is **0 of 20** — where this model loses, it
-loses unanimously, not marginally.
+| Cell | Skill | Shock signs | Interval | Members | Certified |
+|---|---|---|---|---|---|
+| `y_pop_wr` h=5 | 3/7 | 2 of 3 wrong | 89.2% | 35.2% | no |
+| `y_pop_wr` h=3 | 1/8 | 2 of 3 wrong | 90.7% | 18.2% | no |
+| `y_hpi_wr` h=5 | **4/7** | 2 of 3 wrong | **93.0%** | **52.5%** | no |
+| `y_hpi_wr` h=3 | 3/8 | 2 of 3 wrong | 92.3% | 29.6% | no |
 
-Two of the three pre-registered shocks returned the **wrong sign**: metros
-already priced furthest above their own long-run trend, and metros with the
-highest price volatility, are currently predicted to do *better* under an
-affordability or insurance-cost shock. That is the same inversion already on
-record in Geometryx's own data, now measured rather than stumbled upon.
+Three results are worth stating plainly.
 
-Four findings are genuinely positive:
+**1. The shock inversion is in the features, not in the target.** House-price
+growth is a separate outcome variable from a separate federal source with its
+own baseline, and it reproduces both wrong-signed shocks at roughly **five times
+the magnitude**: the affordability shock moves the most over-trend metros
+`+0.0059` on prices against `+0.0011` on population, and the insurance-cost
+shock `+0.0029` against `+0.0006`. Prices are the shorter causal path for both
+mechanisms — affordability constraint and insurance-cost capitalisation act on
+price directly and on population only through a subsequent migration response —
+so this is precisely where a real mechanism should have appeared with the right
+sign. It did not. Note also that the two coefficients driving these responses,
+`hpi_gap_wr` and `hpi_vol_wr`, are both **SIGN-UNSTABLE** on the price target.
 
-1. `permits_pc` is the second-strongest stable coefficient after the population
-   baseline, sign-stable across every origin, and it is free.
-2. `hpi_g5` carries a **stable negative** coefficient across all origins — a
-   real mean-reversion signal, not a fit artifact.
+**2. One cell is barred by the shock gate alone.** `y_hpi_wr` at h=5 clears
+skill (4 of 7 origins, paired Spearman gain **+0.0138**), member robustness
+(52.5%) and interval calibration (93.0%). It more than doubles its baseline's
+out-of-sample R² — **0.368 against 0.161**. Its only binding constraint is the
+pre-registered shock signs. That is a considerably more useful result than a flat
+failure, because it names exactly one thing to fix.
+
+**3. The verdict logic itself was wrong until this release.** Certification was
+graded on the rolling-origin win count alone. That defect was latent for as long
+as the model lost the skill gate, and `y_hpi_wr` at h=5 is the first cell that
+would have been mislabelled **CERTIFIED** while inverting both the affordability
+and the insurance shock. A model that appreciates the most over-trend and the
+most hazard-exposed metros fastest ranks metros well for the wrong reason. The
+gate is now an explicit conjunction, and expected shock signs may never be
+revised after a target is run — the signs graded here were registered in release
+`v1.0.0-grip1`, published before `y_hpi` was ever scored.
+
+Genuinely positive findings:
+
+1. `permits_pc` is sign-stable across every origin on the population target, and
+   it is free.
+2. `hpi_g5` carries a **stable negative** coefficient on both targets, and on the
+   price target it is the single largest stable coefficient (mean **−0.0148**) —
+   mean reversion in metro house prices is the most robust mechanism in this
+   panel.
 3. The clock audit, coefficient-stability test and shock suite all fired on real
-   data and caught real problems, including two bugs in this harness itself.
-4. **The 90% predictive interval is calibrated.** Realised coverage is 89.2% at
-   h=5 and 90.7% at h=3 against a nominal 90%, measured out-of-sample on origins
-   the interval was never fitted to. Ranking skill and interval calibration are
-   separate properties, and this model has the second without the first: it
-   cannot yet tell you which metro will outgrow which, but it can state how
-   uncertain any single figure is and be believed.
+   data and caught real problems, including three bugs in this harness itself.
+4. **The 90% predictive interval is calibrated in all four cells**, 89.2% to
+   93.0% realised coverage against a nominal 90%, measured out-of-sample on
+   origins the interval was never fitted to. Calibration is the one property that
+   survives every target and horizon tested, which makes a stated uncertainty
+   band the first thing here safe to publish.
 
 The correct reading is not that the model is bad. It is that the honest test now
-exists, and it says: ship the descriptive Index, keep the forecast in the lab,
-and let the scoreboard accumulate.
+exists, it is specific about what fails, and it says: ship the descriptive Index,
+keep the forecast in the lab, and fix the hazard and affordability features
+before anything is sold as forward-looking.
 
 ## Known gaps
 
-- Population is the only graded target so far; `y_hpi` is computed but not scored.
+- Both graded targets are outcome variables, not intermediate quantities. Metro
+  rents, vacancy and net domestic migration are not yet graded.
 - The insurance shock uses `hpi_vol` as a stand-in. It should use the Treasury
   FIO premium series, which is public-domain but ends in 2022.
 - No FEMA hazard feature yet. `hazards.fema.gov/nri` now redirects into FEMA's

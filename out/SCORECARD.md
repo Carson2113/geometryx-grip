@@ -2,10 +2,142 @@
 
 Geometryx Relocation Intercomparison Protocol, reference run. Every number below was produced by `run_backtest.py` against public-domain federal files under the vintage lock in `PROTOCOL.md`. No licensed data was used.
 
-## Horizon 3 years
+## y_pop_wr at horizon 5 years
 
-- Run started: `2026-08-23T15:35:42Z`
-- Target: `y_pop_wr` (within-division, within-origin demeaned population growth)
+- Run started: `2026-08-23T15:54:44Z`
+- Target: `y_pop_wr` (within-division, within-origin demeaned annualised population growth)
+- Origins in panel: [2010, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020]
+- Panel rows: 2438; median metros per origin: 245
+- Mandatory baseline: `pop_g1_wr`
+
+### Headline
+
+| Metric | Model | Baseline |
+|---|---|---|
+| Median Spearman rho | 0.744 | 0.759 |
+| Median out-of-sample R2 | 0.569 | 0.577 |
+| Median top-quartile hit rate | 91.4% | 90.3% |
+
+Paired, per-origin differences (model minus baseline). Unpaired medians
+can flatter a model that loses on almost every origin, so these govern.
+
+| Paired gain | Value |
+|---|---|
+| Median Spearman gain | -0.0100 |
+| Median out-of-sample R2 gain | 0.0172 |
+| Median hit-rate gain | 0.0106 |
+
+**Origins where the model beat the baseline: 3/7.**
+
+| Gate | Requirement | Result |
+|---|---|---|
+| Skill | beat `pop_g1_wr` on a majority of origins | FAIL (3/7) |
+| Shock signs | every graded shock returns its pre-registered sign | FAIL (wrong sign: `premium_shock_40pct`, `rate_shock_200bp`) |
+| Interval calibration | 90% predictive interval covers 85-95% | PASS (89.2%) |
+| Member robustness | most individual members beat the baseline | FAIL (35.2%) |
+
+> Verdict: **NOT CERTIFIED for forward-looking claims.** Binding constraint(s): skill, shock_signs, member_robustness. Certification is a conjunction, not a skill score: a model may rank metros well and still be barred, because a wrong-signed response to a pre-registered shock means the ranking is right for the wrong reason. Under GRIP rule 8 this model may ship as a descriptive index only.
+
+### E2/E3 Rolling-origin skill
+
+Each row is a strictly causal test: fit on origins before the test origin, predict the test origin, never the reverse.
+
+| Test origin | Metros | Model rho | 90% interval | Baseline rho | Model hit | Baseline hit | Beat baseline |
+|---|---|---|---|---|---|---|---|
+| 2014 | 228 | 0.734 | [0.647, 0.800] | 0.715 | 86.0% | 83.9% | yes |
+| 2015 | 228 | 0.799 | [0.742, 0.850] | 0.790 | 94.7% | 95.2% | yes |
+| 2016 | 230 | 0.770 | [0.723, 0.816] | 0.759 | 91.4% | 90.3% | yes |
+| 2017 | 221 | 0.714 | [0.651, 0.773] | 0.737 | 91.1% | 88.7% | no |
+| 2018 | 217 | 0.728 | [0.656, 0.792] | 0.780 | 89.1% | 93.4% | no |
+| 2019 | 217 | 0.747 | [0.677, 0.807] | 0.774 | 92.7% | 93.4% | no |
+| 2020 | 217 | 0.744 | [0.685, 0.799] | 0.754 | 92.7% | 88.5% | no |
+
+### Ensemble and intervals
+
+Every origin is scored from a block-bootstrap ensemble over origin years (minimum 19 members against a protocol floor of 5). The graded prediction is the ensemble mean.
+
+| Ensemble metric | Value |
+|---|---|
+| Conforms to the member floor | yes |
+| Share of individual members beating the baseline | 35.2% |
+| Median single-fit Spearman rho, for comparison | 0.742 |
+| Median member spread as a share of forecast error | 0.102 |
+| Median 90% predictive interval width | 0.01547 |
+| Median realised coverage of that interval | 89.2% |
+
+> The 90% predictive interval is **conforming**: realised coverage 89.2% against a nominal 90%. This interval may be attached to published figures. Note that it is *wider* than the member spread by roughly an order of magnitude — member spread alone captures which model might have been fitted, not how wrong that model is about a given metro, and publishing it as a forecast interval would be narrow and wrong.
+
+| Test origin | Members | Members beating baseline | Member rho range | 90% PI coverage |
+|---|---|---|---|---|
+| 2014 | 19 | 17/19 | [0.712, 0.762] | n/a (first scored origin) |
+| 2015 | 20 | 13/20 | [0.754, 0.810] | 90.8% |
+| 2016 | 20 | 19/20 | [0.753, 0.774] | 83.0% |
+| 2017 | 20 | 0/20 | [0.700, 0.724] | 88.7% |
+| 2018 | 20 | 0/20 | [0.703, 0.735] | 88.9% |
+| 2019 | 20 | 0/20 | [0.723, 0.763] | 90.8% |
+| 2020 | 20 | 0/20 | [0.716, 0.753] | 89.4% |
+
+### CLOCK_LEAK audit
+
+AIMIP banned CO2 as an input because its steady rise "could become a proxy for a clock." This is the housing analogue: any feature whose cross-sectional mean drifts monotonically across origins is dating the sample rather than ranking metros.
+
+| Feature | Drift rho across origins | p | Sign flips | Verdict |
+|---|---|---|---|---|
+| `pop_g1_wr` | 0.407 | 0.243 | 3 | PASS |
+| `pop_accel_wr` | -0.079 | 0.829 | 6 | PASS |
+| `hpi_g1_wr` | -0.273 | 0.446 | 4 | PASS |
+| `hpi_g5_wr` | 0.079 | 0.829 | 5 | PASS |
+| `hpi_gap_wr` | 0.085 | 0.815 | 7 | PASS |
+| `hpi_vol_wr` | -0.273 | 0.446 | 7 | PASS |
+| `permits_pc_wr` | 0.358 | 0.310 | 3 | PASS |
+| `permits_g3_wr` | -0.383 | 0.308 | 3 | PASS |
+| `pop_g3_wr` | -0.661 | 0.038 | 3 | WARN |
+
+Features excluded by the audit: none.
+
+### E4 Coefficient stability
+
+A feature whose sign flips across origins is not a mechanism, it is a fit artifact.
+
+| Feature | Mean coef | Min | Max | Share positive | Verdict |
+|---|---|---|---|---|---|
+| `pop_g1_wr` | 0.00230 | 0.00220 | 0.00240 | 100.0% | STABLE |
+| `pop_g3_wr` | 0.00150 | 0.00090 | 0.00190 | 100.0% | STABLE |
+| `pop_accel_wr` | 0.00110 | 0.00100 | 0.00120 | 100.0% | STABLE |
+| `hpi_g1_wr` | 0.00020 | 0.00000 | 0.00060 | 71.4% | SIGN-UNSTABLE |
+| `hpi_g5_wr` | -0.00210 | -0.00280 | -0.00140 | 0.0% | STABLE |
+| `hpi_gap_wr` | 0.00110 | 0.00010 | 0.00170 | 100.0% | STABLE |
+| `hpi_vol_wr` | 0.00050 | 0.00020 | 0.00080 | 100.0% | STABLE |
+| `permits_pc_wr` | 0.00190 | 0.00170 | 0.00200 | 100.0% | STABLE |
+| `permits_g3_wr` | -0.00050 | -0.00090 | -0.00030 | 0.0% | STABLE |
+
+### E5 Shock plausibility
+
+There is no ground truth for a rate or premium shock, so these are graded on pre-registered sign, exactly as AIMIP grades the +2K/+4K sea-surface experiments. Wrong sign bars a model from forward-looking claims regardless of its R2.
+
+| Shock | Graded on | Relative response | Expected sign | Observed | Verdict |
+|---|---|---|---|---|---|
+| `rate_shock_200bp` | response_sign | 0.001116 | -1 | 1 | IMPLAUSIBLE |
+| `premium_shock_40pct` | response_sign | 0.000557 | -1 | 1 | IMPLAUSIBLE |
+| `momentum_reversal` | rank_stability | -0.000000 | -1 | 0 | PLAUSIBLE |
+
+- **`rate_shock_200bp` failed.** A uniform or positive response means the model carries no rate sensitivity at all.
+- **`premium_shock_40pct` failed.** Wrong sign means the climate/insurance pillar is acting as a proxy for Sun Belt growth rather than for risk -- the exact inversion already measured (+1.57% vs +0.51%).
+
+### Declared deviations
+
+- Census BPS publishes no revision-vintage archive; annual permit totals are the current revision, not the as-of-origin revision. Mitigated by using counts lagged at least one full year before the origin.
+- FHFA does not archive per-release vintages of the metro HPI, so index values are the current revision rather than the as-of-origin revision. Mitigated by using only lagged growth rates and own-history trend deviations, never levels compared across metros.
+
+### Vintage-lock checks
+
+- `max_pep_vintage_matches_base_year`: PASS (0 violations)
+- `delineation_not_from_future`: PASS (0 violations)
+
+## y_pop_wr at horizon 3 years
+
+- Run started: `2026-08-23T15:56:14Z`
+- Target: `y_pop_wr` (within-division, within-origin demeaned annualised population growth)
 - Origins in panel: [2010, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2022]
 - Panel rows: 2687; median metros per origin: 245
 - Mandatory baseline: `pop_g1_wr`
@@ -29,7 +161,14 @@ can flatter a model that loses on almost every origin, so these govern.
 
 **Origins where the model beat the baseline: 1/8.**
 
-> Verdict: **NOT CERTIFIED for forward-looking claims.** The multi-feature model does not reliably beat prior one-year population growth. Under GRIP rule 8 this model may ship as a descriptive index only. Publishing it as a forecast would be the failure AIMIP was built to catch.
+| Gate | Requirement | Result |
+|---|---|---|
+| Skill | beat `pop_g1_wr` on a majority of origins | FAIL (1/8) |
+| Shock signs | every graded shock returns its pre-registered sign | FAIL (wrong sign: `premium_shock_40pct`, `rate_shock_200bp`) |
+| Interval calibration | 90% predictive interval covers 85-95% | PASS (90.7%) |
+| Member robustness | most individual members beat the baseline | FAIL (18.2%) |
+
+> Verdict: **NOT CERTIFIED for forward-looking claims.** Binding constraint(s): skill, shock_signs, member_robustness. Certification is a conjunction, not a skill score: a model may rank metros well and still be barred, because a wrong-signed response to a pre-registered shock means the ranking is right for the wrong reason. Under GRIP rule 8 this model may ship as a descriptive index only.
 
 ### E2/E3 Rolling-origin skill
 
@@ -129,34 +268,41 @@ There is no ground truth for a rate or premium shock, so these are graded on pre
 - `max_pep_vintage_matches_base_year`: PASS (0 violations)
 - `delineation_not_from_future`: PASS (0 violations)
 
-## Horizon 5 years
+## y_hpi_wr at horizon 5 years
 
-- Run started: `2026-08-23T15:34:05Z`
-- Target: `y_pop_wr` (within-division, within-origin demeaned population growth)
+- Run started: `2026-08-23T15:57:58Z`
+- Target: `y_hpi_wr` (within-division, within-origin demeaned annualised FHFA house-price growth)
 - Origins in panel: [2010, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020]
-- Panel rows: 2438; median metros per origin: 245
-- Mandatory baseline: `pop_g1_wr`
+- Panel rows: 2309; median metros per origin: 231
+- Mandatory baseline: `hpi_g1_wr`
 
 ### Headline
 
 | Metric | Model | Baseline |
 |---|---|---|
-| Median Spearman rho | 0.744 | 0.759 |
-| Median out-of-sample R2 | 0.569 | 0.577 |
-| Median top-quartile hit rate | 91.4% | 90.3% |
+| Median Spearman rho | 0.561 | 0.507 |
+| Median out-of-sample R2 | 0.368 | 0.161 |
+| Median top-quartile hit rate | 82.5% | 74.1% |
 
 Paired, per-origin differences (model minus baseline). Unpaired medians
 can flatter a model that loses on almost every origin, so these govern.
 
 | Paired gain | Value |
 |---|---|
-| Median Spearman gain | -0.0100 |
-| Median out-of-sample R2 gain | 0.0172 |
-| Median hit-rate gain | 0.0106 |
+| Median Spearman gain | 0.0138 |
+| Median out-of-sample R2 gain | 0.0968 |
+| Median hit-rate gain | 0.0172 |
 
-**Origins where the model beat the baseline: 3/7.**
+**Origins where the model beat the baseline: 4/7.**
 
-> Verdict: **NOT CERTIFIED for forward-looking claims.** The multi-feature model does not reliably beat prior one-year population growth. Under GRIP rule 8 this model may ship as a descriptive index only. Publishing it as a forecast would be the failure AIMIP was built to catch.
+| Gate | Requirement | Result |
+|---|---|---|
+| Skill | beat `hpi_g1_wr` on a majority of origins | PASS (4/7) |
+| Shock signs | every graded shock returns its pre-registered sign | FAIL (wrong sign: `premium_shock_40pct`, `rate_shock_200bp`) |
+| Interval calibration | 90% predictive interval covers 85-95% | PASS (93.0%) |
+| Member robustness | most individual members beat the baseline | PASS (52.5%) |
+
+> Verdict: **NOT CERTIFIED for forward-looking claims.** Binding constraint(s): shock_signs. Certification is a conjunction, not a skill score: a model may rank metros well and still be barred, because a wrong-signed response to a pre-registered shock means the ranking is right for the wrong reason. Under GRIP rule 8 this model may ship as a descriptive index only.
 
 ### E2/E3 Rolling-origin skill
 
@@ -164,13 +310,13 @@ Each row is a strictly causal test: fit on origins before the test origin, predi
 
 | Test origin | Metros | Model rho | 90% interval | Baseline rho | Model hit | Baseline hit | Beat baseline |
 |---|---|---|---|---|---|---|---|
-| 2014 | 228 | 0.734 | [0.647, 0.800] | 0.715 | 86.0% | 83.9% | yes |
-| 2015 | 228 | 0.799 | [0.742, 0.850] | 0.790 | 94.7% | 95.2% | yes |
-| 2016 | 230 | 0.770 | [0.723, 0.816] | 0.759 | 91.4% | 90.3% | yes |
-| 2017 | 221 | 0.714 | [0.651, 0.773] | 0.737 | 91.1% | 88.7% | no |
-| 2018 | 217 | 0.728 | [0.656, 0.792] | 0.780 | 89.1% | 93.4% | no |
-| 2019 | 217 | 0.747 | [0.677, 0.807] | 0.774 | 92.7% | 93.4% | no |
-| 2020 | 217 | 0.744 | [0.685, 0.799] | 0.754 | 92.7% | 88.5% | no |
+| 2014 | 228 | 0.640 | [0.558, 0.706] | -0.611 | 87.7% | 19.0% | yes |
+| 2015 | 228 | 0.662 | [0.584, 0.731] | 0.555 | 82.5% | 74.1% | yes |
+| 2016 | 230 | 0.619 | [0.544, 0.683] | 0.602 | 87.9% | 86.2% | yes |
+| 2017 | 221 | 0.441 | [0.324, 0.531] | 0.507 | 73.2% | 72.4% | no |
+| 2018 | 220 | 0.561 | [0.473, 0.640] | 0.614 | 83.6% | 84.5% | no |
+| 2019 | 221 | 0.493 | [0.397, 0.592] | 0.479 | 78.6% | 74.1% | yes |
+| 2020 | 221 | 0.423 | [0.309, 0.521] | 0.450 | 76.8% | 82.8% | no |
 
 ### Ensemble and intervals
 
@@ -179,23 +325,23 @@ Every origin is scored from a block-bootstrap ensemble over origin years (minimu
 | Ensemble metric | Value |
 |---|---|
 | Conforms to the member floor | yes |
-| Share of individual members beating the baseline | 35.2% |
-| Median single-fit Spearman rho, for comparison | 0.742 |
-| Median member spread as a share of forecast error | 0.102 |
-| Median 90% predictive interval width | 0.01547 |
-| Median realised coverage of that interval | 89.2% |
+| Share of individual members beating the baseline | 52.5% |
+| Median single-fit Spearman rho, for comparison | 0.550 |
+| Median member spread as a share of forecast error | 0.130 |
+| Median 90% predictive interval width | 0.04767 |
+| Median realised coverage of that interval | 93.0% |
 
-> The 90% predictive interval is **conforming**: realised coverage 89.2% against a nominal 90%. This interval may be attached to published figures. Note that it is *wider* than the member spread by roughly an order of magnitude — member spread alone captures which model might have been fitted, not how wrong that model is about a given metro, and publishing it as a forecast interval would be narrow and wrong.
+> The 90% predictive interval is **conforming**: realised coverage 93.0% against a nominal 90%. This interval may be attached to published figures. Note that it is *wider* than the member spread by roughly an order of magnitude — member spread alone captures which model might have been fitted, not how wrong that model is about a given metro, and publishing it as a forecast interval would be narrow and wrong.
 
 | Test origin | Members | Members beating baseline | Member rho range | 90% PI coverage |
 |---|---|---|---|---|
-| 2014 | 19 | 17/19 | [0.712, 0.762] | n/a (first scored origin) |
-| 2015 | 20 | 13/20 | [0.754, 0.810] | 90.8% |
-| 2016 | 20 | 19/20 | [0.753, 0.774] | 83.0% |
-| 2017 | 20 | 0/20 | [0.700, 0.724] | 88.7% |
-| 2018 | 20 | 0/20 | [0.703, 0.735] | 88.9% |
-| 2019 | 20 | 0/20 | [0.723, 0.763] | 90.8% |
-| 2020 | 20 | 0/20 | [0.716, 0.753] | 89.4% |
+| 2014 | 19 | 19/19 | [0.591, 0.677] | n/a (first scored origin) |
+| 2015 | 20 | 19/20 | [0.505, 0.703] | 94.7% |
+| 2016 | 20 | 12/20 | [0.439, 0.681] | 94.3% |
+| 2017 | 20 | 4/20 | [0.265, 0.612] | 84.6% |
+| 2018 | 20 | 4/20 | [0.406, 0.647] | 85.9% |
+| 2019 | 20 | 12/20 | [0.385, 0.541] | 92.8% |
+| 2020 | 20 | 3/20 | [0.342, 0.468] | 93.2% |
 
 ### CLOCK_LEAK audit
 
@@ -203,15 +349,15 @@ AIMIP banned CO2 as an input because its steady rise "could become a proxy for a
 
 | Feature | Drift rho across origins | p | Sign flips | Verdict |
 |---|---|---|---|---|
-| `pop_g1_wr` | 0.407 | 0.243 | 3 | PASS |
-| `pop_accel_wr` | -0.079 | 0.829 | 6 | PASS |
-| `hpi_g1_wr` | -0.273 | 0.446 | 4 | PASS |
-| `hpi_g5_wr` | 0.079 | 0.829 | 5 | PASS |
+| `pop_g1_wr` | 0.467 | 0.174 | 4 | PASS |
+| `pop_g3_wr` | -0.079 | 0.829 | 4 | PASS |
+| `pop_accel_wr` | 0.212 | 0.556 | 4 | PASS |
+| `hpi_g1_wr` | -0.225 | 0.532 | 2 | PASS |
+| `hpi_g5_wr` | 0.127 | 0.726 | 5 | PASS |
 | `hpi_gap_wr` | 0.085 | 0.815 | 7 | PASS |
 | `hpi_vol_wr` | -0.273 | 0.446 | 7 | PASS |
-| `permits_pc_wr` | 0.358 | 0.310 | 3 | PASS |
-| `permits_g3_wr` | -0.383 | 0.308 | 3 | PASS |
-| `pop_g3_wr` | -0.661 | 0.038 | 3 | WARN |
+| `permits_g3_wr` | -0.450 | 0.224 | 3 | PASS |
+| `permits_pc_wr` | 0.733 | 0.016 | 3 | WARN |
 
 Features excluded by the audit: none.
 
@@ -221,15 +367,15 @@ A feature whose sign flips across origins is not a mechanism, it is a fit artifa
 
 | Feature | Mean coef | Min | Max | Share positive | Verdict |
 |---|---|---|---|---|---|
-| `pop_g1_wr` | 0.00230 | 0.00220 | 0.00240 | 100.0% | STABLE |
-| `pop_g3_wr` | 0.00150 | 0.00090 | 0.00190 | 100.0% | STABLE |
-| `pop_accel_wr` | 0.00110 | 0.00100 | 0.00120 | 100.0% | STABLE |
-| `hpi_g1_wr` | 0.00020 | 0.00000 | 0.00060 | 71.4% | SIGN-UNSTABLE |
-| `hpi_g5_wr` | -0.00210 | -0.00280 | -0.00140 | 0.0% | STABLE |
-| `hpi_gap_wr` | 0.00110 | 0.00010 | 0.00170 | 100.0% | STABLE |
-| `hpi_vol_wr` | 0.00050 | 0.00020 | 0.00080 | 100.0% | STABLE |
-| `permits_pc_wr` | 0.00190 | 0.00170 | 0.00200 | 100.0% | STABLE |
-| `permits_g3_wr` | -0.00050 | -0.00090 | -0.00030 | 0.0% | STABLE |
+| `pop_g1_wr` | 0.00430 | 0.00390 | 0.00460 | 100.0% | STABLE |
+| `pop_g3_wr` | 0.00220 | 0.00090 | 0.00320 | 100.0% | STABLE |
+| `pop_accel_wr` | 0.00280 | 0.00250 | 0.00300 | 100.0% | STABLE |
+| `hpi_g1_wr` | 0.00760 | 0.00600 | 0.00980 | 100.0% | STABLE |
+| `hpi_g5_wr` | -0.01480 | -0.01650 | -0.01270 | 0.0% | STABLE |
+| `hpi_gap_wr` | 0.00280 | -0.00300 | 0.00580 | 85.7% | SIGN-UNSTABLE |
+| `hpi_vol_wr` | 0.00040 | -0.00200 | 0.00320 | 42.9% | SIGN-UNSTABLE |
+| `permits_pc_wr` | -0.00060 | -0.00080 | -0.00040 | 0.0% | STABLE |
+| `permits_g3_wr` | -0.00060 | -0.00210 | -0.00010 | 0.0% | STABLE |
 
 ### E5 Shock plausibility
 
@@ -237,9 +383,143 @@ There is no ground truth for a rate or premium shock, so these are graded on pre
 
 | Shock | Graded on | Relative response | Expected sign | Observed | Verdict |
 |---|---|---|---|---|---|
-| `rate_shock_200bp` | response_sign | 0.001116 | -1 | 1 | IMPLAUSIBLE |
-| `premium_shock_40pct` | response_sign | 0.000557 | -1 | 1 | IMPLAUSIBLE |
+| `rate_shock_200bp` | response_sign | 0.005942 | -1 | 1 | IMPLAUSIBLE |
+| `premium_shock_40pct` | response_sign | 0.002916 | -1 | 1 | IMPLAUSIBLE |
 | `momentum_reversal` | rank_stability | -0.000000 | -1 | 0 | PLAUSIBLE |
+
+- **`rate_shock_200bp` failed.** A uniform or positive response means the model carries no rate sensitivity at all.
+- **`premium_shock_40pct` failed.** Wrong sign means the climate/insurance pillar is acting as a proxy for Sun Belt growth rather than for risk -- the exact inversion already measured (+1.57% vs +0.51%).
+
+### Declared deviations
+
+- Census BPS publishes no revision-vintage archive; annual permit totals are the current revision, not the as-of-origin revision. Mitigated by using counts lagged at least one full year before the origin.
+- FHFA does not archive per-release vintages of the metro HPI, so index values are the current revision rather than the as-of-origin revision. Mitigated by using only lagged growth rates and own-history trend deviations, never levels compared across metros.
+
+### Vintage-lock checks
+
+- `max_pep_vintage_matches_base_year`: PASS (0 violations)
+- `delineation_not_from_future`: PASS (0 violations)
+
+## y_hpi_wr at horizon 3 years
+
+- Run started: `2026-08-23T15:59:28Z`
+- Target: `y_hpi_wr` (within-division, within-origin demeaned annualised FHFA house-price growth)
+- Origins in panel: [2010, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2022]
+- Panel rows: 2540; median metros per origin: 231
+- Mandatory baseline: `hpi_g1_wr`
+
+### Headline
+
+| Metric | Model | Baseline |
+|---|---|---|
+| Median Spearman rho | 0.595 | 0.616 |
+| Median out-of-sample R2 | 0.373 | 0.338 |
+| Median top-quartile hit rate | 84.1% | 86.2% |
+
+Paired, per-origin differences (model minus baseline). Unpaired medians
+can flatter a model that loses on almost every origin, so these govern.
+
+| Paired gain | Value |
+|---|---|
+| Median Spearman gain | -0.0467 |
+| Median out-of-sample R2 gain | 0.0246 |
+| Median hit-rate gain | -0.0112 |
+
+**Origins where the model beat the baseline: 3/8.**
+
+| Gate | Requirement | Result |
+|---|---|---|
+| Skill | beat `hpi_g1_wr` on a majority of origins | FAIL (3/8) |
+| Shock signs | every graded shock returns its pre-registered sign | FAIL (wrong sign: `premium_shock_40pct`, `rate_shock_200bp`) |
+| Interval calibration | 90% predictive interval covers 85-95% | PASS (92.3%) |
+| Member robustness | most individual members beat the baseline | FAIL (29.6%) |
+
+> Verdict: **NOT CERTIFIED for forward-looking claims.** Binding constraint(s): skill, shock_signs, member_robustness. Certification is a conjunction, not a skill score: a model may rank metros well and still be barred, because a wrong-signed response to a pre-registered shock means the ranking is right for the wrong reason. Under GRIP rule 8 this model may ship as a descriptive index only.
+
+### E2/E3 Rolling-origin skill
+
+Each row is a strictly causal test: fit on origins before the test origin, predict the test origin, never the reverse.
+
+| Test origin | Metros | Model rho | 90% interval | Baseline rho | Model hit | Baseline hit | Beat baseline |
+|---|---|---|---|---|---|---|---|
+| 2014 | 228 | 0.702 | [0.632, 0.767] | 0.740 | 86.0% | 86.2% | no |
+| 2015 | 228 | 0.677 | [0.610, 0.741] | 0.663 | 84.2% | 86.2% | yes |
+| 2016 | 230 | 0.649 | [0.575, 0.719] | 0.725 | 91.4% | 87.9% | no |
+| 2017 | 221 | 0.542 | [0.436, 0.627] | 0.598 | 83.9% | 86.2% | no |
+| 2018 | 221 | 0.639 | [0.553, 0.717] | 0.616 | 87.5% | 86.2% | yes |
+| 2019 | 221 | 0.552 | [0.451, 0.634] | 0.615 | 76.8% | 81.0% | no |
+| 2020 | 220 | 0.513 | [0.410, 0.599] | 0.595 | 81.8% | 84.5% | no |
+| 2022 | 219 | 0.319 | [0.214, 0.430] | 0.308 | 63.6% | 58.6% | yes |
+
+### Ensemble and intervals
+
+Every origin is scored from a block-bootstrap ensemble over origin years (minimum 19 members against a protocol floor of 5). The graded prediction is the ensemble mean.
+
+| Ensemble metric | Value |
+|---|---|
+| Conforms to the member floor | yes |
+| Share of individual members beating the baseline | 29.6% |
+| Median single-fit Spearman rho, for comparison | 0.617 |
+| Median member spread as a share of forecast error | 0.137 |
+| Median 90% predictive interval width | 0.05080 |
+| Median realised coverage of that interval | 92.3% |
+
+> The 90% predictive interval is **conforming**: realised coverage 92.3% against a nominal 90%. This interval may be attached to published figures. Note that it is *wider* than the member spread by roughly an order of magnitude — member spread alone captures which model might have been fitted, not how wrong that model is about a given metro, and publishing it as a forecast interval would be narrow and wrong.
+
+| Test origin | Members | Members beating baseline | Member rho range | 90% PI coverage |
+|---|---|---|---|---|
+| 2014 | 19 | 0/19 | [0.658, 0.722] | n/a (first scored origin) |
+| 2015 | 20 | 13/20 | [0.563, 0.726] | 93.9% |
+| 2016 | 20 | 0/20 | [0.510, 0.722] | 92.2% |
+| 2017 | 20 | 7/20 | [0.348, 0.714] | 93.2% |
+| 2018 | 20 | 11/20 | [0.507, 0.692] | 97.3% |
+| 2019 | 20 | 0/20 | [0.494, 0.607] | 92.3% |
+| 2020 | 20 | 3/20 | [0.226, 0.649] | 79.5% |
+| 2022 | 20 | 13/20 | [0.287, 0.346] | 84.5% |
+
+### CLOCK_LEAK audit
+
+AIMIP banned CO2 as an input because its steady rise "could become a proxy for a clock." This is the housing analogue: any feature whose cross-sectional mean drifts monotonically across origins is dating the sample rather than ranking metros.
+
+| Feature | Drift rho across origins | p | Sign flips | Verdict |
+|---|---|---|---|---|
+| `pop_g1_wr` | 0.418 | 0.201 | 4 | PASS |
+| `pop_g3_wr` | 0.027 | 0.936 | 4 | PASS |
+| `pop_accel_wr` | -0.091 | 0.790 | 5 | PASS |
+| `hpi_g1_wr` | 0.109 | 0.749 | 3 | PASS |
+| `hpi_g5_wr` | 0.409 | 0.211 | 6 | PASS |
+| `hpi_gap_wr` | 0.314 | 0.346 | 7 | PASS |
+| `hpi_vol_wr` | -0.427 | 0.190 | 7 | PASS |
+| `permits_g3_wr` | -0.248 | 0.489 | 3 | PASS |
+| `permits_pc_wr` | 0.782 | 0.004 | 3 | WARN |
+
+Features excluded by the audit: none.
+
+### E4 Coefficient stability
+
+A feature whose sign flips across origins is not a mechanism, it is a fit artifact.
+
+| Feature | Mean coef | Min | Max | Share positive | Verdict |
+|---|---|---|---|---|---|
+| `pop_g1_wr` | 0.00480 | 0.00450 | 0.00510 | 100.0% | STABLE |
+| `pop_g3_wr` | 0.00290 | 0.00150 | 0.00420 | 100.0% | STABLE |
+| `pop_accel_wr` | 0.00260 | 0.00190 | 0.00310 | 100.0% | STABLE |
+| `hpi_g1_wr` | 0.01100 | 0.00830 | 0.01450 | 100.0% | STABLE |
+| `hpi_g5_wr` | -0.01580 | -0.01830 | -0.01290 | 0.0% | STABLE |
+| `hpi_gap_wr` | 0.00200 | -0.00510 | 0.00570 | 75.0% | SIGN-UNSTABLE |
+| `hpi_vol_wr` | 0.00160 | -0.00200 | 0.00420 | 50.0% | SIGN-UNSTABLE |
+| `permits_pc_wr` | -0.00190 | -0.00300 | -0.00110 | 0.0% | STABLE |
+| `permits_g3_wr` | 0.00060 | -0.00010 | 0.00110 | 75.0% | SIGN-UNSTABLE |
+
+### E5 Shock plausibility
+
+There is no ground truth for a rate or premium shock, so these are graded on pre-registered sign, exactly as AIMIP grades the +2K/+4K sea-surface experiments. Wrong sign bars a model from forward-looking claims regardless of its R2.
+
+| Shock | Graded on | Relative response | Expected sign | Observed | Verdict |
+|---|---|---|---|---|---|
+| `rate_shock_200bp` | response_sign | 0.005320 | -1 | 1 | IMPLAUSIBLE |
+| `premium_shock_40pct` | response_sign | 0.004256 | -1 | 1 | IMPLAUSIBLE |
+| `momentum_reversal` | rank_stability | 0.000000 | -1 | 0 | PLAUSIBLE |
 
 - **`rate_shock_200bp` failed.** A uniform or positive response means the model carries no rate sensitivity at all.
 - **`premium_shock_40pct` failed.** Wrong sign means the climate/insurance pillar is acting as a proxy for Sun Belt growth rather than for risk -- the exact inversion already measured (+1.57% vs +0.51%).

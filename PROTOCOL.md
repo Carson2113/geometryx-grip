@@ -154,12 +154,29 @@ The reference run scores **7 origins at H=5** (test origins 2014-2020) and
 
 ## 7. The mandatory baseline
 
-Every submission is scored against **prior one-year within-region population
-growth** (`pop_g1_wr`). Nothing else. It is one line of code, it is free, and in
-prior Geometryx testing it beat the five-pillar composite in 8 of 8 cells.
+GRIP-1 grades **two targets**, each with its own mandatory baseline: the prior
+one-year change in the same quantity being forecast.
 
-A scorecard that does not report the baseline is invalid. Reporting a model's R²
-without it is the single most common way a housing forecast is oversold.
+| Target | Quantity | Mandatory baseline |
+|---|---|---|
+| `y_pop_wr` | annualised metro population growth, Census PEP | `pop_g1_wr` |
+| `y_hpi_wr` | annualised metro house-price growth, FHFA HPI | `hpi_g1_wr` |
+
+Both are demeaned within (origin year, census division) per section 5. Each
+baseline is one line of code and free; `pop_g1_wr` beat the five-pillar Geometryx
+composite in 8 of 8 cells in prior testing.
+
+The pairing is not optional. Grading a house-price forecast against a population
+baseline is a straw man, and grading it against no baseline at all is how
+essentially every vendor forecast in this market is sold. A scorecard that does
+not report its baseline is invalid.
+
+Targets are graded **independently and both are published**, including where
+they disagree. `y_hpi` is the cheaper test of the section-8 shock suite, because
+the mechanisms the shocks encode — affordability constraint, insurance-cost
+capitalisation — act on prices in one step and on population only through a
+subsequent migration response. A shock inversion that appears on both targets is
+a property of the features, not of one outcome variable.
 
 ## 8. Evaluation criteria
 
@@ -169,7 +186,7 @@ Mirroring AIMIP's E1-E5:
 |---|---|---|
 | **E1** | Descriptive fit | In-sample R² and rank correlation. Reported, never sold. |
 | **E2** | Out-of-sample skill | Spearman rho and R² at each rolling origin, with bootstrap 90% intervals |
-| **E3** | Skill above baseline | **Paired** per-origin difference versus `pop_g1_wr` |
+| **E3** | Skill above baseline | **Paired** per-origin difference versus the target's mandatory baseline |
 | **E4** | Coefficient stability | Sign and magnitude of each fitted coefficient across origins |
 | **E5** | Shock plausibility | Pre-registered response signs under counterfactual shocks |
 
@@ -207,6 +224,29 @@ failure. And uniform shocks must be graded on **rank stability** rather than on
 response sign, for the same reason.
 
 **A wrong sign bars a model from forward-looking claims regardless of its R².**
+
+### Certification is a conjunction
+
+A submission is certified for forward-looking claims at a (target, horizon) cell
+only if **all four** gates pass:
+
+| Gate | Requirement |
+|---|---|
+| Skill | beats the mandatory baseline on a majority of scored origins, paired |
+| Shock signs | every graded shock returns its pre-registered sign |
+| Interval calibration | realised coverage of the nominal 90% interval lies in [0.85, 0.95] |
+| Member robustness | more than half of individual ensemble members beat the baseline |
+
+Certification is deliberately not a weighted score, because a score lets a large
+R² buy off a wrong sign. The reference run demonstrates why the conjunction is
+load-bearing rather than decorative: `y_hpi` at horizon 5 passes skill (4/7
+origins), interval calibration (93.0%) and member robustness (52.5%), and is
+barred solely by the shock gate. A model that appreciates the most over-trend and
+the most hazard-exposed metros fastest ranks metros well for the wrong reason.
+
+Expected signs may **never** be revised after a target is run. The signs in the
+table above were registered in release `v1.0.0-grip1`, published before `y_hpi`
+was ever graded, and are unchanged.
 
 ## 9. Ensembles, not point estimates
 

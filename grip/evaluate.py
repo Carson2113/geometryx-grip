@@ -298,3 +298,51 @@ def descriptive_skill(panel: pd.DataFrame, feats: list[str], target: str) -> dic
         "in_sample_r2": round(float(m.score(Xs, y)), 4),
         "spearman": round(float(stats.spearmanr(pred, y).statistic), 4),
     }
+
+
+def certification_gates(summary: dict, shock_results: list[dict]) -> dict:
+    """PROTOCOL section 8: certification is a CONJUNCTION, not a skill score.
+
+    The first version of the scorecard graded certification on the rolling-origin
+    win count alone. That was latent for as long as the model lost the skill gate,
+    and would have mislabelled the first target it won: y_hpi at horizon 5 beats
+    its baseline on 4 of 7 origins while returning the wrong sign on two of three
+    pre-registered shocks. A model that appreciates the most overvalued and the
+    most hazard-exposed metros fastest is not a forecast regardless of its rho.
+    """
+    beat = str(summary.get("origins_beating_baseline", "0/0"))
+    try:
+        won, tot = (int(x) for x in beat.split("/"))
+    except ValueError:
+        won = tot = 0
+    skill = bool(tot) and won > tot / 2
+
+    graded = [s for s in shock_results if s.get("status") == "RUN"]
+    failed = sorted(s["shock"] for s in graded if s.get("verdict") != "PLAUSIBLE")
+    shock = bool(graded) and not failed
+
+    cov = summary.get("median_predictive_interval_coverage_90")
+    interval = cov is not None and 0.85 <= float(cov) <= 0.95
+
+    # A verdict that holds only for the ensemble mean is not a verdict about the
+    # method, so a bare majority of members must also clear the baseline.
+    share = summary.get("member_share_beating_baseline")
+    robust = share is not None and float(share) > 0.5
+
+    return {
+        "skill_gate": skill,
+        "skill_detail": beat,
+        "shock_gate": shock,
+        "shocks_failed": failed,
+        "interval_gate": interval,
+        "interval_coverage_90": cov,
+        "member_robustness_gate": robust,
+        "member_share_beating_baseline": share,
+        "certified": bool(skill and shock and interval and robust),
+        "binding_constraints": [
+            k for k, v in (
+                ("skill", skill), ("shock_signs", shock),
+                ("interval_calibration", interval), ("member_robustness", robust),
+            ) if not v
+        ],
+    }

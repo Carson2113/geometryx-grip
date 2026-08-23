@@ -32,10 +32,23 @@ RAW_FEATURES = [
     "permits_pc", "permits_g3",
 ]
 MODEL_FEATURES = [f + "_wr" for f in RAW_FEATURES]
-BASELINE = "pop_g1_wr"  # prior one-year population growth: beat the composite 8/8
+# GRIP-1 grades two targets. Each carries its own mandatory naive baseline: the
+# prior one-year change in the same quantity being forecast. Grading a house-price
+# forecast against a population baseline would be a straw man, and grading it
+# against no baseline at all is how every vendor forecast in this market is sold.
+TARGETS = {
+    "y_pop_wr": {
+        "baseline": "pop_g1_wr",
+        "label": "within-division, within-origin demeaned annualised population growth",
+    },
+    "y_hpi_wr": {
+        "baseline": "hpi_g1_wr",
+        "label": "within-division, within-origin demeaned annualised FHFA house-price growth",
+    },
+}
 
 
-def build(origins: list[int], horizon: int) -> pd.DataFrame:
+def build(origins: list[int], horizon: int, require: str = "y_pop") -> pd.DataFrame:
     # Boundary-comparable metro set across the delineation vintages in play.
     vints = sorted({cbsa_src.delineation_for_origin(o) for o in origins})
     print(f"[geo] delineation vintages in play: {vints}")
@@ -55,7 +68,7 @@ def build(origins: list[int], horizon: int) -> pd.DataFrame:
             continue
         t = panel_mod.targets_from_base(o - 1, horizon, truth_cw)
         merged = f.merge(t, on="cbsa_code", how="inner")
-        merged = merged.dropna(subset=["y_pop"])
+        merged = merged.dropna(subset=[require])
         if merged.empty:
             print(f"[skip] origin {o}: no realised outcomes at h={horizon}")
             continue
@@ -72,6 +85,9 @@ def build(origins: list[int], horizon: int) -> pd.DataFrame:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--horizon", type=int, default=5)
+    ap.add_argument("--target", choices=sorted(TARGETS), default="y_pop_wr")
+    ap.add_argument("--baseline", default=None,
+                    help="override the mandatory naive baseline (declare it in the scorecard)")
     ap.add_argument("--first-origin", type=int, default=2006)
     ap.add_argument("--last-origin", type=int, default=2025)
     ap.add_argument("--members", type=int, default=20,
@@ -80,9 +96,13 @@ def main() -> None:
 
     started = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
     origins = list(range(args.first_origin, args.last_origin + 1))
-    p = build(origins, args.horizon)
-
-    target = "y_pop_wr"
+    target = args.target
+    spec = TARGETS[target]
+    baseline = args.baseline or spec["baseline"]
+    slug = target.replace("y_", "").replace("_wr", "")
+    p = build(origins, args.horizon, require=target.removesuffix("_wr"))
+    print(f"\n[target] {target} -- {spec['label']}")
+    print(f"[target] mandatory naive baseline: {baseline}")
     print(f"\n[panel] {len(p)} rows across {p['origin_year'].nunique()} origins")
 
     # --- CLOCK_LEAK audit -------------------------------------------------
@@ -102,7 +122,7 @@ def main() -> None:
 
     # --- E2/E3 rolling origin --------------------------------------------
     res, preds = evaluate.expanding_origin_eval(
-        p, feats, target, BASELINE, n_members=args.members
+        p, feats, target, baseline, n_members=args.members
     )
     print("\n=== E2/E3 rolling-origin skill (strictly causal, ensemble mean) ===")
     if res.empty:
@@ -126,7 +146,7 @@ def main() -> None:
     # Protocol section 10 submission format, emitted so the reference run is
     # itself a conformant submission rather than a special case.
     if not preds.empty:
-        pred_path = OUT / f"predictions_h{args.horizon}.csv"
+        pred_path = OUT / f"predictions_{slug}_h{args.horizon}.csv"
         preds.to_csv(pred_path, index=False)
         per_cell = preds.groupby(["origin_year", "cbsa_code"]).size()
         print(
@@ -207,10 +227,13 @@ def main() -> None:
             ),
         }
 
+    gates = evaluate.certification_gates(summary, shock_results)
     scorecard = {
         "protocol": "GRIP-1",
+        "certification": gates,
         "run_started_utc": started,
         "target": target,
+        "target_label": spec["label"],
         "horizon_years": args.horizon,
         "origins_requested": origins,
         "origins_in_panel": sorted(int(x) for x in p["origin_year"].unique()),
@@ -219,7 +242,8 @@ def main() -> None:
         "features_offered": MODEL_FEATURES,
         "features_used": feats,
         "features_banned_by_clock_leak": sorted(banned),
-        "baseline": BASELINE,
+        "baseline": baseline,
+        "baseline_is_default": baseline == spec["baseline"],
         "vintage_lock_checks": vintage_checks,
         "E1_descriptive": desc,
         "E2_E3_rolling_origin": json.loads(res.to_json(orient="records")) if not res.empty else [],
@@ -237,11 +261,13 @@ def main() -> None:
     }
 
     stamp = time.strftime("%Y%m%dT%H%M%SZ", time.gmtime())
-    path = OUT / f"scorecard_h{args.horizon}_{stamp}.json"
+    path = OUT / f"scorecard_{slug}_h{args.horizon}_{stamp}.json"
     path.write_text(json.dumps(scorecard, indent=2))
     (OUT / "latest.json").write_text(json.dumps(scorecard, indent=2))
-    p.to_parquet(OUT / f"panel_h{args.horizon}.parquet", index=False)
+    p.to_parquet(OUT / f"panel_{slug}_h{args.horizon}.parquet", index=False)
 
+    print("\n=== CERTIFICATION GATES ===")
+    print(json.dumps(gates, indent=2))
     print("\n=== SUMMARY ===")
     print(json.dumps(summary, indent=2))
     print(f"\nwrote {path}")

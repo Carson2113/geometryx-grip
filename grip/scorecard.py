@@ -34,10 +34,10 @@ def render(cards: list[dict]) -> str:
     for c in cards:
         s = c.get("summary", {})
         h = c["horizon_years"]
-        L.append(f"## Horizon {h} years")
+        L.append(f"## {c.get('target', 'target')} at horizon {h} years")
         L.append("")
         L.append(f"- Run started: `{c['run_started_utc']}`")
-        L.append(f"- Target: `{c['target']}` (within-division, within-origin demeaned population growth)")
+        L.append(f"- Target: `{c['target']}` ({c.get('target_label', 'see PROTOCOL.md section 4')})")
         L.append(f"- Origins in panel: {c['origins_in_panel']}")
         L.append(f"- Panel rows: {c['n_panel_rows']}; median metros per origin: {c['n_metros_median_per_origin']}")
         L.append(f"- Mandatory baseline: `{c['baseline']}`")
@@ -68,18 +68,44 @@ def render(cards: list[dict]) -> str:
             won, tot = (int(x) for x in str(beat).split("/"))
         except Exception:  # noqa: BLE001
             won = tot = 0
-        if tot and won <= tot / 2:
+        g = c.get("certification", {})
+        if g:
+            L.append("| Gate | Requirement | Result |")
+            L.append("|---|---|---|")
             L.append(
-                "> Verdict: **NOT CERTIFIED for forward-looking claims.** The multi-feature "
-                "model does not reliably beat prior one-year population growth. Under GRIP "
-                "rule 8 this model may ship as a descriptive index only. Publishing it as a "
-                "forecast would be the failure AIMIP was built to catch."
+                f"| Skill | beat `{c['baseline']}` on a majority of origins | "
+                f"{'PASS' if g['skill_gate'] else 'FAIL'} ({g['skill_detail']}) |"
             )
-        elif tot:
             L.append(
-                f"> Verdict: **CERTIFIED at horizon {h}** on {won}/{tot} origins. Report the "
-                "baseline alongside every forward-looking figure regardless."
+                "| Shock signs | every graded shock returns its pre-registered sign | "
+                f"{'PASS' if g['shock_gate'] else 'FAIL'}"
+                + (f" (wrong sign: {', '.join('`'+x+'`' for x in g['shocks_failed'])})" if g['shocks_failed'] else "")
+                + " |"
             )
+            L.append(
+                "| Interval calibration | 90% predictive interval covers 85-95% | "
+                f"{'PASS' if g['interval_gate'] else 'FAIL'} ({_pct(g['interval_coverage_90'])}) |"
+            )
+            L.append(
+                "| Member robustness | most individual members beat the baseline | "
+                f"{'PASS' if g['member_robustness_gate'] else 'FAIL'} "
+                f"({_pct(g['member_share_beating_baseline'])}) |"
+            )
+            L.append("")
+            if g["certified"]:
+                L.append(
+                    f"> Verdict: **CERTIFIED for forward-looking claims at horizon {h}.** "
+                    "Report the baseline alongside every published figure regardless."
+                )
+            else:
+                L.append(
+                    "> Verdict: **NOT CERTIFIED for forward-looking claims.** Binding "
+                    f"constraint(s): {', '.join(g['binding_constraints'])}. Certification is a "
+                    "conjunction, not a skill score: a model may rank metros well and still be "
+                    "barred, because a wrong-signed response to a pre-registered shock means the "
+                    "ranking is right for the wrong reason. Under GRIP rule 8 this model may ship "
+                    "as a descriptive index only."
+                )
         L.append("")
 
         L.append("### E2/E3 Rolling-origin skill")
@@ -228,20 +254,22 @@ def render(cards: list[dict]) -> str:
 
 def main() -> None:
     out = Path(__file__).resolve().parent.parent / "out"
-    paths = [Path(p) for p in sys.argv[1:]] or sorted(out.glob("scorecard_h*.json"))
-    seen: dict[int, dict] = {}
+    paths = [Path(p) for p in sys.argv[1:]] or sorted(out.glob("scorecard_*_h*.json"))
+    # Keyed by (target, horizon): GRIP-1 grades two targets, and collapsing them
+    # onto the horizon alone silently discarded one of them.
+    seen: dict[tuple[str, int], dict] = {}
     for p in paths:
         c = json.loads(p.read_text())
-        h = c["horizon_years"]
-        if h not in seen or c["run_started_utc"] > seen[h]["run_started_utc"]:
-            seen[h] = c
-    cards = [seen[h] for h in sorted(seen)]
+        k = (c.get("target", "y_pop_wr"), c["horizon_years"])
+        if k not in seen or c["run_started_utc"] > seen[k]["run_started_utc"]:
+            seen[k] = c
+    cards = [seen[k] for k in sorted(seen, key=lambda k: (k[0] != "y_pop_wr", k[0], -k[1]))]
     if not cards:
         raise SystemExit("no scorecards found in out/")
     md = render(cards)
     dest = out / "SCORECARD.md"
     dest.write_text(md)
-    print(f"wrote {dest} ({len(md)} chars, horizons {[c['horizon_years'] for c in cards]})")
+    print(f"wrote {dest} ({len(md)} chars, cells {[(c.get('target'), c['horizon_years']) for c in cards]})")
 
 
 if __name__ == "__main__":
