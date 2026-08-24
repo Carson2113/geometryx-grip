@@ -1,8 +1,10 @@
 # GRIP-2 — Blind Re-Registration
 
-**Status: DRAFT FOR REVIEW. Not an anchor.** This document becomes binding only when it is
-tagged results-free and that tag has aged the mandatory interval in §7 before any grading run
-executes. Until then it is editable and claims nothing.
+**Status: REGISTERED. This document is the anchor.** Tagged results-free as `v2.0.0-prereg` before
+any GRIP-2 harness code exists. Every target, feature, gate, threshold and precondition below was
+fixed at this tag. The grading run executes at the scheduled time in §7.3 and this file may not be
+edited between the two — any edit voids the anchor and makes the result a numbered attempt under §8
+rather than a grade.
 
 **GRIP-1 is not amended, withdrawn or revised by this document.** `v1.0.0-grip1` stays published in
 its failing state, with all four cells NOT CERTIFIED and both failing shocks registered exactly as
@@ -216,6 +218,8 @@ deviation, never Class A.
 ## 5. Gates and accept rules
 
 All eight gates are declared here in full. A cell is CERTIFIED only if every applicable gate passes.
+**G6 is declared here but deferred to GRIP-2.2 per §13 item 5 and is not run in this release**; it is
+specified in full anyway so that it cannot be reshaped later in light of what run one returns.
 
 - **G1 — Skill.** The model must beat the mandatory naive baseline (prior one-year change in the same
   quantity) on the declared primary metric in at least **5 of 7** origins. Reported per origin.
@@ -239,7 +243,8 @@ All eight gates are declared here in full. A cell is CERTIFIED only if every app
 
   Graded only on the specification containing `hpi_drawdown`, and only in cells passing the
   regime-diversity precondition. Otherwise UNIDENTIFIED.
-- **G6 — Natural experiment, Class B, reported separately.** NFIP Risk Rating 2.0 repriced flood
+- **G6 — Natural experiment, Class B, reported separately. DEFERRED to GRIP-2.2, specified now.**
+  NFIP Risk Rating 2.0 repriced flood
   insurance by formula rather than by market forces: Phase I, new policies, effective
   **1 October 2021**; Phase II, all remaining policies renewing on or after **1 April 2022**
   ([FEMA](https://www.fema.gov/flood-insurance/risk-rating)). FEMA publishes ZIP-level premium-change
@@ -299,7 +304,9 @@ All eight gates are declared here in full. A cell is CERTIFIED only if every app
   4. **Sharpness must be reported with coverage.** Mean interval width is published in every cell, so
      coverage cannot be bought with width.
 
-**Accept rule.** CERTIFIED requires **G1 through G8** all passing and the power precondition in §6 met.
+**Accept rule.** In this release CERTIFIED requires **G1, G2, G3, G4, G5, G7 and G8** all passing,
+applied per cell to the gates applicable to it, and the power precondition in §6 met. G6 is deferred
+per §13 and no cell's verdict depends on it in either direction.
 A cell with any gate UNIDENTIFIED is recorded **NOT CERTIFIED (UNIDENTIFIED)** — distinct from
 NOT CERTIFIED (FAILED), because conflating "we cannot test this" with "this is false" is the error
 GRIP-1's gate made.
@@ -342,6 +349,10 @@ Binding for GRIP-2:
 3. **The grading run is executed by a scheduled job, not interactively.** The author does not run it,
    watch it, or have the opportunity to stop it and adjust. The schedule is published in the anchor
    tag, and the run writes its output directly to a release.
+   **Scheduled grading run: 26 August 2026, 13:00 UTC** (09:00 America/New_York), executed by a
+   scheduled job created at tag time. The realised interval between the tag and the run is
+   **approximately 61 hours**, against a 24-hour minimum, and the realised figure is published on
+   the scorecard to the second.
 4. **Third-party timestamping.** The tag page is submitted to the Internet Archive, and the
    specification hash is posted publicly in a repository issue and archived independently. GitHub's
    own commit timestamps are controlled by the party being audited and are therefore not sufficient
@@ -463,20 +474,46 @@ Protocol modelled on [AIMIP](https://allenai.org/blog/aimip) ([code](https://git
 
 ---
 
-## Open decisions for review before this is tagged
+## 13. Decisions resolved at tag time
 
-These are deliberately unresolved, because tagging a registration with a placeholder in it would
-defeat the purpose.
+These were the open items in the draft. All five are settled here, before any harness code exists,
+and none may be revisited before the run.
 
-1. **The scheduled run time** (§7.3) must be a real timestamp at least 24 hours out.
-2. **G1's 5-of-7 and G2's 60%** are carried from GRIP-1 practice rather than derived. If they are to
-   change, they change now, before anything is run — not after a cell misses one.
-3. **Whether the pair-level cell ships in run one or as GRIP-2.1.** It is the highest-value change and
-   also the only one requiring a new data pipeline, a new estimator and a new clustering scheme.
-   Bundling it risks delaying the graded metro cells; splitting it means the first GRIP-2 release is
-   mostly a correction of GRIP-1 rather than an advance.
-4. **Whether `y_pop` stays on the scorecard at all.** Keeping an ungraded target invites the reading
-   that it was quietly dropped for failing. Removing it invites the reading that we hid it. Currently
-   drafted as: keep, ungated, with the 83% between-metro finding printed beside it.
-5. **Whether G6 belongs in the first GRIP-2 run** or in its own release. It is the most credible
-   causal evidence available and also the most work, and bundling it risks delaying the graded cells.
+1. **Scheduled run time: 26 August 2026, 13:00 UTC.** Fixed in §7.3. Roughly 61 hours after this tag,
+   not the 24-hour minimum, because the harness has to be written between the two and a longer gap is
+   the more credible anchor.
+2. **G1's 5-of-7 and G2's 60% stand unchanged.** They are carried from GRIP-1 rather than derived, and
+   that is a real weakness — but it is the lesser one. Both thresholds were fixed before GRIP-1's
+   outcomes were known, and adjusting them now, with knowledge of exactly which cells missed which
+   threshold, is the precise offence this protocol exists to prevent. An arbitrary threshold chosen
+   blind is worth more than a defensible one chosen after seeing the answer. They may be re-derived
+   in GRIP-3 from a power calculation, before anything is run against them.
+3. **The pair-level cell ships in run one.** §3a is graded in this release, not deferred to GRIP-2.1.
+   The consequence is accepted explicitly: it needs a new data pipeline over 33 IRS transitions, a
+   censored PPML estimator, two-way clustering on both endpoints, and gravity plus persistence
+   baselines — all built inside the 61-hour window, and all of it registered blind. If it cannot be
+   built in time, the cell returns **UNINFORMATIVE (NOT BUILT)** and that is published as such. It is
+   not permitted to slip quietly out of the release, and the graded metro cells do not wait for it.
+4. **`y_pop` stays, ungated, with the 83% between-metro finding printed beside it.** Removing a target
+   that failed reads as concealment however it is explained. It appears on the scorecard as reported,
+   never as graded, with the reason for its ungraded status stated in the same cell.
+5. **G6 is deferred to GRIP-2.2 with its own registration.** With §3a in run one, bundling a
+   quasi-experimental design on a suppressed snapshot would put the graded cells behind the most
+   speculative component. G6 is Class B throughout, so it can neither contaminate nor rescue any
+   graded cell, which makes it the cheapest thing to defer and the only one that costs no rigour to
+   move. **The accept rule is therefore G1–G5, G7 and G8 in this release**, applied per cell to the
+   gates applicable to it. G6 is not weakened, dropped or quietly abandoned; it is unrun.
+
+## 14. What this tag commits us to publishing
+
+Registered now so that a bad outcome cannot be reframed as a partial one.
+
+- Every graded cell's verdict, including UNIDENTIFIED and UNINFORMATIVE cells, with its
+  non-overlapping block count and cluster count beside it per G7.
+- The realised tag-to-run interval to the second.
+- Coverage, mean interval width and per-origin rank correlation for every cell per G8, whether or not
+  the accuracy gate passes.
+- The realised named-edge coverage share of the IRS flow data per §3, and an UNINFORMATIVE verdict on
+  any flow cell falling below the 70% floor.
+- If nothing certifies, that result, at the top of the scorecard, in the same position a pass would
+  occupy.
