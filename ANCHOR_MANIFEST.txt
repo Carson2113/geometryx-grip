@@ -1,0 +1,22 @@
+GRIP-2 registration anchor manifest
+===================================
+
+This file binds the frozen GRIP-2 specification to a Bitcoin timestamp. It contains
+no results. Its purpose is to make the specification's existence provable at a time
+that does not depend on GitHub, on Perplexity, or on me.
+
+Specification document : GRIP2_REGISTRATION.md
+SHA-256                : f27b2cf9acb0af461d0817a98348ddae8f28175db609d4fc3af6626180d7fceb
+Size (bytes)           : 37457
+
+Results-free tag       : v2.0.0-prereg
+Tag commit             : 667be2c0c77609da8e8b0b5c3562bad30a20a304
+Repository             : https://github.com/Carson2113/geometryx-grip
+
+Manifest created (UTC) : 2026-08-24T13:16:26Z
+
+Scheduled grading run  : 2026-08-26 13:00 UTC
+
+Verify with:
+  ots verify ANCHOR_MANIFEST.txt.ots
+  ots verify GRIP2_REGISTRATION.md.ots
