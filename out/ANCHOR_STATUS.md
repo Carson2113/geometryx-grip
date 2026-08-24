@@ -71,3 +71,30 @@ so a verifier who wants a fully trustless check should run it against their own 
 
 Confirmation into a block takes a few hours; a scheduled follow-up will run `ots upgrade` to embed the
 block attestation and make the receipts self-contained and offline-verifiable.
+
+---
+
+## Confirmation — Bitcoin attestation complete (recorded 24 Aug 2026, 20:05 UTC)
+
+`ots upgrade` returned "Success! Timestamp complete" for both receipts on 24 August 2026 at 20:01 UTC. Receipts grew from 805 to 3,878 bytes as the calendars' Merkle paths to the Bitcoin blockchain were filled in.
+
+Both receipts now carry three independent Bitcoin block header attestations:
+
+| Block height | Block time (UTC) | Block hash |
+|---|---|---|
+| **963861** | **2026-08-24 13:38:32** | `00000000000000000001fe1e5104369fc34608adc2d517459eec1f0c0df56f67` |
+| 963864 | 2026-08-24 14:16:00 | `000000000000000000005452000c1e0ad02ba71e3dc976ade51bfccec888476b` |
+| 963867 | 2026-08-24 14:30:16 | `0000000000000000000145639bbafb0e83205162935b3453366063290fbf5f2d` |
+
+The binding attestation is the earliest, **block 963861 at 13:38:32 UTC**, 22 minutes after the 13:16 UTC stamp. The specification therefore provably existed in its current form before that block was mined.
+
+Hashes committed in the receipts, re-verified at upgrade time:
+
+- `GRIP2_REGISTRATION.md` — `f27b2cf9acb0af461d0817a98348ddae8f28175db609d4fc3af6626180d7fceb` (**unchanged**)
+- `ANCHOR_MANIFEST.txt` — `c9fae3b50170586903cdaddf8305b61d1a7d3c814f52ae77c17e89ef2c95af1e`
+
+Block heights and times were confirmed against an independent block explorer (https://blockstream.info/api/) because this environment has no Bitcoin node; `ots verify` requires one to check the block header locally. That is a limitation of the verifying environment, not of the receipt: any party with a Bitcoin node, or with the block headers alone, can verify these receipts offline and without contacting Geometryx or the OpenTimestamps calendars.
+
+The four `PendingAttestation` records remain in the receipts alongside the confirmed ones. That is expected — a receipt retains its calendar commitments; `btc.calendar.catallaxy.com` had not yet published a path when the upgrade ran, and the other three succeeded. Three confirmed attestations are already redundant.
+
+**Unchanged limitation.** This satisfies §7.4's anti-backdating purpose but still does not satisfy its public-visibility purpose, and selective revelation remains possible: stamping is not exclusive, so a party could stamp several variant specifications and reveal only the one that matched. The specification was not edited to claim compliance.

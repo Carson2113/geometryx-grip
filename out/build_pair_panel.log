@@ -1,0 +1,186 @@
+Named-edge coverage per flow year
+  coverage 2002: 0.7737048828486628
+  coverage 2003: 0.7738833623253416
+  coverage 2004: 0.7767451247003672
+  coverage 2005: 0.7774284198964265
+  coverage 2006: 0.781331230682404
+  coverage 2007: 0.774288695375835
+  coverage 2008: 0.7746689954116711
+  coverage 2009: 0.7730316316664279
+  coverage 2010: 0.7740075216187969
+  coverage 2011: 0.77320791544169
+  coverage 2012: 0.7867288005573768
+  coverage 2013: 0.7864870955776471
+  coverage 2014: 0.7195555111155552
+  coverage 2015: 0.6963809496487301
+  coverage 2016: 0.7240364663891152
+  coverage 2017: 0.7491453503117722
+  coverage 2018: 0.7301325072803669
+  coverage 2019: 0.7340768041530652
+  coverage 2020: 0.7407507218699958
+  coverage 2021: 0.7415253877878164
+  coverage 2022: 0.7371965179739699
+  coverage 2023: 0.7322799457129424
+  coverage range 0.6964-0.7867, years below 0.7: [2015]
+
+G4-legal (h, base) combinations: 36
+
+Building pair panels
+  vintage 2003 flow_year 2002: 20,103 pairs
+  vintage 2003 flow_year 2003: 19,620 pairs
+  vintage 2003 flow_year 2004: 19,502 pairs
+  vintage 2003 flow_year 2005: 19,998 pairs
+  vintage 2003 flow_year 2006: 20,581 pairs
+  vintage 2003 flow_year 2007: 20,434 pairs
+  vintage 2003 flow_year 2008: 20,752 pairs
+  vintage 2003 flow_year 2009: 20,363 pairs
+  vintage 2003 flow_year 2010: 19,414 pairs
+  vintage 2003 flow_year 2011: 20,231 pairs
+  vintage 2003 flow_year 2012: 21,779 pairs
+  vintage 2003 flow_year 2013: 22,209 pairs
+  vintage 2003 flow_year 2014: 11,638 pairs
+  vintage 2003 flow_year 2015: 9,213 pairs
+  vintage 2003 flow_year 2016: 12,035 pairs
+  vintage 2003 flow_year 2017: 15,134 pairs
+  vintage 2003 flow_year 2018: 12,498 pairs
+  vintage 2003 flow_year 2019: 12,250 pairs
+  vintage 2003 flow_year 2020: 12,911 pairs
+  vintage 2003 flow_year 2021: 13,382 pairs
+  vintage 2003 flow_year 2022: 13,285 pairs
+  vintage 2003 flow_year 2023: 13,019 pairs
+  vintage 2009 flow_year 2002: 20,341 pairs
+  vintage 2009 flow_year 2003: 19,840 pairs
+  vintage 2009 flow_year 2004: 19,733 pairs
+  vintage 2009 flow_year 2005: 20,224 pairs
+  vintage 2009 flow_year 2006: 20,834 pairs
+  vintage 2009 flow_year 2007: 20,682 pairs
+  vintage 2009 flow_year 2008: 21,002 pairs
+  vintage 2009 flow_year 2009: 20,606 pairs
+  vintage 2009 flow_year 2010: 19,644 pairs
+  vintage 2009 flow_year 2011: 20,470 pairs
+  vintage 2009 flow_year 2012: 22,041 pairs
+  vintage 2009 flow_year 2013: 22,489 pairs
+  vintage 2009 flow_year 2014: 11,751 pairs
+  vintage 2009 flow_year 2015: 9,306 pairs
+  vintage 2009 flow_year 2016: 12,150 pairs
+  vintage 2009 flow_year 2017: 15,295 pairs
+  vintage 2009 flow_year 2018: 12,625 pairs
+  vintage 2009 flow_year 2019: 12,369 pairs
+  vintage 2009 flow_year 2020: 13,052 pairs
+  vintage 2009 flow_year 2021: 13,523 pairs
+  vintage 2009 flow_year 2022: 13,428 pairs
+  vintage 2009 flow_year 2023: 13,152 pairs
+  vintage 2013 flow_year 2002: 20,943 pairs
+  vintage 2013 flow_year 2003: 20,424 pairs
+  vintage 2013 flow_year 2004: 20,317 pairs
+  vintage 2013 flow_year 2005: 20,895 pairs
+  vintage 2013 flow_year 2006: 21,533 pairs
+  vintage 2013 flow_year 2007: 21,307 pairs
+  vintage 2013 flow_year 2008: 21,668 pairs
+  vintage 2013 flow_year 2009: 21,290 pairs
+  vintage 2013 flow_year 2010: 20,308 pairs
+  vintage 2013 flow_year 2011: 21,106 pairs
+  vintage 2013 flow_year 2012: 22,799 pairs
+  vintage 2013 flow_year 2013: 23,288 pairs
+  vintage 2013 flow_year 2014: 12,094 pairs
+  vintage 2013 flow_year 2015: 9,573 pairs
+  vintage 2013 flow_year 2016: 12,513 pairs
+  vintage 2013 flow_year 2017: 15,785 pairs
+  vintage 2013 flow_year 2018: 13,006 pairs
+  vintage 2013 flow_year 2019: 12,738 pairs
+  vintage 2013 flow_year 2020: 13,441 pairs
+  vintage 2013 flow_year 2021: 13,958 pairs
+  vintage 2013 flow_year 2022: 13,825 pairs
+  vintage 2013 flow_year 2023: 13,548 pairs
+  vintage 2015 flow_year 2002: 20,968 pairs
+  vintage 2015 flow_year 2003: 20,444 pairs
+  vintage 2015 flow_year 2004: 20,345 pairs
+  vintage 2015 flow_year 2005: 20,923 pairs
+  vintage 2015 flow_year 2006: 21,557 pairs
+  vintage 2015 flow_year 2007: 21,333 pairs
+  vintage 2015 flow_year 2008: 21,694 pairs
+  vintage 2015 flow_year 2009: 21,321 pairs
+  vintage 2015 flow_year 2010: 20,337 pairs
+  vintage 2015 flow_year 2011: 21,134 pairs
+  vintage 2015 flow_year 2012: 22,829 pairs
+  vintage 2015 flow_year 2013: 23,319 pairs
+  vintage 2015 flow_year 2014: 12,103 pairs
+  vintage 2015 flow_year 2015: 9,579 pairs
+  vintage 2015 flow_year 2016: 12,522 pairs
+  vintage 2015 flow_year 2017: 15,796 pairs
+  vintage 2015 flow_year 2018: 13,016 pairs
+  vintage 2015 flow_year 2019: 12,748 pairs
+  vintage 2015 flow_year 2020: 13,451 pairs
+  vintage 2015 flow_year 2021: 13,968 pairs
+  vintage 2015 flow_year 2022: 13,835 pairs
+  vintage 2015 flow_year 2023: 13,554 pairs
+  vintage 2017 flow_year 2002: 20,997 pairs
+  vintage 2017 flow_year 2003: 20,476 pairs
+  vintage 2017 flow_year 2004: 20,372 pairs
+  vintage 2017 flow_year 2005: 20,954 pairs
+  vintage 2017 flow_year 2006: 21,590 pairs
+  vintage 2017 flow_year 2007: 21,362 pairs
+  vintage 2017 flow_year 2008: 21,727 pairs
+  vintage 2017 flow_year 2009: 21,351 pairs
+  vintage 2017 flow_year 2010: 20,363 pairs
+  vintage 2017 flow_year 2011: 21,162 pairs
+  vintage 2017 flow_year 2012: 22,862 pairs
+  vintage 2017 flow_year 2013: 23,354 pairs
+  vintage 2017 flow_year 2014: 12,114 pairs
+  vintage 2017 flow_year 2015: 9,593 pairs
+  vintage 2017 flow_year 2016: 12,538 pairs
+  vintage 2017 flow_year 2017: 15,819 pairs
+  vintage 2017 flow_year 2018: 13,035 pairs
+  vintage 2017 flow_year 2019: 12,764 pairs
+  vintage 2017 flow_year 2020: 13,471 pairs
+  vintage 2017 flow_year 2021: 13,994 pairs
+  vintage 2017 flow_year 2022: 13,855 pairs
+  vintage 2017 flow_year 2023: 13,574 pairs
+  vintage 2018 flow_year 2002: 21,191 pairs
+  vintage 2018 flow_year 2003: 20,651 pairs
+  vintage 2018 flow_year 2004: 20,550 pairs
+  vintage 2018 flow_year 2005: 21,107 pairs
+  vintage 2018 flow_year 2006: 21,750 pairs
+  vintage 2018 flow_year 2007: 21,517 pairs
+  vintage 2018 flow_year 2008: 21,880 pairs
+  vintage 2018 flow_year 2009: 21,495 pairs
+  vintage 2018 flow_year 2010: 20,510 pairs
+  vintage 2018 flow_year 2011: 21,301 pairs
+  vintage 2018 flow_year 2012: 23,016 pairs
+  vintage 2018 flow_year 2013: 23,528 pairs
+  vintage 2018 flow_year 2014: 12,193 pairs
+  vintage 2018 flow_year 2015: 9,654 pairs
+  vintage 2018 flow_year 2016: 12,618 pairs
+  vintage 2018 flow_year 2017: 15,929 pairs
+  vintage 2018 flow_year 2018: 13,129 pairs
+  vintage 2018 flow_year 2019: 12,843 pairs
+  vintage 2018 flow_year 2020: 13,563 pairs
+  vintage 2018 flow_year 2021: 14,084 pairs
+  vintage 2018 flow_year 2022: 13,951 pairs
+  vintage 2018 flow_year 2023: 13,663 pairs
+  vintage 2020 flow_year 2002: 21,191 pairs
+  vintage 2020 flow_year 2003: 20,651 pairs
+  vintage 2020 flow_year 2004: 20,550 pairs
+  vintage 2020 flow_year 2005: 21,107 pairs
+  vintage 2020 flow_year 2006: 21,750 pairs
+  vintage 2020 flow_year 2007: 21,517 pairs
+  vintage 2020 flow_year 2008: 21,880 pairs
+  vintage 2020 flow_year 2009: 21,495 pairs
+  vintage 2020 flow_year 2010: 20,510 pairs
+  vintage 2020 flow_year 2011: 21,301 pairs
+  vintage 2020 flow_year 2012: 23,016 pairs
+  vintage 2020 flow_year 2013: 23,528 pairs
+  vintage 2020 flow_year 2014: 12,193 pairs
+  vintage 2020 flow_year 2015: 9,654 pairs
+  vintage 2020 flow_year 2016: 12,618 pairs
+  vintage 2020 flow_year 2017: 15,929 pairs
+  vintage 2020 flow_year 2018: 13,129 pairs
+  vintage 2020 flow_year 2019: 12,843 pairs
+  vintage 2020 flow_year 2020: 13,563 pairs
+  vintage 2020 flow_year 2021: 14,084 pairs
+  vintage 2020 flow_year 2022: 13,951 pairs
+  vintage 2020 flow_year 2023: 13,663 pairs
+
+=== section 6 preconditions, y_flow_pair ===
+FLOW_PAIR_h5: origins=17 [2003, 2019] median_pairs=19,998 clusters>=361 -> UNINFORMATIVE ['median_pairs_ge_20000', 'coverage_ge_70pct_all_years']
+FLOW_PAIR_h3: origins=19 [2003, 2021] median_pairs=19,644 clusters>=361 -> UNINFORMATIVE ['median_pairs_ge_20000', 'coverage_ge_70pct_all_years']
