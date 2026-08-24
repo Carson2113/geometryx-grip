@@ -11,9 +11,16 @@ import pandas as pd
 from ..fetch import get
 
 # OMB delineation vintages, oldest first. Each origin year is assigned the most
-# recent delineation published on or before Dec 31 of that year. 2009 is the
-# earliest vintage Census still serves, which sets the first usable origin.
+# recent delineation published on or before Dec 31 of that year.
+#
+# The December 2003 file is the first CBSA-era delineation and shares the list3
+# layout (single combined 5-digit FIPS column). It was located by probing Census
+# under v2.0.0-prereg; the 2004-2008 annual updates are not served at any URL we
+# could reach, so an origin in 2004-2008 correctly inherits the 2003 vintage,
+# which is the most recent delineation available on or before that origin. That is
+# G4-legal and is not a relaxation: it uses older geography, never newer.
 DELINEATIONS = {
+    2003: "https://www2.census.gov/programs-surveys/metro-micro/geographies/reference-files/2003/historical-delineation-files/0312cbsas-csas.xls",
     2009: "https://www2.census.gov/programs-surveys/metro-micro/geographies/reference-files/2009/historical-delineation-files/list3.xls",
     2013: "https://www2.census.gov/programs-surveys/metro-micro/geographies/reference-files/2013/delineation-files/list1.xls",
     2015: "https://www2.census.gov/programs-surveys/metro-micro/geographies/reference-files/2015/delineation-files/list1.xls",

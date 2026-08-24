@@ -1,0 +1,157 @@
+{
+  "check": "GRIP-2 section 6 power preconditions, y_hpi",
+  "prereg_tag": "v2.0.0-prereg",
+  "prereg_commit": "667be2c0c77609da8e8b0b5c3562bad30a20a304",
+  "spec_sha256": "f27b2cf9acb0af461d0817a98348ddae8f28175db609d4fc3af6626180d7fceb",
+  "generated_utc": "2026-08-24T01:25:35+00:00",
+  "fhfa_last_full_year": 2025,
+  "delineation_vintages_registered": [
+    2003,
+    2009,
+    2013,
+    2015,
+    2017,
+    2018,
+    2020,
+    2023
+  ],
+  "no_estimation_performed": true,
+  "thresholds": {
+    "min_origins": 20,
+    "min_median_metros_per_origin": 150,
+    "min_rows_after_demeaning": 60,
+    "min_metros_per_demeaning_group": 5,
+    "min_clusters": 10
+  },
+  "cells": [
+    {
+      "cell": "PRICE_ONLY_h5",
+      "horizon": 5,
+      "features": [
+        "hpi_g1",
+        "hpi_g5",
+        "hpi_drawdown"
+      ],
+      "origin_range": [
+        1995,
+        2021
+      ],
+      "n_origins": 27,
+      "n_blocks": 6,
+      "n_rows_after_demeaning": 10717,
+      "n_metros": 410,
+      "median_metros_per_origin": 409.0,
+      "min_metros_per_origin": 328,
+      "g7_gradeable_schemes": [
+        "origin"
+      ],
+      "g7_grading_scheme": "origin",
+      "checks": {
+        "origins_ge_20": true,
+        "median_metros_ge_150": true,
+        "rows_ge_60": true,
+        "clusters_ge_10": true
+      },
+      "verdict": "PRECONDITIONS MET",
+      "failed": []
+    },
+    {
+      "cell": "PRICE_ONLY_h3",
+      "horizon": 3,
+      "features": [
+        "hpi_g1",
+        "hpi_g5",
+        "hpi_drawdown"
+      ],
+      "origin_range": [
+        1995,
+        2023
+      ],
+      "n_origins": 29,
+      "n_blocks": 10,
+      "n_rows_after_demeaning": 11536,
+      "n_metros": 410,
+      "median_metros_per_origin": 409.0,
+      "min_metros_per_origin": 328,
+      "g7_gradeable_schemes": [
+        "block",
+        "origin"
+      ],
+      "g7_grading_scheme": "block",
+      "checks": {
+        "origins_ge_20": true,
+        "median_metros_ge_150": true,
+        "rows_ge_60": true,
+        "clusters_ge_10": true
+      },
+      "verdict": "PRECONDITIONS MET",
+      "failed": []
+    },
+    {
+      "cell": "WITH_INCOME_h5",
+      "horizon": 5,
+      "features": [
+        "hpi_g1",
+        "hpi_g5",
+        "hpi_drawdown",
+        "hpi_income_gap"
+      ],
+      "origin_range": [
+        2003,
+        2021
+      ],
+      "n_origins": 19,
+      "n_blocks": 4,
+      "n_rows_after_demeaning": 6305,
+      "n_metros": 348,
+      "median_metros_per_origin": 324.0,
+      "min_metros_per_origin": 317,
+      "g7_gradeable_schemes": [
+        "origin"
+      ],
+      "g7_grading_scheme": "origin",
+      "checks": {
+        "origins_ge_20": false,
+        "median_metros_ge_150": true,
+        "rows_ge_60": true,
+        "clusters_ge_10": true
+      },
+      "verdict": "UNINFORMATIVE",
+      "failed": [
+        "origins_ge_20"
+      ]
+    },
+    {
+      "cell": "WITH_INCOME_h3",
+      "horizon": 3,
+      "features": [
+        "hpi_g1",
+        "hpi_g5",
+        "hpi_drawdown",
+        "hpi_income_gap"
+      ],
+      "origin_range": [
+        2003,
+        2023
+      ],
+      "n_origins": 21,
+      "n_blocks": 7,
+      "n_rows_after_demeaning": 7008,
+      "n_metros": 361,
+      "median_metros_per_origin": 343.0,
+      "min_metros_per_origin": 317,
+      "g7_gradeable_schemes": [
+        "origin"
+      ],
+      "g7_grading_scheme": "origin",
+      "checks": {
+        "origins_ge_20": true,
+        "median_metros_ge_150": true,
+        "rows_ge_60": true,
+        "clusters_ge_10": true
+      },
+      "verdict": "PRECONDITIONS MET",
+      "failed": []
+    }
+  ]
+}

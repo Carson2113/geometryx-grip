@@ -1,0 +1,78 @@
+{
+  "2003": {
+    "fetched": true,
+    "url": "https://www2.census.gov/programs-surveys/metro-micro/geographies/reference-files/2003/historical-delineation-files/0312cbsas-csas.xls",
+    "readable": true,
+    "n_rows": 1853,
+    "note": "",
+    "columns": [
+      "CBSA Code",
+      "Metro Division Code",
+      "CSA Code",
+      "CBSA Title",
+      "Level of CBSA",
+      "Status, 1=metro 2=micro",
+      "Metropolitan Division Title",
+      "CSA Title",
+      "Component Name",
+      "State",
+      "FIPS"
+    ]
+  },
+  "2004": {
+    "fetched": false,
+    "url": null,
+    "readable": false,
+    "n_rows": 0,
+    "note": "all candidate URLs unreachable"
+  },
+  "2005": {
+    "fetched": false,
+    "url": null,
+    "readable": false,
+    "n_rows": 0,
+    "note": "all candidate URLs unreachable"
+  },
+  "2006": {
+    "fetched": false,
+    "url": null,
+    "readable": false,
+    "n_rows": 0,
+    "note": "all candidate URLs unreachable"
+  },
+  "2007": {
+    "fetched": false,
+    "url": null,
+    "readable": false,
+    "n_rows": 0,
+    "note": "all candidate URLs unreachable"
+  },
+  "2008": {
+    "fetched": false,
+    "url": null,
+    "readable": false,
+    "n_rows": 0,
+    "note": "all candidate URLs unreachable"
+  },
+  "2009": {
+    "fetched": true,
+    "url": "https://www2.census.gov/programs-surveys/metro-micro/geographies/reference-files/2009/historical-delineation-files/list3.xls",
+    "readable": true,
+    "n_rows": 1866,
+    "note": "",
+    "columns": [
+      "CBSA Code",
+      "Metro Division Code",
+      "CSA Code",
+      "CBSA Title",
+      "Level of CBSA",
+      "Status, 1=metro 2=micro",
+      "Metropolitan Division Title",
+      "CSA Title",
+      "Component Name",
+      "State",
+      "FIPS",
+      "County Status"
+    ]
+  }
+}
