@@ -1,0 +1,71 @@
+{
+  "anchor": "v2.0.0-prereg",
+  "estimated_anything": false,
+  "flow_years_used": [
+    2002,
+    2023
+  ],
+  "cells": {
+    "FLOW_PAIR_h5": {
+      "origins": 17,
+      "origin_range": [
+        2003,
+        2019
+      ],
+      "median_pairs_at_base": 19998.0,
+      "min_pairs_at_base": 9579,
+      "max_pairs_at_base": 23288,
+      "min_cluster_count": 361,
+      "vintages_used": [
+        2003,
+        2009,
+        2013,
+        2015,
+        2017,
+        2018
+      ],
+      "checks": {
+        "origins_ge_15": true,
+        "median_pairs_ge_20000": false,
+        "coverage_ge_70pct_all_years": false,
+        "clusters_ge_10_two_way": true
+      },
+      "verdict": "UNINFORMATIVE",
+      "failed": [
+        "median_pairs_ge_20000",
+        "coverage_ge_70pct_all_years"
+      ]
+    },
+    "FLOW_PAIR_h3": {
+      "origins": 19,
+      "origin_range": [
+        2003,
+        2021
+      ],
+      "median_pairs_at_base": 19644.0,
+      "min_pairs_at_base": 9579,
+      "max_pairs_at_base": 23288,
+      "min_cluster_count": 361,
+      "vintages_used": [
+        2003,
+        2009,
+        2013,
+        2015,
+        2017,
+        2018,
+        2020
+      ],
+      "checks": {
+        "origins_ge_15": true,
+        "median_pairs_ge_20000": false,
+        "coverage_ge_70pct_all_years": false,
+        "clusters_ge_10_two_way": true
+      },
+      "verdict": "UNINFORMATIVE",
+      "failed": [
+        "median_pairs_ge_20000",
+        "coverage_ge_70pct_all_years"
+      ]
+    }
+  }
+}

@@ -1,0 +1,320 @@
+{
+  "1990": {
+    "transition": "1990-1991",
+    "url": null
+  },
+  "1991": {
+    "transition": "1991-1992",
+    "url": null
+  },
+  "1992": {
+    "transition": "1992-1993",
+    "url": null
+  },
+  "1993": {
+    "transition": "1993-1994",
+    "url": null
+  },
+  "1994": {
+    "transition": "1994-1995",
+    "url": null
+  },
+  "1995": {
+    "transition": "1995-1996",
+    "url": null
+  },
+  "1996": {
+    "transition": "1996-1997",
+    "url": null
+  },
+  "1997": {
+    "transition": "1997-1998",
+    "url": null
+  },
+  "1998": {
+    "transition": "1998-1999",
+    "url": null
+  },
+  "1999": {
+    "transition": "1999-2000",
+    "url": null
+  },
+  "2000": {
+    "transition": "2000-2001",
+    "url": null
+  },
+  "2001": {
+    "transition": "2001-2002",
+    "url": null
+  },
+  "2002": {
+    "transition": "2002-2003",
+    "url": null
+  },
+  "2003": {
+    "transition": "2003-2004",
+    "url": null
+  },
+  "2004": {
+    "transition": "2004-2005",
+    "url": "https://www.irs.gov/pub/irs-soi/countyinflow0405.csv",
+    "kind": "csv",
+    "n_rows": 114535,
+    "columns": [
+      "State_Code_Dest",
+      "County_Code_Dest",
+      "State_Code_Origin",
+      "County_Code_Origin",
+      "State_Abbrv",
+      "County_Name",
+      "Return_Num",
+      "Exmpt_Num",
+      "Aggr_AGI"
+    ],
+    "members": null
+  },
+  "2005": {
+    "transition": "2005-2006",
+    "url": "https://www.irs.gov/pub/irs-soi/countyinflow0506.csv",
+    "kind": "csv",
+    "n_rows": 118390,
+    "columns": [
+      "State_Code_Dest",
+      "County_Code_Dest",
+      "State_Code_Origin",
+      "County_Code_Origin",
+      "State_Abbrv",
+      "County_Name",
+      "Return_Num",
+      "Exmpt_Num",
+      "Aggr_AGI"
+    ],
+    "members": null
+  },
+  "2006": {
+    "transition": "2006-2007",
+    "url": "https://www.irs.gov/pub/irs-soi/countyinflow0607.csv",
+    "kind": "csv",
+    "n_rows": 116628,
+    "columns": [
+      "State_Code_Dest",
+      "County_Code_Dest",
+      "State_Code_Origin",
+      "County_Code_Origin",
+      "State_Abbrv",
+      "County_Name",
+      "Return_Num",
+      "Exmpt_Num",
+      "Aggr_AGI"
+    ],
+    "members": null
+  },
+  "2007": {
+    "transition": "2007-2008",
+    "url": "https://www.irs.gov/pub/irs-soi/countyinflow0708.csv",
+    "kind": "csv",
+    "n_rows": 118692,
+    "columns": [
+      "State_Code_Dest",
+      "County_Code_Dest",
+      "State_Code_Origin",
+      "County_Code_Origin",
+      "State_Abbrv",
+      "County_Name",
+      "Return_Num",
+      "Exmpt_Num",
+      "Aggr_AGI"
+    ],
+    "members": null
+  },
+  "2008": {
+    "transition": "2008-2009",
+    "url": "https://www.irs.gov/pub/irs-soi/countyinflow0809.csv",
+    "kind": "unparsed: UnicodeDecodeError",
+    "n_rows": 0,
+    "columns": null,
+    "members": null
+  },
+  "2009": {
+    "transition": "2009-2010",
+    "url": "https://www.irs.gov/pub/irs-soi/countyinflow0910.csv",
+    "kind": "unparsed: UnicodeDecodeError",
+    "n_rows": 0,
+    "columns": null,
+    "members": null
+  },
+  "2010": {
+    "transition": "2010-2011",
+    "url": "https://www.irs.gov/pub/irs-soi/countyinflow1011.csv",
+    "kind": "unparsed: UnicodeDecodeError",
+    "n_rows": 0,
+    "columns": null,
+    "members": null
+  },
+  "2011": {
+    "transition": "2011-2012",
+    "url": "https://www.irs.gov/pub/irs-soi/countyinflow1112.csv",
+    "kind": "unparsed: UnicodeDecodeError",
+    "n_rows": 0,
+    "columns": null,
+    "members": null
+  },
+  "2012": {
+    "transition": "2012-2013",
+    "url": "https://www.irs.gov/pub/irs-soi/countyinflow1213.csv",
+    "kind": "unparsed: UnicodeDecodeError",
+    "n_rows": 0,
+    "columns": null,
+    "members": null
+  },
+  "2013": {
+    "transition": "2013-2014",
+    "url": "https://www.irs.gov/pub/irs-soi/countyinflow1314.csv",
+    "kind": "unparsed: UnicodeDecodeError",
+    "n_rows": 0,
+    "columns": null,
+    "members": null
+  },
+  "2014": {
+    "transition": "2014-2015",
+    "url": "https://www.irs.gov/pub/irs-soi/countyinflow1415.csv",
+    "kind": "csv",
+    "n_rows": 75527,
+    "columns": [
+      "y2_statefips",
+      "y2_countyfips",
+      "y1_statefips",
+      "y1_countyfips",
+      "y1_state",
+      "y1_countyname",
+      "n1",
+      "n2",
+      "agi"
+    ],
+    "members": null
+  },
+  "2015": {
+    "transition": "2015-2016",
+    "url": "https://www.irs.gov/pub/irs-soi/countyinflow1516.csv",
+    "kind": "csv",
+    "n_rows": 86330,
+    "columns": [
+      "y2_statefips",
+      "y2_countyfips",
+      "y1_statefips",
+      "y1_countyfips",
+      "y1_state",
+      "y1_countyname",
+      "n1",
+      "n2",
+      "agi"
+    ],
+    "members": null
+  },
+  "2016": {
+    "transition": "2016-2017",
+    "url": "https://www.irs.gov/pub/irs-soi/countyinflow1617.csv",
+    "kind": "csv",
+    "n_rows": 98874,
+    "columns": [
+      "y2_statefips",
+      "y2_countyfips",
+      "y1_statefips",
+      "y1_countyfips",
+      "y1_state",
+      "y1_countyname",
+      "n1",
+      "n2",
+      "agi"
+    ],
+    "members": null
+  },
+  "2017": {
+    "transition": "2017-2018",
+    "url": "https://www.irs.gov/pub/irs-soi/countyinflow1718.csv",
+    "kind": "csv",
+    "n_rows": 87932,
+    "columns": [
+      "y2_statefips",
+      "y2_countyfips",
+      "y1_statefips",
+      "y1_countyfips",
+      "y1_state",
+      "y1_countyname",
+      "n1",
+      "n2",
+      "agi"
+    ],
+    "members": null
+  },
+  "2018": {
+    "transition": "2018-2019",
+    "url": "https://www.irs.gov/pub/irs-soi/countyinflow1819.csv",
+    "kind": "csv",
+    "n_rows": 83762,
+    "columns": [
+      "y2_statefips",
+      "y2_countyfips",
+      "y1_statefips",
+      "y1_countyfips",
+      "y1_state",
+      "y1_countyname",
+      "n1",
+      "n2",
+      "agi"
+    ],
+    "members": null
+  },
+  "2019": {
+    "transition": "2019-2020",
+    "url": "https://www.irs.gov/pub/irs-soi/countyinflow1920.csv",
+    "kind": "csv",
+    "n_rows": 87552,
+    "columns": [
+      "y2_statefips",
+      "y2_countyfips",
+      "y1_statefips",
+      "y1_countyfips",
+      "y1_state",
+      "y1_countyname",
+      "n1",
+      "n2",
+      "agi"
+    ],
+    "members": null
+  },
+  "2020": {
+    "transition": "2020-2021",
+    "url": "https://www.irs.gov/pub/irs-soi/countyinflow2021.csv",
+    "kind": "csv",
+    "n_rows": 89850,
+    "columns": [
+      "y2_statefips",
+      "y2_countyfips",
+      "y1_statefips",
+      "y1_countyfips",
+      "y1_state",
+      "y1_countyname",
+      "n1",
+      "n2",
+      "agi"
+    ],
+    "members": null
+  },
+  "2021": {
+    "transition": "2021-2022",
+    "url": "https://www.irs.gov/pub/irs-soi/countyinflow2122.csv",
+    "kind": "unparsed: UnicodeDecodeError",
+    "n_rows": 0,
+    "columns": null,
+    "members": null
+  },
+  "2022": {
+    "transition": "2022-2023",
+    "url": "https://www.irs.gov/pub/irs-soi/countyinflow2223.csv",
+    "kind": "unparsed: UnicodeDecodeError",
+    "n_rows": 0,
+    "columns": null,
+    "members": null
+  }
+}
